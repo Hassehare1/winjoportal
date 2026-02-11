@@ -22,3 +22,4 @@ dev-server.log
 # misc
 .DS_Store
 coverage
+generated/build-meta.json

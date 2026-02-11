@@ -6,7 +6,9 @@
     "node": ">=20.0.0"
   },
   "scripts": {
+    "predev": "node scripts/write-build-meta.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/write-build-meta.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
