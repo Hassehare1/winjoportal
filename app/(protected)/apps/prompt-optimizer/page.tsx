@@ -8,10 +8,10 @@ export default function PromptOptimizerPage() {
           Promptoptimerare
         </p>
         <h1 className="mt-2 font-heading text-3xl font-bold text-slate-900">
-          Bygg en förbättrad prompt
+          Bygg en forbattrad prompt
         </h1>
         <p className="mt-3 max-w-2xl text-slate-600">
-          MVP-version med regelbaserad logik. Strukturen är förberedd för API-integration senare.
+          OpenAI-driven promptoptimering med server-side API, validering och fallback for hog tillganglighet.
         </p>
       </header>
       <PromptOptimizerForm />

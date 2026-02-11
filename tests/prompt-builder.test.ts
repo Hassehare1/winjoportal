@@ -15,7 +15,7 @@ describe("prompt builder", () => {
     });
 
     expect(validation.valid).toBe(false);
-    expect(validation.error).toContain("Mål");
+    expect(validation.error).toContain("Mal");
   });
 
   it("builds a structured prompt", () => {
@@ -27,9 +27,9 @@ describe("prompt builder", () => {
       tone: "Konsultativ"
     });
 
-    expect(prompt).toContain("## Mål");
+    expect(prompt).toContain("## Mal");
     expect(prompt).toContain("Skriv en lanseringsplan");
-    expect(prompt).toContain("## Begränsningar");
+    expect(prompt).toContain("## Begransningar");
     expect(prompt).toContain("Max 300 ord");
   });
 });

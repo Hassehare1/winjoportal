@@ -89,6 +89,8 @@ cp .env.example .env.local
 Fyll sedan i:
 - `PORTAL_PASSWORD`
 - `AUTH_COOKIE_SECRET` (minst 32 tecken)
+- `OPENAI_API_KEY`
+- `OPENAI_MODEL` (valfri, default `gpt-4.1-mini`)
 
 ### 4) Kör lokalt
 ```bash
@@ -127,6 +129,8 @@ git push -u origin main
 4. Lägg env vars i Vercel Project Settings -> Environment Variables:
   - `PORTAL_PASSWORD`
   - `AUTH_COOKIE_SECRET`
+  - `OPENAI_API_KEY`
+  - `OPENAI_MODEL`
 5. Deploya (`Production`).
 6. Verifiera:
   - `/login` fungerar
@@ -139,6 +143,8 @@ git push -u origin main
    - Lägg `PORTAL_PASSWORD` i `.env.local` (lokalt) och i Vercel env (prod).
 2. `AUTH_COOKIE_SECRET saknas i environment`
    - Lägg `AUTH_COOKIE_SECRET` i `.env.local`/Vercel.
+3. `OPENAI_API_KEY saknas i environment`
+   - Lägg `OPENAI_API_KEY` i `.env.local`/Vercel.
 3. Login loopar tillbaka till `/login`
    - Kontrollera att cookie kan sättas:
      - kör över `http://localhost:3000`
@@ -151,4 +157,4 @@ git push -u origin main
 
 ## Framtida utbyggnad
 - Fortnox ligger i separat route (`/fortnox`) och har egen feature-modul för framtida step-up login.
-- Promptoptimeraren är regelbaserad nu men isolerad i `features/prompt-optimizer/lib` för enkel API-koppling senare.
+- Promptoptimeraren använder nu server-side OpenAI-anrop via `app/api/prompt-optimizer/route.ts` och kan byggas vidare med t.ex. historik/databas.

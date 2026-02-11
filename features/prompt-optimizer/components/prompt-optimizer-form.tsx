@@ -5,7 +5,11 @@ import {
   buildImprovedPrompt,
   validatePromptOptimizerInput
 } from "@/features/prompt-optimizer/lib/build-improved-prompt";
-import { PromptOptimizerInput } from "@/features/prompt-optimizer/types";
+import {
+  PromptOptimizerInput,
+  PromptOptimizerMode,
+  PromptOptimizerRequest
+} from "@/features/prompt-optimizer/types";
 
 const initialState: PromptOptimizerInput = {
   goal: "",
@@ -43,42 +47,50 @@ function TextField({ id, label, placeholder, rows = 3, value, onChange }: FieldP
   );
 }
 
+type ApiResponse = {
+  prompt?: string;
+  error?: string;
+};
+
 export function PromptOptimizerForm() {
   const [formData, setFormData] = useState<PromptOptimizerInput>(initialState);
+  const [mode, setMode] = useState<PromptOptimizerMode>("balanced");
   const [result, setResult] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "failed">("idle");
+  const [pending, setPending] = useState(false);
+  const [generatedBy, setGeneratedBy] = useState<"openai" | "fallback" | null>(null);
 
   const fields = useMemo(
     () => [
       {
         id: "goal" as const,
-        label: "Mål",
-        placeholder: "Vad vill du uppnå med prompten?",
+        label: "Mal",
+        placeholder: "Vad vill du uppna med prompten?",
         rows: 2
       },
       {
         id: "context" as const,
         label: "Kontekst",
-        placeholder: "Beskriv bakgrund, målgrupp och situation.",
+        placeholder: "Beskriv bakgrund, malgrupp och situation.",
         rows: 3
       },
       {
         id: "input" as const,
         label: "Input",
-        placeholder: "Klistra in rå text, data eller user message här.",
+        placeholder: "Klistra in ra text, data eller user message har.",
         rows: 4
       },
       {
         id: "constraints" as const,
-        label: "Begränsningar",
-        placeholder: "T.ex. maxlängd, förbjudna ord, formatkrav.",
+        label: "Begransningar",
+        placeholder: "T.ex. maxlangd, forbjudna ord, formatkrav.",
         rows: 3
       },
       {
         id: "tone" as const,
         label: "Ton",
-        placeholder: "T.ex. professionell, vänlig, teknisk.",
+        placeholder: "T.ex. professionell, vanlig, teknisk.",
         rows: 2
       }
     ],
@@ -89,18 +101,52 @@ export function PromptOptimizerForm() {
     setFormData((current) => ({ ...current, [field]: value }));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
     setCopyStatus("idle");
-    const validation = validatePromptOptimizerInput(formData);
 
+    const validation = validatePromptOptimizerInput(formData);
     if (!validation.valid) {
       setError(validation.error ?? "Ogiltig input.");
       return;
     }
 
-    setResult(buildImprovedPrompt(formData));
+    const payload: PromptOptimizerRequest = {
+      ...formData,
+      mode
+    };
+
+    setPending(true);
+    try {
+      const response = await fetch("/api/prompt-optimizer", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const responseBody = (await response.json().catch(() => ({}))) as ApiResponse;
+      if (!response.ok) {
+        throw new Error(responseBody.error || "Generering misslyckades.");
+      }
+
+      if (!responseBody.prompt) {
+        throw new Error("Tomt svar fran servern.");
+      }
+
+      setResult(responseBody.prompt);
+      setGeneratedBy("openai");
+    } catch (submitError) {
+      const fallbackPrompt = buildImprovedPrompt(formData);
+      const message = submitError instanceof Error ? submitError.message : "Okant fel.";
+      setResult(fallbackPrompt);
+      setGeneratedBy("fallback");
+      setError(`${message} Fallback anvandes lokalt.`);
+    } finally {
+      setPending(false);
+    }
   }
 
   async function handleCopy() {
@@ -120,6 +166,23 @@ export function PromptOptimizerForm() {
         className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-card"
         noValidate
       >
+        <div className="space-y-2">
+          <label htmlFor="mode" className="block text-sm font-semibold text-slate-800">
+            Genereringslage
+          </label>
+          <select
+            id="mode"
+            name="mode"
+            value={mode}
+            onChange={(event) => setMode(event.target.value as PromptOptimizerMode)}
+            className="w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"
+          >
+            <option value="compact">Kompakt</option>
+            <option value="balanced">Balanserad</option>
+            <option value="advanced">Avancerad</option>
+          </select>
+        </div>
+
         {fields.map((field) => (
           <TextField
             key={field.id}
@@ -140,9 +203,10 @@ export function PromptOptimizerForm() {
 
         <button
           type="submit"
-          className="inline-flex items-center justify-center rounded-lg bg-sky-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-800"
+          disabled={pending}
+          className="inline-flex items-center justify-center rounded-lg bg-sky-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-800 disabled:cursor-not-allowed disabled:opacity-70"
         >
-          Generera förbättrad prompt
+          {pending ? "Genererar..." : "Generera forbattrad prompt"}
         </button>
       </form>
 
@@ -164,11 +228,17 @@ export function PromptOptimizerForm() {
             ? "Kopierad."
             : copyStatus === "failed"
               ? "Kopiering misslyckades."
-              : "Genererad prompt visas här."}
+              : "Genererad prompt visas har."}
         </p>
 
+        {generatedBy ? (
+          <p className="mt-2 text-xs text-slate-400" role="status">
+            Kalla: {generatedBy === "openai" ? "OpenAI" : "Lokal fallback"}
+          </p>
+        ) : null}
+
         <pre className="mt-4 max-h-[28rem] overflow-auto rounded-xl border border-slate-800 bg-slate-900 p-4 text-xs leading-relaxed text-slate-100">
-          <code>{result || "Ingen prompt genererad ännu."}</code>
+          <code>{result || "Ingen prompt genererad an."}</code>
         </pre>
       </aside>
     </div>

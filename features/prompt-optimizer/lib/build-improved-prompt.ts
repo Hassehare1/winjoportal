@@ -1,32 +1,32 @@
 import { PromptOptimizerInput, PromptValidationResult } from "@/features/prompt-optimizer/types";
 
-function normalize(value: string) {
+export function normalizePromptInputValue(value: string) {
   return value.trim();
 }
 
 export function validatePromptOptimizerInput(input: PromptOptimizerInput): PromptValidationResult {
-  if (!normalize(input.goal)) {
-    return { valid: false, error: "Mål måste fyllas i." };
+  if (!normalizePromptInputValue(input.goal)) {
+    return { valid: false, error: "Mal maste fyllas i." };
   }
 
-  if (!normalize(input.input)) {
-    return { valid: false, error: "Input måste fyllas i." };
+  if (!normalizePromptInputValue(input.input)) {
+    return { valid: false, error: "Input maste fyllas i." };
   }
 
   return { valid: true };
 }
 
 export function buildImprovedPrompt(input: PromptOptimizerInput): string {
-  const goal = normalize(input.goal);
-  const context = normalize(input.context) || "Ingen extra kontext angiven.";
-  const rawInput = normalize(input.input);
-  const constraints = normalize(input.constraints) || "Inga särskilda begränsningar.";
-  const tone = normalize(input.tone) || "Professionell och tydlig.";
+  const goal = normalizePromptInputValue(input.goal);
+  const context = normalizePromptInputValue(input.context) || "Ingen extra kontext angiven.";
+  const rawInput = normalizePromptInputValue(input.input);
+  const constraints = normalizePromptInputValue(input.constraints) || "Inga sarskilda begransningar.";
+  const tone = normalizePromptInputValue(input.tone) || "Professionell och tydlig.";
 
   return [
-    "Du är en expertassistent. Leverera ett välstrukturerat svar med hög precision.",
+    "Du ar en expertassistent. Leverera ett valstrukturerat svar med hog precision.",
     "",
-    "## Mål",
+    "## Mal",
     goal,
     "",
     "## Kontext",
@@ -35,15 +35,15 @@ export function buildImprovedPrompt(input: PromptOptimizerInput): string {
     "## Input",
     rawInput,
     "",
-    "## Begränsningar",
+    "## Begransningar",
     constraints,
     "",
     "## Ton",
     tone,
     "",
     "## Leveransformat",
-    "1. Börja med en kort sammanfattning.",
-    "2. Ge därefter en steg-för-steg-lösning.",
-    "3. Avsluta med eventuella risker och nästa rekommenderade steg."
+    "1. Borja med en kort sammanfattning.",
+    "2. Ge darefter en steg-for-steg-losning.",
+    "3. Avsluta med eventuella risker och nasta rekommenderade steg."
   ].join("\n");
 }
