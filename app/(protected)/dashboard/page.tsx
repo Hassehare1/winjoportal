@@ -19,7 +19,13 @@ export default function DashboardPage() {
         </p>
       </header>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+        <SectionCard
+          href="/apps/lonsamhetskollen"
+          title="Lonsamhetskollen"
+          description="Interaktiv riskanalys som driver bokningar."
+          status="Klar"
+        />
         <SectionCard
           href="/apps/games"
           title="Spel"
