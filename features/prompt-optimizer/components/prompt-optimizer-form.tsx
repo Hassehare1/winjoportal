@@ -5,6 +5,7 @@ import {
   buildImprovedPrompt,
   validatePromptOptimizerInput
 } from "@/features/prompt-optimizer/lib/build-improved-prompt";
+import { formatPromptOutput } from "@/features/prompt-optimizer/lib/format-output";
 import {
   PromptOptimizerInput,
   PromptOptimizerMode,
@@ -136,12 +137,12 @@ export function PromptOptimizerForm() {
         throw new Error("Tomt svar fran servern.");
       }
 
-      setResult(responseBody.prompt);
+      setResult(formatPromptOutput(responseBody.prompt));
       setGeneratedBy("openai");
     } catch (submitError) {
       const fallbackPrompt = buildImprovedPrompt(formData);
       const message = submitError instanceof Error ? submitError.message : "Okant fel.";
-      setResult(fallbackPrompt);
+      setResult(formatPromptOutput(fallbackPrompt));
       setGeneratedBy("fallback");
       setError(`${message} Fallback anvandes lokalt.`);
     } finally {
@@ -237,7 +238,7 @@ export function PromptOptimizerForm() {
           </p>
         ) : null}
 
-        <pre className="mt-4 max-h-[28rem] overflow-auto rounded-xl border border-slate-800 bg-slate-900 p-4 text-xs leading-relaxed text-slate-100">
+        <pre className="mt-4 max-h-[28rem] overflow-auto whitespace-pre-wrap break-words rounded-xl border border-slate-800 bg-slate-900 p-4 text-sm leading-7 text-slate-100">
           <code>{result || "Ingen prompt genererad an."}</code>
         </pre>
       </aside>

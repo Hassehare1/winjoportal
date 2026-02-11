@@ -29,6 +29,7 @@ function buildInstruction(mode: PromptOptimizerRequest["mode"]) {
   if (mode === "compact") {
     return [
       "Skriv en kort men stark prompt.",
+      "Anvand tydliga radbrytningar.",
       "Undvik onodig text.",
       "Returnera endast den optimerade prompten, inget annat."
     ].join(" ");
@@ -37,6 +38,7 @@ function buildInstruction(mode: PromptOptimizerRequest["mode"]) {
   if (mode === "advanced") {
     return [
       "Skriv en avancerad prompt med tydlig struktur, antaganden och kvalitetskrav.",
+      "Anvand markdown-rubriker och tom rad mellan varje avsnitt.",
       "Inkludera output-format med numrerade steg.",
       "Returnera endast den optimerade prompten, inget annat."
     ].join(" ");
@@ -44,6 +46,7 @@ function buildInstruction(mode: PromptOptimizerRequest["mode"]) {
 
   return [
     "Skriv en balanserad prompt med tydlig uppgift, kontext, constraints och ton.",
+    "Anvand tydliga stycken och radbrytningar.",
     "Returnera endast den optimerade prompten, inget annat."
   ].join(" ");
 }
