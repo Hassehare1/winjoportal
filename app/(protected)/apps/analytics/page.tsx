@@ -1,4 +1,5 @@
 import { getAnalyticsSnapshot } from "@/features/analytics/server/reports";
+import { AnalyticsRefreshButton } from "@/features/analytics/components/analytics-refresh-button";
 
 type AnalyticsPageProps = {
   searchParams: Promise<{
@@ -36,37 +37,39 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
         </p>
       </header>
 
+      <AnalyticsRefreshButton />
+
       {snapshot.selectedMonth ? (
         <>
-          {!snapshot.usingFallback ? (
-            <form method="get" className="flex flex-wrap items-end gap-3 rounded-xl border border-slate-200 bg-white p-4">
-              <label htmlFor="month" className="space-y-2">
-                <span className="block text-sm font-semibold text-slate-800">Manad</span>
-                <select
-                  id="month"
-                  name="month"
-                  defaultValue={snapshot.selectedMonth}
-                  className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"
-                >
-                  {snapshot.months.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center rounded-lg bg-sky-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-800"
+          <form method="get" className="flex flex-wrap items-end gap-3 rounded-xl border border-slate-200 bg-white p-4">
+            <label htmlFor="month" className="space-y-2">
+              <span className="block text-sm font-semibold text-slate-800">Manad</span>
+              <select
+                id="month"
+                name="month"
+                defaultValue={snapshot.selectedMonth}
+                className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"
               >
-                Visa
-              </button>
-            </form>
-          ) : (
+                {snapshot.months.map((item) => (
+                  <option key={item} value={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button
+              type="submit"
+              className="inline-flex items-center justify-center rounded-lg bg-sky-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-800"
+            >
+              Visa
+            </button>
+          </form>
+
+          {snapshot.usingFallback ? (
             <article className="rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-900">
               Visar inbyggd fallback-preview ({snapshot.selectedMonth}). Kor analytics-pipelinen och deploya om for live-data.
             </article>
-          )}
+          ) : null}
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <article className="rounded-xl border border-slate-200 bg-white p-4">

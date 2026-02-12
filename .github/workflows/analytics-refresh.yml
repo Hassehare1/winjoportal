@@ -1,0 +1,95 @@
+name: Analytics Refresh Assets
+
+on:
+  workflow_dispatch:
+    inputs:
+      trigger_source:
+        description: "What started this run (e.g. portal_button)"
+        required: false
+        type: string
+      force_month:
+        description: "Optional month override (YYYY-MM)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: analytics-refresh-assets
+  cancel-in-progress: false
+
+jobs:
+  refresh-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate configuration
+        env:
+          KPI_JSON_URL: ${{ secrets.ANALYTICS_KPI_JSON_URL }}
+          KPI_HTML_URL: ${{ secrets.ANALYTICS_KPI_HTML_URL }}
+        run: |
+          if [ -z "$KPI_JSON_URL" ]; then
+            echo "Missing secret: ANALYTICS_KPI_JSON_URL"
+            exit 1
+          fi
+          if [ -z "$KPI_HTML_URL" ]; then
+            echo "Missing secret: ANALYTICS_KPI_HTML_URL"
+            exit 1
+          fi
+
+      - name: Download KPI payload
+        env:
+          KPI_JSON_URL: ${{ secrets.ANALYTICS_KPI_JSON_URL }}
+          KPI_HTML_URL: ${{ secrets.ANALYTICS_KPI_HTML_URL }}
+        run: |
+          mkdir -p /tmp/analytics-refresh
+          curl --fail --location --retry 3 --retry-delay 2 "$KPI_JSON_URL" -o /tmp/analytics-refresh/kpi.json
+          curl --fail --location --retry 3 --retry-delay 2 "$KPI_HTML_URL" -o /tmp/analytics-refresh/kpi_quicklook.html
+
+      - name: Validate and write assets
+        env:
+          FORCE_MONTH: ${{ inputs.force_month }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import pathlib
+          import re
+
+          source_json = pathlib.Path("/tmp/analytics-refresh/kpi.json")
+          source_html = pathlib.Path("/tmp/analytics-refresh/kpi_quicklook.html")
+          payload = json.loads(source_json.read_text(encoding="utf-8"))
+
+          forced_month = (os.getenv("FORCE_MONTH") or "").strip()
+          report_month = forced_month or str(payload.get("report_month", "")).strip()
+          if not re.fullmatch(r"20\d{2}-\d{2}", report_month):
+              raise SystemExit("Invalid or missing report_month. Use force_month input or provide valid payload.")
+
+          assets_dir = pathlib.Path("features/analytics/assets")
+          assets_dir.mkdir(parents=True, exist_ok=True)
+
+          json_target = assets_dir / f"kpi_{report_month}.json"
+          html_target = assets_dir / f"kpi_{report_month}_quicklook.html"
+
+          json_target.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          html_target.write_text(source_html.read_text(encoding="utf-8"), encoding="utf-8")
+
+          print(f"Wrote assets for month: {report_month}")
+          PY
+
+      - name: Commit and push changes
+        run: |
+          if git diff --quiet -- features/analytics/assets; then
+            echo "No asset changes detected."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add features/analytics/assets
+          git commit -m "Refresh analytics assets (${GITHUB_RUN_ID})"
+          git push
+

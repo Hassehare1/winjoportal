@@ -27,10 +27,7 @@ type AnalyticsSnapshot = {
 
 const MONTH_REGEX = /^20\d{2}-\d{2}$/;
 const REPORTS_DIR = resolve(process.cwd(), "services", "analytics", "data", "reports", "sales_monthly", "v1");
-const FALLBACK_MONTH = "2024-02";
 const FALLBACK_DIR = resolve(process.cwd(), "features", "analytics", "assets");
-const FALLBACK_REPORT_PATH = resolve(FALLBACK_DIR, `kpi_${FALLBACK_MONTH}.json`);
-const FALLBACK_QUICKLOOK_PATH = resolve(FALLBACK_DIR, `kpi_${FALLBACK_MONTH}_quicklook.html`);
 
 function isPathInside(basePath: string, targetPath: string): boolean {
   const rel = relative(basePath, targetPath);
@@ -42,9 +39,9 @@ function safeParseMonth(value: string | undefined): string | null {
   return MONTH_REGEX.test(value) ? value : null;
 }
 
-export function listAvailableKpiMonths(): string[] {
+function listKpiMonthsFromDir(baseDir: string): string[] {
   try {
-    const entries = readdirSync(REPORTS_DIR, { withFileTypes: true });
+    const entries = readdirSync(baseDir, { withFileTypes: true });
     return entries
       .filter((entry) => entry.isFile())
       .map((entry) => entry.name.match(/^kpi_(20\d{2}-\d{2})\.json$/)?.[1] ?? null)
@@ -55,7 +52,12 @@ export function listAvailableKpiMonths(): string[] {
   }
 }
 
-function readKpiReportFromPath(reportPath: string): KpiReport | null {
+export function listAvailableKpiMonths(): string[] {
+  return listKpiMonthsFromDir(REPORTS_DIR);
+}
+
+function readKpiReport(baseDir: string, month: string): KpiReport | null {
+  const reportPath = resolve(baseDir, `kpi_${month}.json`);
   try {
     const raw = readFileSync(reportPath, "utf8");
     return JSON.parse(raw) as KpiReport;
@@ -64,16 +66,12 @@ function readKpiReportFromPath(reportPath: string): KpiReport | null {
   }
 }
 
-function readKpiReport(month: string): KpiReport | null {
-  return readKpiReportFromPath(resolve(REPORTS_DIR, `kpi_${month}.json`));
-}
-
-function resolveQuicklookPath(month: string, report: KpiReport | null): string {
-  const fallbackPath = resolve(REPORTS_DIR, `kpi_${month}_quicklook.html`);
+function resolveQuicklookPath(baseDir: string, month: string, report: KpiReport | null): string {
+  const fallbackPath = resolve(baseDir, `kpi_${month}_quicklook.html`);
   const candidate = report?.quicklook_html_path;
   if (!candidate) return fallbackPath;
 
-  const candidatePath = isAbsolute(candidate) ? resolve(candidate) : resolve(REPORTS_DIR, candidate);
+  const candidatePath = isAbsolute(candidate) ? resolve(candidate) : resolve(baseDir, candidate);
   return isPathInside(process.cwd(), candidatePath) ? candidatePath : fallbackPath;
 }
 
@@ -85,64 +83,26 @@ function readQuicklookHtml(path: string): string | null {
   }
 }
 
-function loadFallbackSnapshot(): {
-  month: string;
-  report: KpiReport | null;
-  quicklookHtml: string | null;
-  quicklookPath: string;
-} {
-  const report = readKpiReportFromPath(FALLBACK_REPORT_PATH);
-  const reportMonth = safeParseMonth(report?.report_month) ?? FALLBACK_MONTH;
-  return {
-    month: reportMonth,
-    report,
-    quicklookHtml: readQuicklookHtml(FALLBACK_QUICKLOOK_PATH),
-    quicklookPath: FALLBACK_QUICKLOOK_PATH
-  };
+function selectMonth(months: string[], requestedMonth: string | undefined): string {
+  const normalizedRequested = safeParseMonth(requestedMonth);
+  if (normalizedRequested && months.includes(normalizedRequested)) {
+    return normalizedRequested;
+  }
+  return months[months.length - 1];
 }
 
-export function getAnalyticsSnapshot(requestedMonth: string | undefined): AnalyticsSnapshot {
-  const fallback = loadFallbackSnapshot();
-  const months = listAvailableKpiMonths();
-  if (months.length === 0) {
-    if (fallback.quicklookHtml) {
-      return {
-        months: [fallback.month],
-        selectedMonth: fallback.month,
-        report: fallback.report ?? { report_month: fallback.month },
-        quicklookHtml: fallback.quicklookHtml,
-        quicklookPath: fallback.quicklookPath,
-        usingFallback: true
-      };
-    }
+function buildSnapshotFromDir(
+  baseDir: string,
+  requestedMonth: string | undefined,
+  usingFallback: boolean
+): AnalyticsSnapshot | null {
+  const months = listKpiMonthsFromDir(baseDir);
+  if (months.length === 0) return null;
 
-    return {
-      months,
-      selectedMonth: null,
-      report: null,
-      quicklookHtml: null,
-      quicklookPath: null,
-      usingFallback: false
-    };
-  }
-
-  const normalizedRequested = safeParseMonth(requestedMonth);
-  const selectedMonth =
-    normalizedRequested && months.includes(normalizedRequested)
-      ? normalizedRequested
-      : months[months.length - 1];
-
-  let report = readKpiReport(selectedMonth);
-  let quicklookPath = resolveQuicklookPath(selectedMonth, report);
-  let quicklookHtml = readQuicklookHtml(quicklookPath);
-  let usingFallback = false;
-
-  if (!quicklookHtml && fallback.quicklookHtml) {
-    report = report ?? fallback.report ?? { report_month: fallback.month };
-    quicklookPath = fallback.quicklookPath;
-    quicklookHtml = fallback.quicklookHtml;
-    usingFallback = true;
-  }
+  const selectedMonth = selectMonth(months, requestedMonth);
+  const report = readKpiReport(baseDir, selectedMonth);
+  const quicklookPath = resolveQuicklookPath(baseDir, selectedMonth, report);
+  const quicklookHtml = readQuicklookHtml(quicklookPath);
 
   return {
     months,
@@ -151,5 +111,30 @@ export function getAnalyticsSnapshot(requestedMonth: string | undefined): Analyt
     quicklookHtml,
     quicklookPath,
     usingFallback
+  };
+}
+
+export function getAnalyticsSnapshot(requestedMonth: string | undefined): AnalyticsSnapshot {
+  const primary = buildSnapshotFromDir(REPORTS_DIR, requestedMonth, false);
+  if (primary && primary.quicklookHtml) {
+    return primary;
+  }
+
+  const fallback = buildSnapshotFromDir(FALLBACK_DIR, requestedMonth, true);
+  if (fallback && fallback.quicklookHtml) {
+    return fallback;
+  }
+
+  if (primary) {
+    return primary;
+  }
+
+  return {
+    months: [],
+    selectedMonth: null,
+    report: null,
+    quicklookHtml: null,
+    quicklookPath: null,
+    usingFallback: false
   };
 }
