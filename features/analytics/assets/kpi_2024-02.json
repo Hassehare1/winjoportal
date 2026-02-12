@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-02-12T13:57:10+00:00",
+  "generated_at_utc": "2026-02-12T14:54:30+00:00",
   "schema_id": "sales_monthly_curated_v1",
   "report_month": "2024-02",
-  "source_curated_file": "/home/runner/work/winjoportal/winjoportal/services/analytics/data/curated/sales_monthly/v1/report_month_2024-02/sales_monthly_curated_v1.parquet",
+  "source_curated_file": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\curated\\sales_monthly\\v1\\report_month_2024-02\\sales_monthly_curated_v1.parquet",
   "previous_month": "2024-01",
   "top_n": 10,
   "available_report_months": [
@@ -167,75 +167,12 @@
   "store_department_breakdown": [
     {
       "filial": "EBB_Helsingborg",
-      "avdelning": "Dam",
-      "net_sales": 492000.71,
-      "gross_profit": 238241.57,
-      "units_sold": 2362.0,
-      "estimated_stock_value": 1278118.81,
-      "gross_margin_percent": 48.42
-    },
-    {
-      "filial": "EBB_Kristianstad",
-      "avdelning": "Dam",
-      "net_sales": 301435.09,
-      "gross_profit": 144276.01,
-      "units_sold": 1450.0,
-      "estimated_stock_value": 875767.58,
-      "gross_margin_percent": 47.86
-    },
-    {
-      "filial": "EBB_Malmo",
-      "avdelning": "Barn & Barnunderkläder",
-      "net_sales": 91681.18,
-      "gross_profit": 37005.88,
-      "units_sold": 1158.0,
-      "estimated_stock_value": 341105.43,
-      "gross_margin_percent": 40.36
-    },
-    {
-      "filial": "EBB_Malmo",
       "avdelning": "Herr",
-      "net_sales": 332442.86,
-      "gross_profit": 170493.84,
-      "units_sold": 1538.0,
-      "estimated_stock_value": 1320703.75,
-      "gross_margin_percent": 51.29
-    },
-    {
-      "filial": "EBB_Malmo",
-      "avdelning": "Underkläder",
-      "net_sales": 361757.6,
-      "gross_profit": 168599.46,
-      "units_sold": 3871.0,
-      "estimated_stock_value": 665586.2,
-      "gross_margin_percent": 46.61
-    },
-    {
-      "filial": "EBB_Malmo",
-      "avdelning": "Kem",
-      "net_sales": 45007.67,
-      "gross_profit": 20880.67,
-      "units_sold": 986.0,
-      "estimated_stock_value": 149167.52,
-      "gross_margin_percent": 46.39
-    },
-    {
-      "filial": "EBB_Malmo",
-      "avdelning": "Påsar & Kampanj",
-      "net_sales": 1398.73,
-      "gross_profit": 1168.73,
-      "units_sold": 556.0,
-      "estimated_stock_value": 1591.6,
-      "gross_margin_percent": 83.56
-    },
-    {
-      "filial": "EBB_Malmo",
-      "avdelning": "Diverse",
-      "net_sales": -177.94,
-      "gross_profit": -177.94,
-      "units_sold": 0.0,
-      "estimated_stock_value": 0.0,
-      "gross_margin_percent": 100.0
+      "net_sales": 184486.43,
+      "gross_profit": 91987.21,
+      "units_sold": 923.0,
+      "estimated_stock_value": 734276.26,
+      "gross_margin_percent": 49.86
     },
     {
       "filial": "EBB_Helsingborg",
@@ -248,15 +185,6 @@
     },
     {
       "filial": "EBB_Helsingborg",
-      "avdelning": "Kem",
-      "net_sales": 36525.02,
-      "gross_profit": 15677.88,
-      "units_sold": 1185.0,
-      "estimated_stock_value": 84124.61,
-      "gross_margin_percent": 42.92
-    },
-    {
-      "filial": "EBB_Helsingborg",
       "avdelning": "Barn & Barnunderkläder",
       "net_sales": 57543.04,
       "gross_profit": 23521.04,
@@ -266,12 +194,21 @@
     },
     {
       "filial": "EBB_Helsingborg",
-      "avdelning": "Herr",
-      "net_sales": 184486.43,
-      "gross_profit": 91987.21,
-      "units_sold": 923.0,
-      "estimated_stock_value": 734276.26,
-      "gross_margin_percent": 49.86
+      "avdelning": "Påsar & Kampanj",
+      "net_sales": 968.91,
+      "gross_profit": 787.55,
+      "units_sold": 369.0,
+      "estimated_stock_value": 6444.31,
+      "gross_margin_percent": 81.28
+    },
+    {
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Kem",
+      "net_sales": 36525.02,
+      "gross_profit": 15677.88,
+      "units_sold": 1185.0,
+      "estimated_stock_value": 84124.61,
+      "gross_margin_percent": 42.92
     },
     {
       "filial": "EBB_Kristianstad",
@@ -302,21 +239,21 @@
     },
     {
       "filial": "EBB_Kristianstad",
-      "avdelning": "Kem",
-      "net_sales": 11498.66,
-      "gross_profit": 3401.76,
-      "units_sold": 486.0,
-      "estimated_stock_value": 28435.91,
-      "gross_margin_percent": 29.58
-    },
-    {
-      "filial": "EBB_Kristianstad",
       "avdelning": "Påsar & Kampanj",
       "net_sales": 873.77,
       "gross_profit": 634.15,
       "units_sold": 325.0,
       "estimated_stock_value": 9321.95,
       "gross_margin_percent": 72.58
+    },
+    {
+      "filial": "EBB_Kristianstad",
+      "avdelning": "Kem",
+      "net_sales": 11498.66,
+      "gross_profit": 3401.76,
+      "units_sold": 486.0,
+      "estimated_stock_value": 28435.91,
+      "gross_margin_percent": 29.58
     },
     {
       "filial": "EBB_Malmo",
@@ -338,12 +275,75 @@
     },
     {
       "filial": "EBB_Helsingborg",
+      "avdelning": "Dam",
+      "net_sales": 492000.71,
+      "gross_profit": 238241.57,
+      "units_sold": 2362.0,
+      "estimated_stock_value": 1278118.81,
+      "gross_margin_percent": 48.42
+    },
+    {
+      "filial": "EBB_Kristianstad",
+      "avdelning": "Dam",
+      "net_sales": 301435.09,
+      "gross_profit": 144276.01,
+      "units_sold": 1450.0,
+      "estimated_stock_value": 875767.58,
+      "gross_margin_percent": 47.86
+    },
+    {
+      "filial": "EBB_Malmo",
+      "avdelning": "Barn & Barnunderkläder",
+      "net_sales": 91681.18,
+      "gross_profit": 37005.88,
+      "units_sold": 1158.0,
+      "estimated_stock_value": 341105.43,
+      "gross_margin_percent": 40.36
+    },
+    {
+      "filial": "EBB_Malmo",
+      "avdelning": "Underkläder",
+      "net_sales": 361757.6,
+      "gross_profit": 168599.46,
+      "units_sold": 3871.0,
+      "estimated_stock_value": 665586.2,
+      "gross_margin_percent": 46.61
+    },
+    {
+      "filial": "EBB_Malmo",
+      "avdelning": "Kem",
+      "net_sales": 45007.67,
+      "gross_profit": 20880.67,
+      "units_sold": 986.0,
+      "estimated_stock_value": 149167.52,
+      "gross_margin_percent": 46.39
+    },
+    {
+      "filial": "EBB_Malmo",
       "avdelning": "Påsar & Kampanj",
-      "net_sales": 968.91,
-      "gross_profit": 787.55,
-      "units_sold": 369.0,
-      "estimated_stock_value": 6444.31,
-      "gross_margin_percent": 81.28
+      "net_sales": 1398.73,
+      "gross_profit": 1168.73,
+      "units_sold": 556.0,
+      "estimated_stock_value": 1591.6,
+      "gross_margin_percent": 83.56
+    },
+    {
+      "filial": "EBB_Malmo",
+      "avdelning": "Herr",
+      "net_sales": 332442.86,
+      "gross_profit": 170493.84,
+      "units_sold": 1538.0,
+      "estimated_stock_value": 1320703.75,
+      "gross_margin_percent": 51.29
+    },
+    {
+      "filial": "EBB_Malmo",
+      "avdelning": "Diverse",
+      "net_sales": -177.94,
+      "gross_profit": -177.94,
+      "units_sold": 0.0,
+      "estimated_stock_value": 0.0,
+      "gross_margin_percent": 100.0
     }
   ],
   "time_store_department_breakdown": [
@@ -2269,13 +2269,13 @@
       "report_month": "2024-01",
       "report_year": "2024",
       "report_month_number": 1,
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Underkläder",
-      "artnr": "43201",
-      "varutext": "Damrock silk fleece",
+      "filial": "EBB_Malmo",
+      "avdelning": "Dam",
+      "artnr": "VASTA4",
+      "varutext": "Dambyxa",
       "units_sold": -1.0,
       "net_sales": -399.96,
-      "gross_profit": -200.96,
+      "gross_profit": -238.51,
       "return_row_count": 1
     }
   ],
@@ -2289,5 +2289,5 @@
     "gross_profit_delta_percent": 12.89,
     "units_sold_delta_percent": -3.44
   },
-  "quicklook_html_path": "/home/runner/work/winjoportal/winjoportal/services/analytics/data/reports/sales_monthly/v1/kpi_2024-02_quicklook.html"
+  "quicklook_html_path": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\reports\\sales_monthly\\v1\\kpi_2024-02_quicklook.html"
 }
