@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { isAbsolute, relative, resolve } from "node:path";
+import publicAnalyticsIndex from "@/public/analytics/index.json";
 
 type KpiSummary = {
   net_sales?: number;
@@ -54,6 +55,14 @@ function listKpiMonthsFromDir(baseDir: string): string[] {
 
 export function listAvailableKpiMonths(): string[] {
   return listKpiMonthsFromDir(REPORTS_DIR);
+}
+
+function listPublicFallbackMonths(): string[] {
+  const rawMonths = Array.isArray(publicAnalyticsIndex.months) ? publicAnalyticsIndex.months : [];
+  return rawMonths
+    .map((month) => safeParseMonth(typeof month === "string" ? month : undefined))
+    .filter((month): month is string => month !== null)
+    .sort();
 }
 
 function readKpiReport(baseDir: string, month: string): KpiReport | null {
@@ -127,6 +136,19 @@ export function getAnalyticsSnapshot(requestedMonth: string | undefined): Analyt
 
   if (primary) {
     return primary;
+  }
+
+  const publicMonths = listPublicFallbackMonths();
+  if (publicMonths.length > 0) {
+    const selectedMonth = selectMonth(publicMonths, requestedMonth);
+    return {
+      months: publicMonths,
+      selectedMonth,
+      report: readKpiReport(FALLBACK_DIR, selectedMonth) ?? { report_month: selectedMonth },
+      quicklookHtml: null,
+      quicklookPath: `/analytics/kpi_${selectedMonth}_quicklook.html`,
+      usingFallback: true
+    };
   }
 
   return {

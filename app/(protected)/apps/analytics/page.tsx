@@ -98,6 +98,14 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
                 className="h-[1100px] w-full border-0"
               />
             </div>
+          ) : snapshot.quicklookPath && snapshot.quicklookPath.startsWith("/analytics/") ? (
+            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card">
+              <iframe
+                title={`KPI quicklook ${snapshot.selectedMonth}`}
+                src={snapshot.quicklookPath}
+                className="h-[1100px] w-full border-0"
+              />
+            </div>
           ) : (
             <article className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
               Quicklook-HTML hittades inte for vald manad. Kor KPI-generatorn igen.

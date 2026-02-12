@@ -77,12 +77,16 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import shutil
+          import json
 
           report_dir = Path("services/analytics/data/reports/sales_monthly/v1")
           assets_dir = Path("features/analytics/assets")
+          public_dir = Path("public/analytics")
           assets_dir.mkdir(parents=True, exist_ok=True)
+          public_dir.mkdir(parents=True, exist_ok=True)
 
           synced = 0
+          months = []
           for json_path in sorted(report_dir.glob("kpi_20??-??.json")):
               month = json_path.stem.replace("kpi_", "")
               html_path = report_dir / f"kpi_{month}_quicklook.html"
@@ -90,7 +94,16 @@ jobs:
                   continue
               shutil.copy2(json_path, assets_dir / json_path.name)
               shutil.copy2(html_path, assets_dir / html_path.name)
+              shutil.copy2(json_path, public_dir / json_path.name)
+              shutil.copy2(html_path, public_dir / html_path.name)
+              months.append(month)
               synced += 1
+
+          index_payload = {"months": sorted(set(months))}
+          (public_dir / "index.json").write_text(
+              json.dumps(index_payload, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
 
           print(f"Synced KPI month files: {synced}")
           PY
@@ -102,13 +115,13 @@ jobs:
             exit 0
           fi
 
-          if git diff --quiet -- features/analytics/assets; then
+          if git diff --quiet -- features/analytics/assets public/analytics; then
             echo "No asset changes detected."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add features/analytics/assets
+          git add features/analytics/assets public/analytics
           git commit -m "Refresh analytics assets (${GITHUB_RUN_ID})"
           git push
