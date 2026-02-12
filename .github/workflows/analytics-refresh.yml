@@ -11,6 +11,8 @@ on:
         description: "Optional month override (YYYY-MM)"
         required: false
         type: string
+  schedule:
+    - cron: "17 * * * *"
 
 permissions:
   contents: write
@@ -22,6 +24,7 @@ concurrency:
 jobs:
   refresh-assets:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,10 +47,15 @@ jobs:
         env:
           KPI_JSON_URL: ${{ secrets.ANALYTICS_KPI_JSON_URL }}
           KPI_HTML_URL: ${{ secrets.ANALYTICS_KPI_HTML_URL }}
+          KPI_SOURCE_AUTH_HEADER: ${{ secrets.ANALYTICS_KPI_SOURCE_AUTH_HEADER }}
         run: |
           mkdir -p /tmp/analytics-refresh
-          curl --fail --location --retry 3 --retry-delay 2 "$KPI_JSON_URL" -o /tmp/analytics-refresh/kpi.json
-          curl --fail --location --retry 3 --retry-delay 2 "$KPI_HTML_URL" -o /tmp/analytics-refresh/kpi_quicklook.html
+          AUTH_ARGS=()
+          if [ -n "$KPI_SOURCE_AUTH_HEADER" ]; then
+            AUTH_ARGS=(-H "Authorization: $KPI_SOURCE_AUTH_HEADER")
+          fi
+          curl --fail --location --retry 3 --retry-delay 2 "${AUTH_ARGS[@]}" "$KPI_JSON_URL" -o /tmp/analytics-refresh/kpi.json
+          curl --fail --location --retry 3 --retry-delay 2 "${AUTH_ARGS[@]}" "$KPI_HTML_URL" -o /tmp/analytics-refresh/kpi_quicklook.html
 
       - name: Validate and write assets
         env:
@@ -92,4 +100,3 @@ jobs:
           git add features/analytics/assets
           git commit -m "Refresh analytics assets (${GITHUB_RUN_ID})"
           git push
-
