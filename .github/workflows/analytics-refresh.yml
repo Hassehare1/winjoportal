@@ -29,67 +29,79 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate configuration
-        env:
-          KPI_JSON_URL: ${{ secrets.ANALYTICS_KPI_JSON_URL }}
-          KPI_HTML_URL: ${{ secrets.ANALYTICS_KPI_HTML_URL }}
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install analytics dependencies
         run: |
-          if [ -z "$KPI_JSON_URL" ]; then
-            echo "Missing secret: ANALYTICS_KPI_JSON_URL"
-            exit 1
+          python -m pip install --upgrade pip
+          python -m pip install -r services/analytics/requirements.txt
+
+      - name: Detect monthly input files
+        id: detect_input
+        run: |
+          if [ ! -d "services/analytics/input" ]; then
+            echo "services/analytics/input is missing."
+            echo "has_input=false" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
-          if [ -z "$KPI_HTML_URL" ]; then
-            echo "Missing secret: ANALYTICS_KPI_HTML_URL"
-            exit 1
+          count=$(find services/analytics/input -maxdepth 1 -type f -name '*.xlsx' | wc -l | tr -d ' ')
+          echo "Detected .xlsx files: $count"
+          if [ "$count" -gt 0 ]; then
+            echo "has_input=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_input=false" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Download KPI payload
-        env:
-          KPI_JSON_URL: ${{ secrets.ANALYTICS_KPI_JSON_URL }}
-          KPI_HTML_URL: ${{ secrets.ANALYTICS_KPI_HTML_URL }}
-          KPI_SOURCE_AUTH_HEADER: ${{ secrets.ANALYTICS_KPI_SOURCE_AUTH_HEADER }}
-        run: |
-          mkdir -p /tmp/analytics-refresh
-          AUTH_ARGS=()
-          if [ -n "$KPI_SOURCE_AUTH_HEADER" ]; then
-            AUTH_ARGS=(-H "Authorization: $KPI_SOURCE_AUTH_HEADER")
-          fi
-          curl --fail --location --retry 3 --retry-delay 2 "${AUTH_ARGS[@]}" "$KPI_JSON_URL" -o /tmp/analytics-refresh/kpi.json
-          curl --fail --location --retry 3 --retry-delay 2 "${AUTH_ARGS[@]}" "$KPI_HTML_URL" -o /tmp/analytics-refresh/kpi_quicklook.html
-
-      - name: Validate and write assets
+      - name: Run ingest + curated + KPI generation
+        if: steps.detect_input.outputs.has_input == 'true'
         env:
           FORCE_MONTH: ${{ inputs.force_month }}
         run: |
+          ARGS=(
+            --input-dir services/analytics/input
+            --output-root services/analytics/data
+            --build-curated
+            --generate-kpis
+          )
+          if [ -n "$FORCE_MONTH" ]; then
+            ARGS+=(--kpi-report-month "$FORCE_MONTH")
+          fi
+          python services/analytics/scripts/ingest_all_months.py "${ARGS[@]}"
+
+      - name: Sync generated KPIs to web assets
+        if: steps.detect_input.outputs.has_input == 'true'
+        run: |
           python - <<'PY'
-          import json
-          import os
-          import pathlib
-          import re
+          from pathlib import Path
+          import shutil
 
-          source_json = pathlib.Path("/tmp/analytics-refresh/kpi.json")
-          source_html = pathlib.Path("/tmp/analytics-refresh/kpi_quicklook.html")
-          payload = json.loads(source_json.read_text(encoding="utf-8"))
-
-          forced_month = (os.getenv("FORCE_MONTH") or "").strip()
-          report_month = forced_month or str(payload.get("report_month", "")).strip()
-          if not re.fullmatch(r"20\d{2}-\d{2}", report_month):
-              raise SystemExit("Invalid or missing report_month. Use force_month input or provide valid payload.")
-
-          assets_dir = pathlib.Path("features/analytics/assets")
+          report_dir = Path("services/analytics/data/reports/sales_monthly/v1")
+          assets_dir = Path("features/analytics/assets")
           assets_dir.mkdir(parents=True, exist_ok=True)
 
-          json_target = assets_dir / f"kpi_{report_month}.json"
-          html_target = assets_dir / f"kpi_{report_month}_quicklook.html"
+          synced = 0
+          for json_path in sorted(report_dir.glob("kpi_20??-??.json")):
+              month = json_path.stem.replace("kpi_", "")
+              html_path = report_dir / f"kpi_{month}_quicklook.html"
+              if not html_path.exists():
+                  continue
+              shutil.copy2(json_path, assets_dir / json_path.name)
+              shutil.copy2(html_path, assets_dir / html_path.name)
+              synced += 1
 
-          json_target.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-          html_target.write_text(source_html.read_text(encoding="utf-8"), encoding="utf-8")
-
-          print(f"Wrote assets for month: {report_month}")
+          print(f"Synced KPI month files: {synced}")
           PY
 
       - name: Commit and push changes
         run: |
+          if [ "${{ steps.detect_input.outputs.has_input }}" != "true" ]; then
+            echo "No input files found in services/analytics/input. Nothing to refresh."
+            exit 0
+          fi
+
           if git diff --quiet -- features/analytics/assets; then
             echo "No asset changes detected."
             exit 0

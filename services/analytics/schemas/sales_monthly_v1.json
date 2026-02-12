@@ -1,0 +1,120 @@
+{
+  "schema_id": "sales_monthly_v1",
+  "source": {
+    "format": "xlsx",
+    "header_order": [
+      "Filial",
+      "Avdelning",
+      "Varugrupp",
+      "Art.nr",
+      "EAN",
+      "Varutext",
+      "Huvudleverantor",
+      "Antal salda",
+      "Fors.sum",
+      "TB",
+      "TG (%)",
+      "Fors m. moms",
+      "Ord. Pris",
+      "Snitt inpris",
+      "Lager antal"
+    ]
+  },
+  "fields": [
+    {
+      "name": "source_file",
+      "type": "string",
+      "nullable": false
+    },
+    {
+      "name": "source_sheet",
+      "type": "string",
+      "nullable": false
+    },
+    {
+      "name": "source_row",
+      "type": "int32",
+      "nullable": false
+    },
+    {
+      "name": "report_month",
+      "type": "string",
+      "nullable": false
+    },
+    {
+      "name": "filial",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "avdelning",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "varugrupp",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "artnr",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "ean",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "varutext",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "huvudleverantor",
+      "type": "string",
+      "nullable": true
+    },
+    {
+      "name": "antal_salda",
+      "type": "float64",
+      "nullable": true
+    },
+    {
+      "name": "fors_sum",
+      "type": "float64",
+      "nullable": true
+    },
+    {
+      "name": "tb",
+      "type": "float64",
+      "nullable": true
+    },
+    {
+      "name": "tg_percent",
+      "type": "float64",
+      "nullable": true
+    },
+    {
+      "name": "fors_m_moms",
+      "type": "float64",
+      "nullable": true
+    },
+    {
+      "name": "ord_pris",
+      "type": "float64",
+      "nullable": true
+    },
+    {
+      "name": "snitt_inpris",
+      "type": "float64",
+      "nullable": true
+    },
+    {
+      "name": "lager_antal",
+      "type": "float64",
+      "nullable": true
+    }
+  ]
+}
