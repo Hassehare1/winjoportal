@@ -22,10 +22,15 @@ type AnalyticsSnapshot = {
   report: KpiReport | null;
   quicklookHtml: string | null;
   quicklookPath: string | null;
+  usingFallback: boolean;
 };
 
 const MONTH_REGEX = /^20\d{2}-\d{2}$/;
 const REPORTS_DIR = resolve(process.cwd(), "services", "analytics", "data", "reports", "sales_monthly", "v1");
+const FALLBACK_MONTH = "2024-02";
+const FALLBACK_DIR = resolve(process.cwd(), "features", "analytics", "assets");
+const FALLBACK_REPORT_PATH = resolve(FALLBACK_DIR, `kpi_${FALLBACK_MONTH}.json`);
+const FALLBACK_QUICKLOOK_PATH = resolve(FALLBACK_DIR, `kpi_${FALLBACK_MONTH}_quicklook.html`);
 
 function isPathInside(basePath: string, targetPath: string): boolean {
   const rel = relative(basePath, targetPath);
@@ -50,14 +55,17 @@ export function listAvailableKpiMonths(): string[] {
   }
 }
 
-function readKpiReport(month: string): KpiReport | null {
-  const reportPath = resolve(REPORTS_DIR, `kpi_${month}.json`);
+function readKpiReportFromPath(reportPath: string): KpiReport | null {
   try {
     const raw = readFileSync(reportPath, "utf8");
     return JSON.parse(raw) as KpiReport;
   } catch {
     return null;
   }
+}
+
+function readKpiReport(month: string): KpiReport | null {
+  return readKpiReportFromPath(resolve(REPORTS_DIR, `kpi_${month}.json`));
 }
 
 function resolveQuicklookPath(month: string, report: KpiReport | null): string {
@@ -77,15 +85,44 @@ function readQuicklookHtml(path: string): string | null {
   }
 }
 
+function loadFallbackSnapshot(): {
+  month: string;
+  report: KpiReport | null;
+  quicklookHtml: string | null;
+  quicklookPath: string;
+} {
+  const report = readKpiReportFromPath(FALLBACK_REPORT_PATH);
+  const reportMonth = safeParseMonth(report?.report_month) ?? FALLBACK_MONTH;
+  return {
+    month: reportMonth,
+    report,
+    quicklookHtml: readQuicklookHtml(FALLBACK_QUICKLOOK_PATH),
+    quicklookPath: FALLBACK_QUICKLOOK_PATH
+  };
+}
+
 export function getAnalyticsSnapshot(requestedMonth: string | undefined): AnalyticsSnapshot {
+  const fallback = loadFallbackSnapshot();
   const months = listAvailableKpiMonths();
   if (months.length === 0) {
+    if (fallback.quicklookHtml) {
+      return {
+        months: [fallback.month],
+        selectedMonth: fallback.month,
+        report: fallback.report ?? { report_month: fallback.month },
+        quicklookHtml: fallback.quicklookHtml,
+        quicklookPath: fallback.quicklookPath,
+        usingFallback: true
+      };
+    }
+
     return {
       months,
       selectedMonth: null,
       report: null,
       quicklookHtml: null,
-      quicklookPath: null
+      quicklookPath: null,
+      usingFallback: false
     };
   }
 
@@ -95,15 +132,24 @@ export function getAnalyticsSnapshot(requestedMonth: string | undefined): Analyt
       ? normalizedRequested
       : months[months.length - 1];
 
-  const report = readKpiReport(selectedMonth);
-  const quicklookPath = resolveQuicklookPath(selectedMonth, report);
-  const quicklookHtml = readQuicklookHtml(quicklookPath);
+  let report = readKpiReport(selectedMonth);
+  let quicklookPath = resolveQuicklookPath(selectedMonth, report);
+  let quicklookHtml = readQuicklookHtml(quicklookPath);
+  let usingFallback = false;
+
+  if (!quicklookHtml && fallback.quicklookHtml) {
+    report = report ?? fallback.report ?? { report_month: fallback.month };
+    quicklookPath = fallback.quicklookPath;
+    quicklookHtml = fallback.quicklookHtml;
+    usingFallback = true;
+  }
 
   return {
     months,
     selectedMonth,
     report,
     quicklookHtml,
-    quicklookPath
+    quicklookPath,
+    usingFallback
   };
 }
