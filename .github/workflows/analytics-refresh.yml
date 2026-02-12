@@ -98,21 +98,38 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r services/analytics/requirements.txt
 
-      - name: Run ingest + curated + KPI generation
+      - name: Run ingest + curated build
+        if: steps.detect_input.outputs.has_input == 'true' && steps.input_signature.outputs.skip_pipeline != 'true'
+        run: |
+          python services/analytics/scripts/ingest_all_months.py \
+            --input-dir services/analytics/input \
+            --output-root services/analytics/data \
+            --build-curated
+
+      - name: Generate KPI reports for available months
         if: steps.detect_input.outputs.has_input == 'true' && steps.input_signature.outputs.skip_pipeline != 'true'
         env:
           FORCE_MONTH: ${{ inputs.force_month }}
         run: |
-          ARGS=(
-            --input-dir services/analytics/input
-            --output-root services/analytics/data
-            --build-curated
-            --generate-kpis
-          )
           if [ -n "$FORCE_MONTH" ]; then
-            ARGS+=(--kpi-report-month "$FORCE_MONTH")
+            python services/analytics/scripts/generate_sales_kpis.py \
+              --output-root services/analytics/data \
+              --report-month "$FORCE_MONTH"
+            exit 0
           fi
-          python services/analytics/scripts/ingest_all_months.py "${ARGS[@]}"
+
+          months=$(find services/analytics/data/curated/sales_monthly/v1 -mindepth 1 -maxdepth 1 -type d -name 'report_month_*' -printf '%f\n' | sed 's/^report_month_//' | sort)
+          if [ -z "$months" ]; then
+            echo "No curated months found. Cannot generate KPI reports."
+            exit 1
+          fi
+
+          for month in $months; do
+            echo "Generating KPI for month: $month"
+            python services/analytics/scripts/generate_sales_kpis.py \
+              --output-root services/analytics/data \
+              --report-month "$month"
+          done
 
       - name: Sync generated KPIs to public analytics assets
         if: steps.detect_input.outputs.has_input == 'true' && steps.input_signature.outputs.skip_pipeline != 'true'

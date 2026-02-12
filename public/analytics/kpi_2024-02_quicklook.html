@@ -1,0 +1,955 @@
+<!doctype html>
+<html lang="sv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KPI Quicklook 2024-02</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #4b5563;
+      --line: #d8e1ee;
+      --sales: #0284c7;
+      --profit: #16a34a;
+      --warn: #ea580c;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: Segoe UI, Arial, sans-serif; }
+    .page { max-width: 1240px; margin: 0 auto; padding: 20px; display: grid; gap: 14px; }
+    .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+    h1, h2 { margin: 0 0 10px 0; }
+    .meta { color: var(--muted); font-size: 13px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .btn { border: 1px solid var(--line); background: #fff; color: var(--text); border-radius: 10px; padding: 7px 10px; font-size: 13px; cursor: pointer; }
+    .dropdown { position: relative; display: inline-block; }
+    .dropdown-panel { position: absolute; top: calc(100% + 6px); left: 0; min-width: 280px; max-height: 320px; overflow: auto; border: 1px solid var(--line); background: #fff; border-radius: 12px; padding: 8px; z-index: 30; box-shadow: 0 8px 24px rgba(2, 6, 23, 0.12); display: none; }
+    .dropdown-panel.open { display: block; }
+    .check-row { display: flex; gap: 8px; align-items: center; font-size: 13px; padding: 5px 4px; }
+    .kpi-grid { margin-top: 10px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; }
+    .kpi { border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fbfdff; }
+    .kpi span { display: block; color: var(--muted); font-size: 12px; margin-bottom: 3px; }
+    .kpi strong { font-size: 20px; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .share-head, .share-row { display: grid; grid-template-columns: 180px 1fr 66px 1fr 66px; gap: 7px; align-items: center; }
+    .share-head { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+    .share-row { margin-bottom: 7px; font-size: 13px; }
+    .bar-wrap { height: 10px; border-radius: 999px; background: #edf2f8; overflow: hidden; }
+    .bar { height: 100%; border-radius: 999px; }
+    .bar-sales { background: var(--sales); }
+    .bar-profit { background: var(--profit); }
+    .store-trend { margin-top: 12px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fbfdff; }
+    .store-trend h3 { margin: 0 0 2px 0; font-size: 14px; }
+    .store-trend .meta { margin: 0 0 6px 0; font-size: 12px; }
+    .store-trend-chart { width: 100%; height: 240px; display: block; }
+    .store-trend-legend { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px 12px; }
+    .trend-legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+    .trend-dot { width: 8px; height: 8px; border-radius: 999px; display: inline-block; }
+    .store-trend-empty { color: var(--muted); font-size: 12px; margin: 6px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 8px 6px; border-bottom: 1px solid var(--line); text-align: left; }
+    .risk-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .warn-pill-btn { display: inline-flex; align-items: center; border: 1px solid #fed7aa; background: #fff7ed; color: #9a3412; border-radius: 999px; padding: 4px 9px; font-size: 12px; cursor: pointer; }
+    .warn-pill-btn.active { background: #9a3412; color: #ffffff; border-color: #9a3412; }
+    .risk-analysis { margin-top: 10px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fbfdff; }
+    .risk-analysis h3 { margin: 0 0 6px 0; font-size: 14px; }
+    .risk-kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; margin-top: 8px; }
+    .risk-kpi { border: 1px solid var(--line); border-radius: 8px; padding: 8px; background: #fff; }
+    .risk-kpi span { display: block; color: var(--muted); font-size: 12px; margin-bottom: 3px; }
+    .risk-kpi strong { font-size: 16px; }
+    .risk-list { margin: 8px 0 0 0; padding-left: 18px; font-size: 13px; }
+    .risk-list li { margin-bottom: 4px; }
+    @media (max-width: 980px) {
+      .split { grid-template-columns: 1fr; }
+      .share-head, .share-row { grid-template-columns: 140px 1fr 58px 1fr 58px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="card">
+      <h1>KPI Quicklook - 2024-02</h1>
+      <p class="meta">Retail klader. Uppdaterad: 2026-02-12T21:28:57+00:00</p>
+      <div class="toolbar">
+        <div class="dropdown">
+          <button class="btn" id="deptToggle" type="button">Avdelningar</button>
+          <div class="dropdown-panel" id="deptPanel">
+            <div style="display:flex; gap:6px; margin-bottom:6px;">
+              <button class="btn" id="deptAll" type="button">Markera alla</button>
+              <button class="btn" id="deptNone" type="button">Rensa</button>
+            </div>
+            <div id="deptOptions"></div>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="btn" id="storeToggle" type="button">Butiker</button>
+          <div class="dropdown-panel" id="storePanel">
+            <div style="display:flex; gap:6px; margin-bottom:6px;">
+              <button class="btn" id="storeAll" type="button">Markera alla</button>
+              <button class="btn" id="storeNone" type="button">Rensa</button>
+            </div>
+            <div id="storeOptions"></div>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="btn" id="yearToggle" type="button">Ar</button>
+          <div class="dropdown-panel" id="yearPanel">
+            <div style="display:flex; gap:6px; margin-bottom:6px;">
+              <button class="btn" id="yearAll" type="button">Markera alla</button>
+              <button class="btn" id="yearNone" type="button">Rensa</button>
+            </div>
+            <div id="yearOptions"></div>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="btn" id="monthToggle" type="button">Manader</button>
+          <div class="dropdown-panel" id="monthPanel">
+            <div style="display:flex; gap:6px; margin-bottom:6px;">
+              <button class="btn" id="monthAll" type="button">Markera alla</button>
+              <button class="btn" id="monthNone" type="button">Rensa</button>
+            </div>
+            <div id="monthOptions"></div>
+          </div>
+        </div>
+        <span class="meta" id="selectedInfo"></span>
+      </div>
+      <div class="kpi-grid">
+        <article class="kpi"><span>Nettoforsaljning</span><strong id="kpiSales">-</strong></article>
+        <article class="kpi"><span>TB (bruttovinst)</span><strong id="kpiProfit">-</strong></article>
+        <article class="kpi"><span>TB %</span><strong id="kpiMargin">-</strong></article>
+        <article class="kpi"><span>Salda enheter</span><strong id="kpiUnits">-</strong></article>
+        <article class="kpi"><span>Lagerestimat</span><strong id="kpiStock">-</strong></article>
+      </div>
+    </section>
+
+    <section class="card split">
+      <article>
+        <h2>Avdelning andel forsaljning/vinst</h2>
+        <div class="share-head"><div>Avdelning</div><div>Forsaljning</div><div></div><div>Vinst</div><div></div></div>
+        <div id="deptShareRows"></div>
+      </article>
+      <article>
+        <h2>Butik andel forsaljning/vinst</h2>
+        <div class="share-head"><div>Butik</div><div>Forsaljning</div><div></div><div>Vinst</div><div></div></div>
+        <div id="storeShareRows"></div>
+        <section class="store-trend">
+          <h3>Forsaljning per butik over tid</h3>
+          <p class="meta">Visas nar minst tva perioder ar valda.</p>
+          <p id="storeTrendEmpty" class="store-trend-empty">Valj minst tva perioder for att visa grafen.</p>
+          <svg id="storeTrendSvg" class="store-trend-chart" viewBox="0 0 760 240" preserveAspectRatio="none" role="img" aria-label="Forsaljning per butik over tid"></svg>
+          <div id="storeTrendLegend" class="store-trend-legend"></div>
+        </section>
+      </article>
+    </section>
+
+    <section class="card" id="momCard" style="display:none;">
+      <h2>Manad mot manad</h2>
+      <p class="meta" id="momRange"></p>
+      <div class="kpi-grid">
+        <article class="kpi"><span>Forsaljning delta</span><strong id="momSalesDelta">-</strong></article>
+        <article class="kpi"><span>Forsaljning delta %</span><strong id="momSalesDeltaPct">-</strong></article>
+        <article class="kpi"><span>TB delta</span><strong id="momProfitDelta">-</strong></article>
+        <article class="kpi"><span>TB delta %</span><strong id="momProfitDeltaPct">-</strong></article>
+      </div>
+    </section>
+
+    <section class="card split">
+      <article>
+        <h2>Topp avdelningar</h2>
+        <table>
+          <thead><tr><th>Avdelning</th><th>Netto</th><th>TB</th><th>TB %</th></tr></thead>
+          <tbody id="topDeptBody"></tbody>
+        </table>
+      </article>
+      <article>
+        <h2>Lag marginal + hog forsaljning</h2>
+        <table>
+          <thead><tr><th>Avdelning</th><th>Artikel</th><th>Netto</th><th>TB %</th></tr></thead>
+          <tbody id="lowMarginBody"></tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>Snabb riskindikator</h2>
+      <div id="riskPills" class="risk-pills"></div>
+      <div id="riskAnalysis" class="risk-analysis"></div>
+    </section>
+  </main>
+
+  <script id="kpiPayload" type="application/json">{"generated_at_utc": "2026-02-12T21:28:57+00:00", "schema_id": "sales_monthly_curated_v1", "report_month": "2024-02", "source_curated_file": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\curated\\sales_monthly\\v1\\report_month_2024-02\\sales_monthly_curated_v1.parquet", "previous_month": "2024-01", "top_n": 10, "available_report_months": ["2024-01", "2024-02"], "available_report_months_full": ["2024-01", "2024-02", "2024-03"], "history_months_applied": 2, "duckdb_threads": 2, "duckdb_memory_limit": "768MB", "available_report_years": ["2024"], "available_month_numbers": [1, 2], "available_stores": ["EBB_Helsingborg", "EBB_Kristianstad", "EBB_Malmo"], "available_departments": ["Barn & Barnunderkläder", "Dam", "Diverse", "Herr", "Katalog nummer / Avdelning saknas", "Kem", "Påsar & Kampanj", "Underkläder"], "summary": {"report_month": "2024-02", "net_sales": 3370489.65, "gross_profit": 1629800.36, "gross_margin_percent": 48.36, "units_sold": 25532.0, "estimated_stock_value": 9475804.81, "store_count": 3, "department_count": 8, "sku_count": 2251, "return_row_count": 20, "negative_margin_row_count": 487, "negative_margin_sales": 70964.7, "net_return_sales": -7829.46}, "store_share": [{"filial": "EBB_Malmo", "net_sales": 1604803.68, "gross_profit": 792302.56, "gross_margin_percent": 49.37, "estimated_stock_value": 3973894.91, "sales_share_percent": 47.61, "profit_share_percent": 48.61}, {"filial": "EBB_Helsingborg", "net_sales": 1049331.42, "gross_profit": 501657.28, "gross_margin_percent": 47.81, "estimated_stock_value": 2940274.11, "sales_share_percent": 31.13, "profit_share_percent": 30.78}, {"filial": "EBB_Kristianstad", "net_sales": 716354.55, "gross_profit": 335840.52, "gross_margin_percent": 46.88, "estimated_stock_value": 2561635.79, "sales_share_percent": 21.25, "profit_share_percent": 20.61}], "department_share": [{"avdelning": "Dam", "net_sales": 1566097.4, "gross_profit": 776846.32, "units_sold": 7278.0, "gross_margin_percent": 49.6, "estimated_stock_value": 3649626.8, "sales_share_percent": 46.46, "profit_share_percent": 47.67}, {"avdelning": "Underkläder", "net_sales": 845734.23, "gross_profit": 399962.79, "units_sold": 8706.0, "gross_margin_percent": 47.29, "estimated_stock_value": 1948007.53, "sales_share_percent": 25.09, "profit_share_percent": 24.54}, {"avdelning": "Herr", "net_sales": 667255.81, "gross_profit": 334101.49, "units_sold": 3281.0, "gross_margin_percent": 50.07, "estimated_stock_value": 2738674.48, "sales_share_percent": 19.8, "profit_share_percent": 20.5}, {"avdelning": "Barn & Barnunderkläder", "net_sales": 195275.41, "gross_profit": 76513.78, "units_sold": 2359.0, "gross_margin_percent": 39.18, "estimated_stock_value": 860410.1, "sales_share_percent": 5.79, "profit_share_percent": 4.69}, {"avdelning": "Kem", "net_sales": 93031.35, "gross_profit": 39960.31, "units_sold": 2657.0, "gross_margin_percent": 42.95, "estimated_stock_value": 261728.04, "sales_share_percent": 2.76, "profit_share_percent": 2.45}, {"avdelning": "Påsar & Kampanj", "net_sales": 3241.41, "gross_profit": 2590.43, "units_sold": 1250.0, "gross_margin_percent": 79.92, "estimated_stock_value": 17357.86, "sales_share_percent": 0.1, "profit_share_percent": 0.16}, {"avdelning": "Katalog nummer / Avdelning saknas", "net_sales": 31.98, "gross_profit": 3.18, "units_sold": 1.0, "gross_margin_percent": 9.94, "estimated_stock_value": 0.0, "sales_share_percent": 0.0, "profit_share_percent": 0.0}, {"avdelning": "Diverse", "net_sales": -177.94, "gross_profit": -177.94, "units_sold": 0.0, "gross_margin_percent": 100.0, "estimated_stock_value": 0.0, "sales_share_percent": -0.01, "profit_share_percent": -0.01}], "store_department_breakdown": [{"filial": "EBB_Helsingborg", "avdelning": "Herr", "net_sales": 184486.43, "gross_profit": 91987.21, "units_sold": 923.0, "estimated_stock_value": 734276.26, "gross_margin_percent": 49.86}, {"filial": "EBB_Helsingborg", "avdelning": "Underkläder", "net_sales": 277807.31, "gross_profit": 131442.03, "units_sold": 2785.0, "estimated_stock_value": 616002.71, "gross_margin_percent": 47.31}, {"filial": "EBB_Helsingborg", "avdelning": "Barn & Barnunderkläder", "net_sales": 57543.04, "gross_profit": 23521.04, "units_sold": 718.0, "estimated_stock_value": 221307.41, "gross_margin_percent": 40.88}, {"filial": "EBB_Helsingborg", "avdelning": "Påsar & Kampanj", "net_sales": 968.91, "gross_profit": 787.55, "units_sold": 369.0, "estimated_stock_value": 6444.31, "gross_margin_percent": 81.28}, {"filial": "EBB_Helsingborg", "avdelning": "Kem", "net_sales": 36525.02, "gross_profit": 15677.88, "units_sold": 1185.0, "estimated_stock_value": 84124.61, "gross_margin_percent": 42.92}, {"filial": "EBB_Kristianstad", "avdelning": "Underkläder", "net_sales": 206169.32, "gross_profit": 99921.3, "units_sold": 2050.0, "estimated_stock_value": 666418.62, "gross_margin_percent": 48.47}, {"filial": "EBB_Kristianstad", "avdelning": "Herr", "net_sales": 150326.52, "gross_profit": 71620.44, "units_sold": 820.0, "estimated_stock_value": 683694.47, "gross_margin_percent": 47.64}, {"filial": "EBB_Kristianstad", "avdelning": "Barn & Barnunderkläder", "net_sales": 46051.19, "gross_profit": 15986.86, "units_sold": 483.0, "estimated_stock_value": 297997.26, "gross_margin_percent": 34.72}, {"filial": "EBB_Kristianstad", "avdelning": "Påsar & Kampanj", "net_sales": 873.77, "gross_profit": 634.15, "units_sold": 325.0, "estimated_stock_value": 9321.95, "gross_margin_percent": 72.58}, {"filial": "EBB_Kristianstad", "avdelning": "Kem", "net_sales": 11498.66, "gross_profit": 3401.76, "units_sold": 486.0, "estimated_stock_value": 28435.91, "gross_margin_percent": 29.58}, {"filial": "EBB_Malmo", "avdelning": "Dam", "net_sales": 772661.6, "gross_profit": 394328.74, "units_sold": 3466.0, "estimated_stock_value": 1495740.41, "gross_margin_percent": 51.04}, {"filial": "EBB_Malmo", "avdelning": "Katalog nummer / Avdelning saknas", "net_sales": 31.98, "gross_profit": 3.18, "units_sold": 1.0, "estimated_stock_value": 0.0, "gross_margin_percent": 9.94}, {"filial": "EBB_Helsingborg", "avdelning": "Dam", "net_sales": 492000.71, "gross_profit": 238241.57, "units_sold": 2362.0, "estimated_stock_value": 1278118.81, "gross_margin_percent": 48.42}, {"filial": "EBB_Kristianstad", "avdelning": "Dam", "net_sales": 301435.09, "gross_profit": 144276.01, "units_sold": 1450.0, "estimated_stock_value": 875767.58, "gross_margin_percent": 47.86}, {"filial": "EBB_Malmo", "avdelning": "Barn & Barnunderkläder", "net_sales": 91681.18, "gross_profit": 37005.88, "units_sold": 1158.0, "estimated_stock_value": 341105.43, "gross_margin_percent": 40.36}, {"filial": "EBB_Malmo", "avdelning": "Underkläder", "net_sales": 361757.6, "gross_profit": 168599.46, "units_sold": 3871.0, "estimated_stock_value": 665586.2, "gross_margin_percent": 46.61}, {"filial": "EBB_Malmo", "avdelning": "Kem", "net_sales": 45007.67, "gross_profit": 20880.67, "units_sold": 986.0, "estimated_stock_value": 149167.52, "gross_margin_percent": 46.39}, {"filial": "EBB_Malmo", "avdelning": "Påsar & Kampanj", "net_sales": 1398.73, "gross_profit": 1168.73, "units_sold": 556.0, "estimated_stock_value": 1591.6, "gross_margin_percent": 83.56}, {"filial": "EBB_Malmo", "avdelning": "Herr", "net_sales": 332442.86, "gross_profit": 170493.84, "units_sold": 1538.0, "estimated_stock_value": 1320703.75, "gross_margin_percent": 51.29}, {"filial": "EBB_Malmo", "avdelning": "Diverse", "net_sales": -177.94, "gross_profit": -177.94, "units_sold": 0.0, "estimated_stock_value": 0.0, "gross_margin_percent": 100.0}], "time_store_department_breakdown": [{"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Barn & Barnunderkläder", "net_sales": 57543.04, "gross_profit": 23521.04, "units_sold": 718.0, "estimated_stock_value": 221307.41}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Dam", "net_sales": 492000.71, "gross_profit": 238241.57, "units_sold": 2362.0, "estimated_stock_value": 1278118.81}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Herr", "net_sales": 184486.43, "gross_profit": 91987.21, "units_sold": 923.0, "estimated_stock_value": 734276.26}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Kem", "net_sales": 36525.02, "gross_profit": 15677.88, "units_sold": 1185.0, "estimated_stock_value": 84124.61}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Påsar & Kampanj", "net_sales": 968.91, "gross_profit": 787.55, "units_sold": 369.0, "estimated_stock_value": 6444.31}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Underkläder", "net_sales": 277807.31, "gross_profit": 131442.03, "units_sold": 2785.0, "estimated_stock_value": 616002.71}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Barn & Barnunderkläder", "net_sales": 46051.19, "gross_profit": 15986.86, "units_sold": 483.0, "estimated_stock_value": 297997.26}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Dam", "net_sales": 301435.09, "gross_profit": 144276.01, "units_sold": 1450.0, "estimated_stock_value": 875767.58}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Herr", "net_sales": 150326.52, "gross_profit": 71620.44, "units_sold": 820.0, "estimated_stock_value": 683694.47}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Kem", "net_sales": 11498.66, "gross_profit": 3401.76, "units_sold": 486.0, "estimated_stock_value": 28435.91}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Påsar & Kampanj", "net_sales": 873.77, "gross_profit": 634.15, "units_sold": 325.0, "estimated_stock_value": 9321.95}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Underkläder", "net_sales": 206169.32, "gross_profit": 99921.3, "units_sold": 2050.0, "estimated_stock_value": 666418.62}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Barn & Barnunderkläder", "net_sales": 91681.18, "gross_profit": 37005.88, "units_sold": 1158.0, "estimated_stock_value": 341105.43}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Dam", "net_sales": 772661.6, "gross_profit": 394328.74, "units_sold": 3466.0, "estimated_stock_value": 1495740.41}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Diverse", "net_sales": -177.94, "gross_profit": -177.94, "units_sold": 0.0, "estimated_stock_value": 0.0}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Herr", "net_sales": 332442.86, "gross_profit": 170493.84, "units_sold": 1538.0, "estimated_stock_value": 1320703.75}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Katalog nummer / Avdelning saknas", "net_sales": 31.98, "gross_profit": 3.18, "units_sold": 1.0, "estimated_stock_value": 0.0}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Kem", "net_sales": 45007.67, "gross_profit": 20880.67, "units_sold": 986.0, "estimated_stock_value": 149167.52}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Påsar & Kampanj", "net_sales": 1398.73, "gross_profit": 1168.73, "units_sold": 556.0, "estimated_stock_value": 1591.6}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Underkläder", "net_sales": 361757.6, "gross_profit": 168599.46, "units_sold": 3871.0, "estimated_stock_value": 665586.2}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Helsingborg", "avdelning": "Barn & Barnunderkläder", "net_sales": 57760.02, "gross_profit": 22119.4, "units_sold": 721.0, "estimated_stock_value": 205624.51}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Helsingborg", "avdelning": "Dam", "net_sales": 462861.25, "gross_profit": 194848.05, "units_sold": 2535.0, "estimated_stock_value": 1216104.16}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Helsingborg", "avdelning": "Herr", "net_sales": 215749.18, "gross_profit": 96678.67, "units_sold": 1161.0, "estimated_stock_value": 720593.42}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Helsingborg", "avdelning": "Kem", "net_sales": 32409.96, "gross_profit": 13906.99, "units_sold": 1138.0, "estimated_stock_value": 85335.05}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Helsingborg", "avdelning": "Påsar & Kampanj", "net_sales": 955.98, "gross_profit": 790.64, "units_sold": 381.0, "estimated_stock_value": 6081.1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Helsingborg", "avdelning": "Underkläder", "net_sales": 309706.83, "gross_profit": 135444.81, "units_sold": 3145.0, "estimated_stock_value": 602581.73}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Barn & Barnunderkläder", "net_sales": 44566.78, "gross_profit": 16398.62, "units_sold": 459.0, "estimated_stock_value": 239835.84}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Dam", "net_sales": 259583.94, "gross_profit": 111937.55, "units_sold": 1337.0, "estimated_stock_value": 832383.29}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Herr", "net_sales": 160860.6, "gross_profit": 75387.52, "units_sold": 851.0, "estimated_stock_value": 697186.57}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Kem", "net_sales": 8345.14, "gross_profit": 3123.64, "units_sold": 372.0, "estimated_stock_value": 26501.49}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Påsar & Kampanj", "net_sales": 703.04, "gross_profit": 524.19, "units_sold": 275.0, "estimated_stock_value": 9321.95}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Underkläder", "net_sales": 226113.89, "gross_profit": 99935.77, "units_sold": 2261.0, "estimated_stock_value": 638496.37}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Barn & Barnunderkläder", "net_sales": 81946.26, "gross_profit": 36336.07, "units_sold": 961.0, "estimated_stock_value": 291580.14}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Dam", "net_sales": 606631.67, "gross_profit": 276344.99, "units_sold": 2901.0, "estimated_stock_value": 1345833.28}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Herr", "net_sales": 313896.19, "gross_profit": 151092.64, "units_sold": 1641.0, "estimated_stock_value": 1287674.14}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Katalog nummer / Avdelning saknas", "net_sales": 71.98, "gross_profit": 8.03, "units_sold": 1.0, "estimated_stock_value": 0.0}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Kem", "net_sales": 43959.46, "gross_profit": 19870.8, "units_sold": 1009.0, "estimated_stock_value": 157721.65}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Påsar & Kampanj", "net_sales": 1416.45, "gross_profit": 1246.19, "units_sold": 578.0, "estimated_stock_value": 1597.4}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Underkläder", "net_sales": 434553.25, "gross_profit": 187651.31, "units_sold": 4715.0, "estimated_stock_value": 653285.47}], "store_ranking_top_n": [{"filial": "EBB_Malmo", "net_sales": 1604803.68, "gross_profit": 792302.56, "gross_margin_percent": 49.37, "units_sold": 11576.0, "estimated_stock_value": 3973894.91}, {"filial": "EBB_Helsingborg", "net_sales": 1049331.42, "gross_profit": 501657.28, "gross_margin_percent": 47.81, "units_sold": 8342.0, "estimated_stock_value": 2940274.11}, {"filial": "EBB_Kristianstad", "net_sales": 716354.55, "gross_profit": 335840.52, "gross_margin_percent": 46.88, "units_sold": 5614.0, "estimated_stock_value": 2561635.79}], "department_ranking_top_n": [{"avdelning": "Dam", "net_sales": 1566097.4, "gross_profit": 776846.32, "gross_margin_percent": 49.6, "units_sold": 7278.0}, {"avdelning": "Underkläder", "net_sales": 845734.23, "gross_profit": 399962.79, "gross_margin_percent": 47.29, "units_sold": 8706.0}, {"avdelning": "Herr", "net_sales": 667255.81, "gross_profit": 334101.49, "gross_margin_percent": 50.07, "units_sold": 3281.0}, {"avdelning": "Barn & Barnunderkläder", "net_sales": 195275.41, "gross_profit": 76513.78, "gross_margin_percent": 39.18, "units_sold": 2359.0}, {"avdelning": "Kem", "net_sales": 93031.35, "gross_profit": 39960.31, "gross_margin_percent": 42.95, "units_sold": 2657.0}, {"avdelning": "Påsar & Kampanj", "net_sales": 3241.41, "gross_profit": 2590.43, "gross_margin_percent": 79.92, "units_sold": 1250.0}, {"avdelning": "Katalog nummer / Avdelning saknas", "net_sales": 31.98, "gross_profit": 3.18, "gross_margin_percent": 9.94, "units_sold": 1.0}, {"avdelning": "Diverse", "net_sales": -177.94, "gross_profit": -177.94, "gross_margin_percent": 100.0, "units_sold": 0.0}], "top_products_by_sales_top_n": [{"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VMDOFFY O-NECK NOOS", "varutext": "Damtröja stickad", "net_sales": 34224.44, "gross_profit": 18372.45, "gross_margin_percent": 53.68, "units_sold": 181.0}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VIDALO O-NECK LS KNIT TOP NOOS", "varutext": "Damtröja stickad", "net_sales": 25018.59, "gross_profit": 12409.32, "gross_margin_percent": 49.6, "units_sold": 99.0}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "20841612689", "varutext": "Damjeans Brandtex", "net_sales": 19676.87, "gross_profit": 12796.87, "gross_margin_percent": 65.04, "units_sold": 172.0}, {"filial": "EBB_Helsingborg", "avdelning": "Dam", "artnr": "VMDOFFY O-NECK NOOS", "varutext": "Damtröja stickad", "net_sales": 16808.16, "gross_profit": 9097.1, "gross_margin_percent": 54.12, "units_sold": 88.0}, {"filial": "EBB_Malmo", "avdelning": "Herr", "artnr": "Jack & Jones T-shirt 2", "varutext": "Herr t-shirt Jack & Jones", "net_sales": 15948.45, "gross_profit": 9289.03, "gross_margin_percent": 58.24, "units_sold": 138.0}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VMBUMPY LS SHIRT NOOS", "varutext": "Damblus", "net_sales": 15821.31, "gross_profit": 7956.88, "gross_margin_percent": 50.29, "units_sold": 73.0}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VMEVA PANT NOOS", "varutext": "Dambyxa Eva", "net_sales": 15243.17, "gross_profit": 8147.67, "gross_margin_percent": 53.45, "units_sold": 52.0}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VIRIL CARDIGAN NOOS", "varutext": "Damcardigan", "net_sales": 14791.69, "gross_profit": 5755.3, "gross_margin_percent": 38.91, "units_sold": 67.0}, {"filial": "EBB_Helsingborg", "avdelning": "Dam", "artnr": "VMEVA PANT NOOS", "varutext": "Dambyxa Eva", "net_sales": 14746.62, "gross_profit": 8059.05, "gross_margin_percent": 54.65, "units_sold": 49.0}, {"filial": "EBB_Kristianstad", "avdelning": "Herr", "artnr": "Jack & Jones T-shirt 2", "varutext": "Herr t-shirt Jack & Jones", "net_sales": 13267.9, "gross_profit": 7788.12, "gross_margin_percent": 58.7, "units_sold": 113.0}], "top_products_by_profit_top_n": [{"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VMDOFFY O-NECK NOOS", "varutext": "Damtröja stickad", "net_sales": 34224.44, "gross_profit": 18372.45, "gross_margin_percent": 53.68, "units_sold": 181.0}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "20841612689", "varutext": "Damjeans Brandtex", "net_sales": 19676.87, "gross_profit": 12796.87, "gross_margin_percent": 65.04, "units_sold": 172.0}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VIDALO O-NECK LS KNIT TOP NOOS", "varutext": "Damtröja stickad", "net_sales": 25018.59, "gross_profit": 12409.32, "gross_margin_percent": 49.6, "units_sold": 99.0}, {"filial": "EBB_Malmo", "avdelning": "Herr", "artnr": "Jack & Jones T-shirt 2", "varutext": "Herr t-shirt Jack & Jones", "net_sales": 15948.45, "gross_profit": 9289.03, "gross_margin_percent": 58.24, "units_sold": 138.0}, {"filial": "EBB_Helsingborg", "avdelning": "Dam", "artnr": "VMDOFFY O-NECK NOOS", "varutext": "Damtröja stickad", "net_sales": 16808.16, "gross_profit": 9097.1, "gross_margin_percent": 54.12, "units_sold": 88.0}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VMEVA PANT NOOS", "varutext": "Dambyxa Eva", "net_sales": 15243.17, "gross_profit": 8147.67, "gross_margin_percent": 53.45, "units_sold": 52.0}, {"filial": "EBB_Helsingborg", "avdelning": "Dam", "artnr": "VMEVA PANT NOOS", "varutext": "Dambyxa Eva", "net_sales": 14746.62, "gross_profit": 8059.05, "gross_margin_percent": 54.65, "units_sold": 49.0}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VMBUMPY LS SHIRT NOOS", "varutext": "Damblus", "net_sales": 15821.31, "gross_profit": 7956.88, "gross_margin_percent": 50.29, "units_sold": 73.0}, {"filial": "EBB_Kristianstad", "avdelning": "Herr", "artnr": "Jack & Jones T-shirt 2", "varutext": "Herr t-shirt Jack & Jones", "net_sales": 13267.9, "gross_profit": 7788.12, "gross_margin_percent": 58.7, "units_sold": 113.0}, {"filial": "EBB_Helsingborg", "avdelning": "Herr", "artnr": "Jack & Jones T-shirt 2", "varutext": "Herr t-shirt Jack & Jones", "net_sales": 11803.63, "gross_profit": 6946.94, "gross_margin_percent": 58.85, "units_sold": 101.0}], "low_margin_high_sales_top_n": [{"filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "Steve Pyjama Pants", "varutext": "Herr pyjamasbyxa Polo Club", "net_sales": 6537.05, "gross_profit": 2225.05, "gross_margin_percent": 34.04, "units_sold": 56.0}, {"filial": "EBB_Helsingborg", "avdelning": "Barn & Barnunderkläder", "artnr": "Barn t-shirt/topp 2 för 169,95", "varutext": "Barn t-shirt/topp med print", "net_sales": 5144.54, "gross_profit": 1327.09, "gross_margin_percent": 25.8, "units_sold": 91.0}, {"filial": "EBB_Malmo", "avdelning": "Barn & Barnunderkläder", "artnr": "Barn t-shirt/topp 49,95", "varutext": "Barn t-shirt/topp Name it", "net_sales": 3319.94, "gross_profit": 605.14, "gross_margin_percent": 18.23, "units_sold": 88.0}, {"filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "3p Herrboxer Muchachomalo", "varutext": "3P herrboxer Muchachomalo", "net_sales": 2951.52, "gross_profit": -180.0, "gross_margin_percent": -6.1, "units_sold": 16.0}, {"filial": "EBB_Malmo", "avdelning": "Herr", "artnr": "2099", "varutext": "Herrbyxa med resår", "net_sales": 2879.64, "gross_profit": 197.64, "gross_margin_percent": 6.86, "units_sold": 18.0}, {"filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "800002", "varutext": "2p damtrosa O´Neill", "net_sales": 2862.27, "gross_profit": -435.33, "gross_margin_percent": -15.21, "units_sold": 40.0}, {"filial": "EBB_Malmo", "avdelning": "Herr", "artnr": "Herrskjorta Morgan/Oscar", "varutext": "Herrskjorta", "net_sales": 2834.33, "gross_profit": 634.33, "gross_margin_percent": 22.38, "units_sold": 20.0}, {"filial": "EBB_Malmo", "avdelning": "Barn & Barnunderkläder", "artnr": "VIVIAN NOOS", "varutext": "Barnleggings", "net_sales": 2733.71, "gross_profit": 502.16, "gross_margin_percent": 18.37, "units_sold": 45.0}, {"filial": "EBB_Helsingborg", "avdelning": "Barn & Barnunderkläder", "artnr": "Name it kä t-shirt/topp", "varutext": "Name it kä t-shirt/topp med print", "net_sales": 2629.85, "gross_profit": 862.28, "gross_margin_percent": 32.79, "units_sold": 42.0}, {"filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "900002", "varutext": "2p herrboxer O´Neill", "net_sales": 2552.69, "gross_profit": -332.71, "gross_margin_percent": -13.03, "units_sold": 35.0}], "time_low_margin_high_sales_top_n": [{"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "Steve Pyjama Pants", "varutext": "Herr pyjamasbyxa Polo Club", "net_sales": 6537.05, "gross_profit": 2225.05, "units_sold": 56.0, "gross_margin_percent": 34.04}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Barn & Barnunderkläder", "artnr": "Barn t-shirt/topp 2 för 169,95", "varutext": "Barn t-shirt/topp med print", "net_sales": 5144.54, "gross_profit": 1327.09, "units_sold": 91.0, "gross_margin_percent": 25.8}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Barn & Barnunderkläder", "artnr": "Barn t-shirt/topp 49,95", "varutext": "Barn t-shirt/topp Name it", "net_sales": 3319.94, "gross_profit": 605.14, "units_sold": 88.0, "gross_margin_percent": 18.23}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "3p Herrboxer Muchachomalo", "varutext": "3P herrboxer Muchachomalo", "net_sales": 2951.52, "gross_profit": -180.0, "units_sold": 16.0, "gross_margin_percent": -6.1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Herr", "artnr": "2099", "varutext": "Herrbyxa med resår", "net_sales": 2879.64, "gross_profit": 197.64, "units_sold": 18.0, "gross_margin_percent": 6.86}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "800002", "varutext": "2p damtrosa O´Neill", "net_sales": 2862.27, "gross_profit": -435.33, "units_sold": 40.0, "gross_margin_percent": -15.21}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Herr", "artnr": "Herrskjorta Morgan/Oscar", "varutext": "Herrskjorta", "net_sales": 2834.33, "gross_profit": 634.33, "units_sold": 20.0, "gross_margin_percent": 22.38}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Barn & Barnunderkläder", "artnr": "VIVIAN NOOS", "varutext": "Barnleggings", "net_sales": 2733.71, "gross_profit": 502.16, "units_sold": 45.0, "gross_margin_percent": 18.37}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Barn & Barnunderkläder", "artnr": "Name it kä t-shirt/topp", "varutext": "Name it kä t-shirt/topp med print", "net_sales": 2629.85, "gross_profit": 862.28, "units_sold": 42.0, "gross_margin_percent": 32.79}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "900002", "varutext": "2p herrboxer O´Neill", "net_sales": 2552.69, "gross_profit": -332.71, "units_sold": 35.0, "gross_margin_percent": -13.03}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VIRIL CARDIGAN NOOS", "varutext": "Damcardigan", "net_sales": 11910.65, "gross_profit": 3200.89, "units_sold": 64.0, "gross_margin_percent": 26.87}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "900002", "varutext": "2p herrboxer O´Neill", "net_sales": 7408.32, "gross_profit": -341.04, "units_sold": 94.0, "gross_margin_percent": -4.6}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Underkläder", "artnr": "10255 Irene", "varutext": "Irene bygel-bh", "net_sales": 4732.24, "gross_profit": 1624.24, "units_sold": 30.0, "gross_margin_percent": 34.32}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "32983", "varutext": "Mette bh", "net_sales": 4333.2, "gross_profit": 1373.2, "units_sold": 50.0, "gross_margin_percent": 31.69}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VIRIL LONG CARDIGAN NOOS", "varutext": "Damcardigan lång", "net_sales": 4028.88, "gross_profit": 1182.0, "units_sold": 18.0, "gross_margin_percent": 29.34}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Underkläder", "artnr": "19700 Sanna", "varutext": "Sanna bygel-bh", "net_sales": 3927.95, "gross_profit": 1353.95, "units_sold": 22.0, "gross_margin_percent": 34.47}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Helsingborg", "avdelning": "Barn & Barnunderkläder", "artnr": "Barn t-shirt/topp 2 för 169,95", "varutext": "Barn t-shirt/topp med print", "net_sales": 3831.43, "gross_profit": 852.98, "units_sold": 71.0, "gross_margin_percent": 22.26}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "3p Herrboxer Muchachomalo", "varutext": "3P herrboxer Muchachomalo", "net_sales": 3774.78, "gross_profit": -726.78, "units_sold": 23.0, "gross_margin_percent": -19.25}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Herr", "artnr": "Monza stretch twill Black", "varutext": "Herrbyxa 5-ficka Black", "net_sales": 3676.34, "gross_profit": 1267.34, "units_sold": 11.0, "gross_margin_percent": 34.47}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Herr", "artnr": "Herrskjorta Morgan/Oscar", "varutext": "Herrskjorta", "net_sales": 3250.6, "gross_profit": 610.6, "units_sold": 24.0, "gross_margin_percent": 18.78}], "inventory_hotspots_top_n": [{"filial": "EBB_Malmo", "avdelning": "Dam", "estimated_stock_value": 1495740.41, "net_sales": 772661.6, "stock_to_sales_ratio": 1.936}, {"filial": "EBB_Malmo", "avdelning": "Herr", "estimated_stock_value": 1320703.75, "net_sales": 332442.86, "stock_to_sales_ratio": 3.973}, {"filial": "EBB_Helsingborg", "avdelning": "Dam", "estimated_stock_value": 1278118.81, "net_sales": 492000.71, "stock_to_sales_ratio": 2.598}, {"filial": "EBB_Kristianstad", "avdelning": "Dam", "estimated_stock_value": 875767.58, "net_sales": 301435.09, "stock_to_sales_ratio": 2.905}, {"filial": "EBB_Helsingborg", "avdelning": "Herr", "estimated_stock_value": 734276.26, "net_sales": 184486.43, "stock_to_sales_ratio": 3.98}, {"filial": "EBB_Kristianstad", "avdelning": "Herr", "estimated_stock_value": 683694.47, "net_sales": 150326.52, "stock_to_sales_ratio": 4.548}, {"filial": "EBB_Kristianstad", "avdelning": "Underkläder", "estimated_stock_value": 666418.62, "net_sales": 206169.32, "stock_to_sales_ratio": 3.232}, {"filial": "EBB_Malmo", "avdelning": "Underkläder", "estimated_stock_value": 665586.2, "net_sales": 361757.6, "stock_to_sales_ratio": 1.84}, {"filial": "EBB_Helsingborg", "avdelning": "Underkläder", "estimated_stock_value": 616002.71, "net_sales": 277807.31, "stock_to_sales_ratio": 2.217}, {"filial": "EBB_Malmo", "avdelning": "Barn & Barnunderkläder", "estimated_stock_value": 341105.43, "net_sales": 91681.18, "stock_to_sales_ratio": 3.721}], "margin_risk_items_top_n": [{"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "OBJBLAZA LE JACKET NOOS", "varutext": "Damjacka", "net_sales": -539.99, "gross_profit": -539.99, "gross_margin_percent": 100.0, "return_row_count": 0, "negative_margin_row_count": 1}, {"filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "800002", "varutext": "2p damtrosa O´Neill", "net_sales": 2862.27, "gross_profit": -435.33, "gross_margin_percent": -15.21, "return_row_count": 0, "negative_margin_row_count": 1}, {"filial": "EBB_Kristianstad", "avdelning": "Barn & Barnunderkläder", "artnr": "13209383", "varutext": "Barnjacka Mosanna reflex", "net_sales": 493.49, "gross_profit": -391.47, "gross_margin_percent": -79.33, "return_row_count": 0, "negative_margin_row_count": 1}, {"filial": "EBB_Kristianstad", "avdelning": "Herr", "artnr": "JJSUPER PARKA", "varutext": "Herrparka Jack & Jones", "net_sales": -639.96, "gross_profit": -377.5, "gross_margin_percent": 58.99, "return_row_count": 1, "negative_margin_row_count": 1}, {"filial": "EBB_Helsingborg", "avdelning": "Dam", "artnr": "616749 Linnea", "varutext": "Damjeans Linnea", "net_sales": 519.2, "gross_profit": -350.3, "gross_margin_percent": -67.47, "return_row_count": 0, "negative_margin_row_count": 1}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "617735", "varutext": "Damtunika", "net_sales": 207.84, "gross_profit": -344.16, "gross_margin_percent": -165.59, "return_row_count": 0, "negative_margin_row_count": 1}, {"filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "900002", "varutext": "2p herrboxer O´Neill", "net_sales": 2552.69, "gross_profit": -332.71, "gross_margin_percent": -13.03, "return_row_count": 0, "negative_margin_row_count": 1}, {"filial": "EBB_Helsingborg", "avdelning": "Dam", "artnr": "14111G", "varutext": "Damjacka quiltad", "net_sales": 12.44, "gross_profit": -317.51, "gross_margin_percent": -2552.33, "return_row_count": 0, "negative_margin_row_count": 1}, {"filial": "EBB_Helsingborg", "avdelning": "Herr", "artnr": "112126006", "varutext": "Wrangler straight stone wash", "net_sales": -559.2, "gross_profit": -309.2, "gross_margin_percent": 55.29, "return_row_count": 1, "negative_margin_row_count": 1}, {"filial": "EBB_Kristianstad", "avdelning": "Barn & Barnunderkläder", "artnr": "13202229 NOOS", "varutext": "Barnoverall Snow", "net_sales": 63.85, "gross_profit": -292.68, "gross_margin_percent": -458.39, "return_row_count": 0, "negative_margin_row_count": 1}], "time_margin_risk_items_top_n": [{"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "OBJBLAZA LE JACKET NOOS", "varutext": "Damjacka", "net_sales": -539.99, "gross_profit": -539.99, "units_sold": 0.0, "gross_margin_percent": 100.0, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "800002", "varutext": "2p damtrosa O´Neill", "net_sales": 2862.27, "gross_profit": -435.33, "units_sold": 40.0, "gross_margin_percent": -15.21, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Barn & Barnunderkläder", "artnr": "13209383", "varutext": "Barnjacka Mosanna reflex", "net_sales": 493.49, "gross_profit": -391.47, "units_sold": 4.0, "gross_margin_percent": -79.33, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Herr", "artnr": "JJSUPER PARKA", "varutext": "Herrparka Jack & Jones", "net_sales": -639.96, "gross_profit": -377.5, "units_sold": -1.0, "gross_margin_percent": 58.99, "return_row_count": 1, "negative_margin_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Dam", "artnr": "616749 Linnea", "varutext": "Damjeans Linnea", "net_sales": 519.2, "gross_profit": -350.3, "units_sold": 5.0, "gross_margin_percent": -67.47, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "617735", "varutext": "Damtunika", "net_sales": 207.84, "gross_profit": -344.16, "units_sold": 6.0, "gross_margin_percent": -165.59, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "900002", "varutext": "2p herrboxer O´Neill", "net_sales": 2552.69, "gross_profit": -332.71, "units_sold": 35.0, "gross_margin_percent": -13.03, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Dam", "artnr": "14111G", "varutext": "Damjacka quiltad", "net_sales": 12.44, "gross_profit": -317.51, "units_sold": 1.0, "gross_margin_percent": -2552.33, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Herr", "artnr": "112126006", "varutext": "Wrangler straight stone wash", "net_sales": -559.2, "gross_profit": -309.2, "units_sold": -1.0, "gross_margin_percent": 55.29, "return_row_count": 1, "negative_margin_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Barn & Barnunderkläder", "artnr": "13202229 NOOS", "varutext": "Barnoverall Snow", "net_sales": 63.85, "gross_profit": -292.68, "units_sold": 1.0, "gross_margin_percent": -458.39, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "617735", "varutext": "Damtunika", "net_sales": 1950.51, "gross_profit": -2097.49, "units_sold": 44.0, "gross_margin_percent": -107.54, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Dam", "artnr": "Asta2", "varutext": "Damkappa ull", "net_sales": -1918.4, "gross_profit": -1158.5, "units_sold": -2.0, "gross_margin_percent": 60.39, "return_row_count": 1, "negative_margin_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Helsingborg", "avdelning": "Herr", "artnr": "641041234 NOOS", "varutext": "Herrjeans blue", "net_sales": 620.08, "gross_profit": -990.92, "units_sold": 9.0, "gross_margin_percent": -159.81, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "3p Herrboxer Muchachomalo", "varutext": "3P herrboxer Muchachomalo", "net_sales": 3774.78, "gross_profit": -726.78, "units_sold": 23.0, "gross_margin_percent": -19.25, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Herr", "artnr": "610270", "varutext": "Herrjacka Mel Richman", "net_sales": -1039.2, "gross_profit": -604.2, "units_sold": -1.0, "gross_margin_percent": 58.14, "return_row_count": 1, "negative_margin_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Helsingborg", "avdelning": "Herr", "artnr": "2009020", "varutext": "Herrbyxa bomullsstretch m benficka", "net_sales": 349.52, "gross_profit": -595.48, "units_sold": 5.0, "gross_margin_percent": -170.37, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Dam", "artnr": "VISHINY V-NECK LS TOP", "varutext": "Damtopp", "net_sales": -879.89, "gross_profit": -467.96, "units_sold": -3.0, "gross_margin_percent": 53.18, "return_row_count": 1, "negative_margin_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Underkläder", "artnr": "800002", "varutext": "2p damtrosa O´Neill", "net_sales": 2133.2, "gross_profit": -422.44, "units_sold": 31.0, "gross_margin_percent": -19.8, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Herr", "artnr": "JCOLEAD KNIT HALFZIP", "varutext": "Herrtröja med halfzip", "net_sales": 602.68, "gross_profit": -418.07, "units_sold": 5.0, "gross_margin_percent": -69.37, "return_row_count": 0, "negative_margin_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Helsingborg", "avdelning": "Herr", "artnr": "2008019", "varutext": "Herrbyxa bomullsstretch", "net_sales": 303.84, "gross_profit": -412.16, "units_sold": 4.0, "gross_margin_percent": -135.65, "return_row_count": 0, "negative_margin_row_count": 1}], "return_risk_items_top_n": [{"filial": "EBB_Kristianstad", "avdelning": "Herr", "artnr": "JJSUPER PARKA", "varutext": "Herrparka Jack & Jones", "units_sold": -1.0, "net_sales": -639.96, "gross_profit": -377.5, "return_row_count": 1}, {"filial": "EBB_Helsingborg", "avdelning": "Herr", "artnr": "112126006", "varutext": "Wrangler straight stone wash", "units_sold": -1.0, "net_sales": -559.2, "gross_profit": -309.2, "return_row_count": 1}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "OBJNEBI LS TOP 131", "varutext": "Damtopp", "units_sold": -1.0, "net_sales": -399.96, "gross_profit": -239.03, "return_row_count": 1}, {"filial": "EBB_Kristianstad", "avdelning": "Dam", "artnr": "Manny2", "varutext": "Damblus", "units_sold": -1.0, "net_sales": -399.95, "gross_profit": -272.7, "return_row_count": 1}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "Takari3", "varutext": "Damklänning", "units_sold": -1.0, "net_sales": -391.97, "gross_profit": -164.02, "return_row_count": 1}, {"filial": "EBB_Kristianstad", "avdelning": "Dam", "artnr": "VIAN1", "varutext": "Damblus", "units_sold": -1.0, "net_sales": -383.97, "gross_profit": -184.52, "return_row_count": 1}, {"filial": "EBB_Helsingborg", "avdelning": "Barn & Barnunderkläder", "artnr": "7520220G", "varutext": "Thermobyxa softshell 122/128-158/164", "units_sold": -1.0, "net_sales": -319.96, "gross_profit": -171.84, "return_row_count": 1}, {"filial": "EBB_Kristianstad", "avdelning": "Underkläder", "artnr": "6262600", "varutext": "Dambaddräkt", "units_sold": -1.0, "net_sales": -319.96, "gross_profit": -160.96, "return_row_count": 1}, {"filial": "EBB_Kristianstad", "avdelning": "Dam", "artnr": "VMFLASH MR STRAIGHT JEANS LI3102 NOOS", "varutext": "Damjeans", "units_sold": -1.0, "net_sales": -315.44, "gross_profit": -133.24, "return_row_count": 1}, {"filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "7911233DAM", "varutext": "Damjacka microfleece melerad", "units_sold": -1.0, "net_sales": -294.18, "gross_profit": -224.27, "return_row_count": 1}], "time_return_risk_items_top_n": [{"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Herr", "artnr": "JJSUPER PARKA", "varutext": "Herrparka Jack & Jones", "units_sold": -1.0, "net_sales": -639.96, "gross_profit": -377.5, "return_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Herr", "artnr": "112126006", "varutext": "Wrangler straight stone wash", "units_sold": -1.0, "net_sales": -559.2, "gross_profit": -309.2, "return_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "OBJNEBI LS TOP 131", "varutext": "Damtopp", "units_sold": -1.0, "net_sales": -399.96, "gross_profit": -239.03, "return_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Dam", "artnr": "Manny2", "varutext": "Damblus", "units_sold": -1.0, "net_sales": -399.95, "gross_profit": -272.7, "return_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "Takari3", "varutext": "Damklänning", "units_sold": -1.0, "net_sales": -391.97, "gross_profit": -164.02, "return_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Dam", "artnr": "VIAN1", "varutext": "Damblus", "units_sold": -1.0, "net_sales": -383.97, "gross_profit": -184.52, "return_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Underkläder", "artnr": "6262600", "varutext": "Dambaddräkt", "units_sold": -1.0, "net_sales": -319.96, "gross_profit": -160.96, "return_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Helsingborg", "avdelning": "Barn & Barnunderkläder", "artnr": "7520220G", "varutext": "Thermobyxa softshell 122/128-158/164", "units_sold": -1.0, "net_sales": -319.96, "gross_profit": -171.84, "return_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Kristianstad", "avdelning": "Dam", "artnr": "VMFLASH MR STRAIGHT JEANS LI3102 NOOS", "varutext": "Damjeans", "units_sold": -1.0, "net_sales": -315.44, "gross_profit": -133.24, "return_row_count": 1}, {"report_month": "2024-02", "report_year": "2024", "report_month_number": 2, "filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "7911233DAM", "varutext": "Damjacka microfleece melerad", "units_sold": -1.0, "net_sales": -294.18, "gross_profit": -224.27, "return_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Dam", "artnr": "VISHINY V-NECK LS TOP", "varutext": "Damtopp", "units_sold": -3.0, "net_sales": -879.89, "gross_profit": -467.96, "return_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Dam", "artnr": "Asta2", "varutext": "Damkappa ull", "units_sold": -2.0, "net_sales": -1918.4, "gross_profit": -1158.5, "return_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Dam", "artnr": "VMRIKKI WIDE PLISSE LS TOP JRS", "varutext": "Damtopp plisserad", "units_sold": -2.0, "net_sales": -599.92, "gross_profit": -328.7, "return_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VMTINSEL LS O-NECK BLOUSE XMAS CURVE", "varutext": "Damtröja stickad Christmas", "units_sold": -2.0, "net_sales": -398.94, "gross_profit": -158.6, "return_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Helsingborg", "avdelning": "Underkläder", "artnr": "81268BH", "varutext": "Dambikini", "units_sold": -2.0, "net_sales": -319.92, "gross_profit": -158.92, "return_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Herr", "artnr": "610270", "varutext": "Herrjacka Mel Richman", "units_sold": -1.0, "net_sales": -1039.2, "gross_profit": -604.2, "return_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Kristianstad", "avdelning": "Dam", "artnr": "21582515148", "varutext": "Damparka Coastline", "units_sold": -1.0, "net_sales": -779.4, "gross_profit": -378.09, "return_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Helsingborg", "avdelning": "Dam", "artnr": "612372", "varutext": "Damklänning Silvia", "units_sold": -1.0, "net_sales": -479.2, "gross_profit": -270.61, "return_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VMBELLA LS BOATNECK TOP", "varutext": "Damblus paljetter", "units_sold": -1.0, "net_sales": -439.96, "gross_profit": -252.17, "return_row_count": 1}, {"report_month": "2024-01", "report_year": "2024", "report_month_number": 1, "filial": "EBB_Malmo", "avdelning": "Dam", "artnr": "VASTA4", "varutext": "Dambyxa", "units_sold": -1.0, "net_sales": -399.96, "gross_profit": -238.51, "return_row_count": 1}], "month_over_month": {"current_month": "2024-02", "previous_month": "2024-01", "net_sales_delta": 108397.78, "gross_profit_delta": 186154.48, "units_sold_delta": -910.0, "net_sales_delta_percent": 3.32, "gross_profit_delta_percent": 12.89, "units_sold_delta_percent": -3.44}, "quicklook_html_path": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\reports\\sales_monthly\\v1\\kpi_2024-02_quicklook.html"}</script>
+  <script>
+    (function () {
+      const data = JSON.parse(document.getElementById("kpiPayload").textContent || "{}");
+      const topN = Number(data.top_n || 10);
+      const formatMoney = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 });
+      const formatQty = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 });
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"];
+
+      const deptToggle = document.getElementById("deptToggle");
+      const deptPanel = document.getElementById("deptPanel");
+      const deptOptions = document.getElementById("deptOptions");
+      const deptAll = document.getElementById("deptAll");
+      const deptNone = document.getElementById("deptNone");
+      const storeToggle = document.getElementById("storeToggle");
+      const storePanel = document.getElementById("storePanel");
+      const storeOptions = document.getElementById("storeOptions");
+      const storeAll = document.getElementById("storeAll");
+      const storeNone = document.getElementById("storeNone");
+      const yearToggle = document.getElementById("yearToggle");
+      const yearPanel = document.getElementById("yearPanel");
+      const yearOptions = document.getElementById("yearOptions");
+      const yearAll = document.getElementById("yearAll");
+      const yearNone = document.getElementById("yearNone");
+      const monthToggle = document.getElementById("monthToggle");
+      const monthPanel = document.getElementById("monthPanel");
+      const monthOptions = document.getElementById("monthOptions");
+      const monthAll = document.getElementById("monthAll");
+      const monthNone = document.getElementById("monthNone");
+      const selectedInfo = document.getElementById("selectedInfo");
+      const storeTrendEmpty = document.getElementById("storeTrendEmpty");
+      const storeTrendSvg = document.getElementById("storeTrendSvg");
+      const storeTrendLegend = document.getElementById("storeTrendLegend");
+
+      const fallbackMonth = String(data.report_month || "");
+      const fallbackYear = fallbackMonth.slice(0, 4);
+      const fallbackMonthNumber = Number(fallbackMonth.slice(5, 7)) || 1;
+      const riskState = { activeKey: "negative_margin" };
+
+      function esc(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;");
+      }
+
+      function toNumber(value) {
+        const n = Number(value);
+        return Number.isFinite(n) ? n : 0;
+      }
+
+      function pct(part, total) {
+        if (!Number.isFinite(part) || !Number.isFinite(total) || total === 0) return 0;
+        return (part / total) * 100;
+      }
+
+      function monthLabel(monthNumber) {
+        const n = Number(monthNumber);
+        if (!Number.isFinite(n) || n < 1 || n > 12) return String(monthNumber);
+        return String(n).padStart(2, "0") + " " + monthNames[n - 1];
+      }
+
+      function reportMonthLabel(reportMonth) {
+        const text = String(reportMonth || "");
+        if (text.length < 7) return text;
+        const year = text.slice(0, 4);
+        const month = Number(text.slice(5, 7));
+        return monthLabel(month) + " " + year;
+      }
+
+      function normalizeRows(rows, defaultMonth) {
+        const defaultMonthText = String(defaultMonth || fallbackMonth);
+        const defaultYear = defaultMonthText.slice(0, 4) || fallbackYear;
+        const defaultMonthNum = Number(defaultMonthText.slice(5, 7)) || fallbackMonthNumber;
+        return (rows || []).map((row) => {
+          const reportMonth = String(row.report_month || defaultMonthText);
+          const reportYear = String(row.report_year || reportMonth.slice(0, 4) || defaultYear);
+          const reportMonthNumber = Number(row.report_month_number || Number(reportMonth.slice(5, 7)) || defaultMonthNum);
+          return {
+            ...row,
+            report_month: reportMonth,
+            report_year: reportYear,
+            report_month_number: reportMonthNumber,
+          };
+        });
+      }
+
+      const historyRows = normalizeRows(
+        (data.time_store_department_breakdown && data.time_store_department_breakdown.length > 0)
+          ? data.time_store_department_breakdown
+          : (data.store_department_breakdown || []),
+        fallbackMonth
+      );
+      const marginRiskRows = normalizeRows(
+        (data.time_margin_risk_items_top_n && data.time_margin_risk_items_top_n.length > 0)
+          ? data.time_margin_risk_items_top_n
+          : (data.margin_risk_items_top_n || []),
+        fallbackMonth
+      );
+      const returnRiskRows = normalizeRows(
+        (data.time_return_risk_items_top_n && data.time_return_risk_items_top_n.length > 0)
+          ? data.time_return_risk_items_top_n
+          : (data.return_risk_items_top_n || []),
+        fallbackMonth
+      );
+      const lowMarginRows = normalizeRows(
+        (data.time_low_margin_high_sales_top_n && data.time_low_margin_high_sales_top_n.length > 0)
+          ? data.time_low_margin_high_sales_top_n
+          : (data.low_margin_high_sales_top_n || []),
+        fallbackMonth
+      );
+
+      const allDepartments = (data.available_departments && data.available_departments.length > 0)
+        ? data.available_departments.map((value) => String(value)).filter((value) => value.length > 0)
+        : Array.from(new Set(historyRows.map((row) => String(row.avdelning || "")).filter((value) => value.length > 0))).sort();
+      const allStores = (data.available_stores && data.available_stores.length > 0)
+        ? data.available_stores.map((value) => String(value)).filter((value) => value.length > 0)
+        : Array.from(new Set(historyRows.map((row) => String(row.filial || "")).filter((value) => value.length > 0))).sort();
+      const allYears = (data.available_report_years && data.available_report_years.length > 0)
+        ? data.available_report_years.map((value) => String(value)).filter((value) => value.length > 0)
+        : Array.from(new Set(historyRows.map((row) => String(row.report_year || "")).filter((value) => value.length > 0))).sort();
+      const allMonthNumbers = (data.available_month_numbers && data.available_month_numbers.length > 0)
+        ? data.available_month_numbers.map((value) => Number(value)).filter((value) => Number.isFinite(value)).sort((a, b) => a - b)
+        : Array.from(new Set(historyRows.map((row) => Number(row.report_month_number)).filter((value) => Number.isFinite(value)))).sort((a, b) => a - b);
+
+      const selectedDepartments = new Set(allDepartments);
+      const selectedStores = new Set(allStores);
+      const selectedYears = new Set(allYears);
+      const selectedMonthNumbers = new Set(allMonthNumbers);
+
+      function fmtMoney(value) { return formatMoney.format(toNumber(value)); }
+      function fmtQty(value) { return formatQty.format(toNumber(value)); }
+      function fmtPct(value, decimals = 1) { return toNumber(value).toFixed(decimals) + "%"; }
+      function sumBy(rows, key) { return rows.reduce((acc, row) => acc + toNumber(row[key]), 0); }
+
+      function aggregateBy(rows, key, valueKey) {
+        const totals = new Map();
+        for (const row of rows) {
+          const group = String(row[key] || "Okand");
+          totals.set(group, (totals.get(group) || 0) + toNumber(row[valueKey]));
+        }
+        return Array.from(totals.entries()).map(([name, total]) => ({ name, total }));
+      }
+
+      function aggregateStoreOrDepartment(rows, key) {
+        const byKey = new Map();
+        for (const row of rows) {
+          const name = String(row[key] || "Okand");
+          const current = byKey.get(name) || {
+            name: name,
+            net_sales: 0,
+            gross_profit: 0,
+            units_sold: 0,
+            estimated_stock_value: 0,
+          };
+          current.net_sales += toNumber(row.net_sales);
+          current.gross_profit += toNumber(row.gross_profit);
+          current.units_sold += toNumber(row.units_sold);
+          current.estimated_stock_value += toNumber(row.estimated_stock_value);
+          byKey.set(name, current);
+        }
+        return Array.from(byKey.values());
+      }
+
+      function aggregateArticles(rows, sortKey, ascending) {
+        const grouped = new Map();
+        for (const row of rows) {
+          const avdelning = String(row.avdelning || "Okand");
+          const artnr = String(row.artnr || "");
+          const varutext = String(row.varutext || "");
+          const key = avdelning + "||" + artnr + "||" + varutext;
+          const current = grouped.get(key) || {
+            avdelning: avdelning,
+            artnr: artnr,
+            varutext: varutext,
+            net_sales: 0,
+            gross_profit: 0,
+            units_sold: 0,
+          };
+          current.net_sales += toNumber(row.net_sales);
+          current.gross_profit += toNumber(row.gross_profit);
+          current.units_sold += toNumber(row.units_sold);
+          grouped.set(key, current);
+        }
+        return Array.from(grouped.values())
+          .map((row) => ({
+            ...row,
+            gross_margin_percent: pct(toNumber(row.gross_profit), toNumber(row.net_sales)),
+          }))
+          .sort((a, b) => {
+            const diff = toNumber(a[sortKey]) - toNumber(b[sortKey]);
+            return ascending ? diff : -diff;
+          });
+      }
+
+      function inSelectedFilters(row) {
+        const avdelning = String(row.avdelning || "");
+        const filial = String(row.filial || "");
+        const reportYear = String(row.report_year || "");
+        const reportMonthNumber = Number(row.report_month_number);
+        return selectedDepartments.has(avdelning)
+          && selectedStores.has(filial)
+          && selectedYears.has(reportYear)
+          && selectedMonthNumbers.has(reportMonthNumber);
+      }
+
+      function inSelectedFiltersWithoutDepartment(row) {
+        const filial = String(row.filial || "");
+        const reportYear = String(row.report_year || "");
+        const reportMonthNumber = Number(row.report_month_number);
+        return selectedStores.has(filial)
+          && selectedYears.has(reportYear)
+          && selectedMonthNumbers.has(reportMonthNumber);
+      }
+
+      function getFilteredRows() {
+        return historyRows.filter((row) => inSelectedFilters(row));
+      }
+
+      function getDepartmentFilterOrder() {
+        const salesByDepartment = new Map();
+        for (const row of historyRows) {
+          if (!inSelectedFiltersWithoutDepartment(row)) continue;
+          const department = String(row.avdelning || "");
+          if (!department) continue;
+          const current = salesByDepartment.get(department) || 0;
+          salesByDepartment.set(department, current + toNumber(row.net_sales));
+        }
+        return [...allDepartments].sort((a, b) => {
+          const salesDiff = (salesByDepartment.get(b) || 0) - (salesByDepartment.get(a) || 0);
+          if (Math.abs(salesDiff) > 0.000001) return salesDiff;
+          return a.localeCompare(b, "sv");
+        });
+      }
+
+      function getUniqueReportMonths(rows) {
+        return Array.from(new Set(rows.map((row) => String(row.report_month || ""))))
+          .filter((value) => value.length > 0)
+          .sort();
+      }
+
+      function renderCheckOptions(container, values, selectedSet, dataKey, labelFn, parseValueFn) {
+        if (!container) return;
+        container.innerHTML = values.map((value) => {
+          const valueText = String(value);
+          const checked = selectedSet.has(value) ? "checked" : "";
+          return '<label class="check-row"><input type="checkbox" data-' + dataKey + '="' + esc(valueText) + '" ' + checked + ' />' + esc(labelFn(value)) + "</label>";
+        }).join("");
+        container.querySelectorAll("input[type='checkbox']").forEach((node) => {
+          node.addEventListener("change", (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLInputElement)) return;
+            const raw = target.getAttribute("data-" + dataKey) || "";
+            const parsed = parseValueFn(raw);
+            if (target.checked) selectedSet.add(parsed); else selectedSet.delete(parsed);
+            render();
+          });
+        });
+      }
+
+      function renderShareRows(containerId, rows, labelKey) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        if (rows.length === 0) {
+          container.innerHTML = '<p class="meta">Ingen data for valt urval.</p>';
+          return;
+        }
+        container.innerHTML = rows.map((row) => {
+          const salesPct = Math.max(0, Math.min(100, toNumber(row.sales_share_percent)));
+          const profitPct = Math.max(0, Math.min(100, toNumber(row.profit_share_percent)));
+          return '<div class="share-row">'
+            + '<div>' + esc(row[labelKey]) + '</div>'
+            + '<div class="bar-wrap"><div class="bar bar-sales" style="width:' + salesPct.toFixed(2) + '%"></div></div>'
+            + '<div>' + fmtPct(salesPct, 1) + '</div>'
+            + '<div class="bar-wrap"><div class="bar bar-profit" style="width:' + profitPct.toFixed(2) + '%"></div></div>'
+            + '<div>' + fmtPct(profitPct, 1) + '</div>'
+            + '</div>';
+        }).join("");
+      }
+
+      function renderStoreTrend(filteredRows) {
+        if (!storeTrendEmpty || !storeTrendSvg || !storeTrendLegend) return;
+        const months = getUniqueReportMonths(filteredRows);
+        if (months.length < 2) {
+          storeTrendEmpty.textContent = "Valj minst tva perioder for att visa grafen.";
+          storeTrendEmpty.style.display = "block";
+          storeTrendSvg.style.display = "none";
+          storeTrendSvg.innerHTML = "";
+          storeTrendLegend.innerHTML = "";
+          return;
+        }
+
+        const byStoreMonth = new Map();
+        const storeSet = new Set();
+        for (const row of filteredRows) {
+          const store = String(row.filial || "");
+          const month = String(row.report_month || "");
+          if (!store || !month) continue;
+          storeSet.add(store);
+          const key = store + "||" + month;
+          byStoreMonth.set(key, (byStoreMonth.get(key) || 0) + toNumber(row.net_sales));
+        }
+
+        const stores = Array.from(storeSet);
+        if (stores.length === 0) {
+          storeTrendEmpty.textContent = "Ingen butiksdata for valt urval.";
+          storeTrendEmpty.style.display = "block";
+          storeTrendSvg.style.display = "none";
+          storeTrendSvg.innerHTML = "";
+          storeTrendLegend.innerHTML = "";
+          return;
+        }
+
+        const series = stores.map((store) => {
+          const values = months.map((month) => toNumber(byStoreMonth.get(store + "||" + month) || 0));
+          const total = values.reduce((acc, value) => acc + value, 0);
+          return { store: store, values: values, total: total };
+        }).sort((a, b) => b.total - a.total);
+
+        let minValue = 0;
+        let maxValue = 0;
+        for (const row of series) {
+          for (const value of row.values) {
+            if (value < minValue) minValue = value;
+            if (value > maxValue) maxValue = value;
+          }
+        }
+        if (Math.abs(maxValue - minValue) < 0.000001) {
+          maxValue = minValue + 1;
+        }
+
+        const width = 760;
+        const height = 240;
+        const left = 44;
+        const right = 10;
+        const top = 12;
+        const bottom = 26;
+        const plotWidth = width - left - right;
+        const plotHeight = height - top - bottom;
+        const xStep = months.length > 1 ? plotWidth / (months.length - 1) : 0;
+        const palette = ["#0284c7", "#16a34a", "#ea580c", "#7c3aed", "#0f766e", "#be123c", "#0369a1", "#4338ca"];
+
+        function xAt(index) {
+          return left + (index * xStep);
+        }
+
+        function yAt(value) {
+          return top + ((maxValue - value) / (maxValue - minValue)) * plotHeight;
+        }
+
+        const parts = [];
+        const ticks = 4;
+        for (let index = 0; index <= ticks; index += 1) {
+          const value = maxValue - ((maxValue - minValue) * index / ticks);
+          const y = yAt(value);
+          parts.push('<line x1="' + left.toFixed(2) + '" y1="' + y.toFixed(2) + '" x2="' + (left + plotWidth).toFixed(2) + '" y2="' + y.toFixed(2) + '" stroke="#e6edf7" stroke-width="1" />');
+          parts.push('<text x="' + (left - 6).toFixed(2) + '" y="' + (y + 4).toFixed(2) + '" fill="#6b7280" font-size="10" text-anchor="end">' + esc(fmtMoney(value)) + "</text>");
+        }
+
+        if (minValue < 0 && maxValue > 0) {
+          const yZero = yAt(0);
+          parts.push('<line x1="' + left.toFixed(2) + '" y1="' + yZero.toFixed(2) + '" x2="' + (left + plotWidth).toFixed(2) + '" y2="' + yZero.toFixed(2) + '" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="3 3" />');
+        }
+
+        const labelStep = months.length > 8 ? Math.ceil(months.length / 8) : 1;
+        for (let index = 0; index < months.length; index += 1) {
+          const x = xAt(index);
+          if (index % labelStep === 0 || index === months.length - 1) {
+            parts.push('<text x="' + x.toFixed(2) + '" y="' + (height - 7).toFixed(2) + '" fill="#6b7280" font-size="10" text-anchor="middle">' + esc(reportMonthLabel(months[index])) + "</text>");
+          }
+        }
+
+        for (let seriesIndex = 0; seriesIndex < series.length; seriesIndex += 1) {
+          const row = series[seriesIndex];
+          const color = palette[seriesIndex % palette.length];
+          const points = row.values.map((value, valueIndex) => ({
+            x: xAt(valueIndex),
+            y: yAt(value),
+          }));
+          const path = points.map((point, pointIndex) =>
+            (pointIndex === 0 ? "M" : "L") + point.x.toFixed(2) + "," + point.y.toFixed(2)
+          ).join(" ");
+          parts.push('<path d="' + path + '" fill="none" stroke="' + color + '" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />');
+          const lastPoint = points[points.length - 1];
+          if (lastPoint) {
+            parts.push('<circle cx="' + lastPoint.x.toFixed(2) + '" cy="' + lastPoint.y.toFixed(2) + '" r="2.8" fill="' + color + '" />');
+          }
+        }
+
+        storeTrendEmpty.style.display = "none";
+        storeTrendSvg.style.display = "block";
+        storeTrendSvg.innerHTML = parts.join("");
+        storeTrendLegend.innerHTML = series.map((row, index) => {
+          const color = palette[index % palette.length];
+          return '<span class="trend-legend-item"><span class="trend-dot" style="background:' + color + '"></span>' + esc(row.store) + " (" + esc(fmtMoney(row.total)) + ")</span>";
+        }).join("");
+      }
+
+      function renderTopDepartments(rows) {
+        const tbody = document.getElementById("topDeptBody");
+        if (!tbody) return;
+        if (rows.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4">Ingen data</td></tr>';
+          return;
+        }
+        tbody.innerHTML = rows.map((row) =>
+          '<tr><td>' + esc(row.avdelning) + '</td><td>' + fmtMoney(row.net_sales) + '</td><td>' + fmtMoney(row.gross_profit) + '</td><td>' + fmtPct(row.gross_margin_percent, 2) + '</td></tr>'
+        ).join("");
+      }
+
+      function renderLowMargin(rows) {
+        const tbody = document.getElementById("lowMarginBody");
+        if (!tbody) return;
+        if (rows.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4">Ingen data</td></tr>';
+          return;
+        }
+        tbody.innerHTML = rows.map((row) =>
+          '<tr><td>' + esc(row.avdelning) + '</td><td>' + esc(row.varutext || row.artnr) + '</td><td>' + fmtMoney(row.net_sales) + '</td><td>' + fmtPct(row.gross_margin_percent, 2) + '</td></tr>'
+        ).join("");
+      }
+
+      function renderRiskAnalysis(metrics, filteredDepartments) {
+        const container = document.getElementById("riskAnalysis");
+        if (!container) return;
+        if (filteredDepartments.length === 0) {
+          container.innerHTML = '<h3>Snabbanalys</h3><p class="meta">Valj minst en avdelning for att se riskanalys.</p>';
+          return;
+        }
+
+        if (riskState.activeKey === "departments") {
+          const topSalesDepartments = [...metrics.departmentRows]
+            .sort((a, b) => toNumber(b.net_sales) - toNumber(a.net_sales))
+            .slice(0, 3);
+          const topList = topSalesDepartments.length === 0
+            ? '<li>Ingen data for valt urval.</li>'
+            : topSalesDepartments
+              .map((row) => '<li>' + esc(row.avdelning) + ' - Netto ' + fmtMoney(row.net_sales) + '</li>')
+              .join("");
+          container.innerHTML =
+            '<h3>Snabbanalys: valda avdelningar</h3>'
+            + '<div class="risk-kpi-grid">'
+            + '<div class="risk-kpi"><span>Valda avdelningar</span><strong>' + fmtQty(filteredDepartments.length) + '</strong></div>'
+            + '<div class="risk-kpi"><span>Netto for urval</span><strong>' + fmtMoney(metrics.totalSales) + '</strong></div>'
+            + '<div class="risk-kpi"><span>TB for urval</span><strong>' + fmtMoney(metrics.totalProfit) + '</strong></div>'
+            + '</div>'
+            + '<ul class="risk-list">' + topList + '</ul>';
+          return;
+        }
+
+        if (riskState.activeKey === "negative_margin") {
+          const rows = metrics.negativeRows;
+          const riskSales = sumBy(rows, "net_sales");
+          const riskProfit = sumBy(rows, "gross_profit");
+          const worstDepartments = aggregateBy(rows, "avdelning", "gross_profit")
+            .sort((a, b) => a.total - b.total)
+            .slice(0, 3);
+          const articleRows = aggregateArticles(rows, "gross_profit", true).slice(0, topN);
+          const deptList = worstDepartments.length === 0
+            ? '<li>Ingen negativ marginal i topp-listan for valt urval.</li>'
+            : worstDepartments
+              .map((item) => '<li>' + esc(item.name) + ' - TB ' + fmtMoney(item.total) + '</li>')
+              .join("");
+          const articleList = articleRows.length === 0
+            ? '<li>Inga riskartiklar for valt urval.</li>'
+            : articleRows
+              .map((item) =>
+                '<li>' + esc(item.avdelning) + ' - ' + esc(item.varutext || item.artnr)
+                + ' (Netto ' + fmtMoney(item.net_sales)
+                + ', TB ' + fmtMoney(item.gross_profit) + ')</li>'
+              )
+              .join("");
+          container.innerHTML =
+            '<h3>Snabbanalys: negativ marginal</h3>'
+            + '<div class="meta">Baserad pa riskartiklar i topp-listan, filtrerad pa valda avdelningar.</div>'
+            + '<div class="risk-kpi-grid">'
+            + '<div class="risk-kpi"><span>Riskartiklar (topp)</span><strong>' + fmtQty(rows.length) + '</strong></div>'
+            + '<div class="risk-kpi"><span>Netto i risklista</span><strong>' + fmtMoney(riskSales) + '</strong></div>'
+            + '<div class="risk-kpi"><span>TB i risklista</span><strong>' + fmtMoney(riskProfit) + '</strong></div>'
+            + '</div>'
+            + '<ul class="risk-list">' + deptList + '</ul>'
+            + '<ul class="risk-list">' + articleList + '</ul>';
+          return;
+        }
+
+        if (riskState.activeKey === "net_returns") {
+          const rows = metrics.returnRows;
+          const returnSales = sumBy(rows, "net_sales");
+          const returnUnits = sumBy(rows, "units_sold");
+          const worstDepartments = aggregateBy(rows, "avdelning", "net_sales")
+            .sort((a, b) => a.total - b.total)
+            .slice(0, 3);
+          const articleRows = aggregateArticles(rows, "net_sales", true).slice(0, topN);
+          const deptList = worstDepartments.length === 0
+            ? '<li>Ingen nettoretur i topp-listan for valt urval.</li>'
+            : worstDepartments
+              .map((item) => '<li>' + esc(item.name) + ' - Netto ' + fmtMoney(item.total) + '</li>')
+              .join("");
+          const articleList = articleRows.length === 0
+            ? '<li>Inga returartiklar for valt urval.</li>'
+            : articleRows
+              .map((item) =>
+                '<li>' + esc(item.avdelning) + ' - ' + esc(item.varutext || item.artnr)
+                + ' (Netto ' + fmtMoney(item.net_sales)
+                + ', Enheter ' + fmtQty(item.units_sold) + ')</li>'
+              )
+              .join("");
+          container.innerHTML =
+            '<h3>Snabbanalys: nettoreturer</h3>'
+            + '<div class="meta">Baserad pa retur-riskartiklar i topp-listan, filtrerad pa valda avdelningar.</div>'
+            + '<div class="risk-kpi-grid">'
+            + '<div class="risk-kpi"><span>Returartiklar (topp)</span><strong>' + fmtQty(rows.length) + '</strong></div>'
+            + '<div class="risk-kpi"><span>Nettoeffekt</span><strong>' + fmtMoney(returnSales) + '</strong></div>'
+            + '<div class="risk-kpi"><span>Enheter i retur</span><strong>' + fmtQty(returnUnits) + '</strong></div>'
+            + '</div>'
+            + '<ul class="risk-list">' + deptList + '</ul>'
+            + '<ul class="risk-list">' + articleList + '</ul>';
+          return;
+        }
+
+        const ratio = metrics.tbRatio;
+        const status = ratio < 35 ? "Hog risk" : ratio < 45 ? "Bevaka" : "Stabil";
+        container.innerHTML =
+          '<h3>Snabbanalys: TB/netto-forhallande</h3>'
+          + '<div class="risk-kpi-grid">'
+          + '<div class="risk-kpi"><span>TB/netto</span><strong>' + fmtPct(ratio, 2) + '</strong></div>'
+          + '<div class="risk-kpi"><span>Status</span><strong>' + esc(status) + '</strong></div>'
+          + '<div class="risk-kpi"><span>Netto for urval</span><strong>' + fmtMoney(metrics.totalSales) + '</strong></div>'
+          + '<div class="risk-kpi"><span>TB for urval</span><strong>' + fmtMoney(metrics.totalProfit) + '</strong></div>'
+          + '</div>';
+      }
+
+      function renderRiskPills(filteredDepartments) {
+        const container = document.getElementById("riskPills");
+        if (!container) return;
+        const filteredRows = getFilteredRows();
+        const departmentRows = aggregateStoreOrDepartment(filteredRows, "avdelning").map((row) => ({
+          avdelning: row.name,
+          net_sales: row.net_sales,
+          gross_profit: row.gross_profit,
+          units_sold: row.units_sold,
+          estimated_stock_value: row.estimated_stock_value,
+        }));
+        const totalSales = sumBy(departmentRows, "net_sales");
+        const totalProfit = sumBy(departmentRows, "gross_profit");
+        const negativeRows = marginRiskRows.filter((row) => inSelectedFilters(row));
+        const returnRows = returnRiskRows.filter((row) => inSelectedFilters(row));
+        const metrics = {
+          departmentRows: departmentRows,
+          totalSales: totalSales,
+          totalProfit: totalProfit,
+          tbRatio: pct(totalProfit, totalSales),
+          negativeRows: negativeRows,
+          returnRows: returnRows,
+        };
+        const pills = [
+          { key: "departments", label: "Valda avdelningar", value: String(filteredDepartments.length) },
+          { key: "negative_margin", label: "Negativ marginal artiklar (topp)", value: String(negativeRows.length) },
+          { key: "net_returns", label: "Nettoretur artiklar (topp)", value: String(returnRows.length) },
+          { key: "tb_ratio", label: "Forhallande TB/netto", value: fmtPct(metrics.tbRatio, 2) },
+        ];
+        if (!pills.some((pill) => pill.key === riskState.activeKey)) {
+          riskState.activeKey = "negative_margin";
+        }
+        container.innerHTML = pills
+          .map((pill) => {
+            const isActive = pill.key === riskState.activeKey;
+            return '<button type="button" class="warn-pill-btn' + (isActive ? ' active' : '') + '" data-risk-key="' + esc(pill.key) + '" aria-pressed="' + (isActive ? 'true' : 'false') + '">'
+              + esc(pill.label) + ': ' + esc(pill.value)
+              + '</button>';
+          })
+          .join("");
+
+        container.querySelectorAll("button[data-risk-key]").forEach((node) => {
+          node.addEventListener("click", (event) => {
+            const target = event.currentTarget;
+            if (!(target instanceof HTMLElement)) return;
+            const key = target.getAttribute("data-risk-key") || "";
+            if (!key) return;
+            riskState.activeKey = key;
+            renderRiskPills(filteredDepartments);
+          });
+        });
+        renderRiskAnalysis(metrics, filteredDepartments);
+      }
+
+      function renderMoM(filteredRows) {
+        const card = document.getElementById("momCard");
+        if (!card) return;
+        const months = getUniqueReportMonths(filteredRows);
+        if (months.length < 2) {
+          card.style.display = "none";
+          return;
+        }
+        const currentMonth = months[months.length - 1];
+        const previousMonth = months[months.length - 2];
+        const currentRows = filteredRows.filter((row) => String(row.report_month) === currentMonth);
+        const previousRows = filteredRows.filter((row) => String(row.report_month) === previousMonth);
+
+        const currentSales = sumBy(currentRows, "net_sales");
+        const previousSales = sumBy(previousRows, "net_sales");
+        const currentProfit = sumBy(currentRows, "gross_profit");
+        const previousProfit = sumBy(previousRows, "gross_profit");
+
+        const salesDelta = currentSales - previousSales;
+        const salesDeltaPct = previousSales === 0 ? null : (salesDelta / previousSales) * 100;
+        const profitDelta = currentProfit - previousProfit;
+        const profitDeltaPct = previousProfit === 0 ? null : (profitDelta / previousProfit) * 100;
+
+        card.style.display = "block";
+        document.getElementById("momRange").textContent = previousMonth + " till " + currentMonth;
+        document.getElementById("momSalesDelta").textContent = fmtMoney(salesDelta);
+        document.getElementById("momSalesDeltaPct").textContent = salesDeltaPct === null ? "-" : fmtPct(salesDeltaPct, 2);
+        document.getElementById("momProfitDelta").textContent = fmtMoney(profitDelta);
+        document.getElementById("momProfitDeltaPct").textContent = profitDeltaPct === null ? "-" : fmtPct(profitDeltaPct, 2);
+      }
+
+      function render() {
+        const filteredRows = getFilteredRows();
+        const filteredMonths = getUniqueReportMonths(filteredRows);
+        selectedInfo.textContent =
+          selectedDepartments.size + "/" + allDepartments.length + " avd, "
+          + selectedStores.size + "/" + allStores.length + " butiker, "
+          + filteredMonths.length + " perioder";
+
+        const totalSales = sumBy(filteredRows, "net_sales");
+        const totalProfit = sumBy(filteredRows, "gross_profit");
+        const totalUnits = sumBy(filteredRows, "units_sold");
+        const totalStock = sumBy(filteredRows, "estimated_stock_value");
+
+        document.getElementById("kpiSales").textContent = fmtMoney(totalSales);
+        document.getElementById("kpiProfit").textContent = fmtMoney(totalProfit);
+        document.getElementById("kpiMargin").textContent = fmtPct(pct(totalProfit, totalSales), 2);
+        document.getElementById("kpiUnits").textContent = fmtQty(totalUnits);
+        document.getElementById("kpiStock").textContent = fmtMoney(totalStock);
+
+        const deptAgg = aggregateStoreOrDepartment(filteredRows, "avdelning");
+        const deptShare = deptAgg.map((row) => ({
+          avdelning: row.name,
+          sales_share_percent: pct(toNumber(row.net_sales), totalSales),
+          profit_share_percent: pct(toNumber(row.gross_profit), totalProfit),
+          net_sales: toNumber(row.net_sales),
+          gross_profit: toNumber(row.gross_profit),
+          gross_margin_percent: pct(toNumber(row.gross_profit), toNumber(row.net_sales)),
+          units_sold: toNumber(row.units_sold),
+          estimated_stock_value: toNumber(row.estimated_stock_value),
+        })).sort((a, b) => b.net_sales - a.net_sales);
+        renderShareRows("deptShareRows", deptShare, "avdelning");
+
+        const storeAgg = aggregateStoreOrDepartment(filteredRows, "filial").map((row) => ({
+          filial: row.name,
+          net_sales: row.net_sales,
+          gross_profit: row.gross_profit,
+        }));
+        const storeTotalSales = storeAgg.reduce((acc, row) => acc + row.net_sales, 0);
+        const storeTotalProfit = storeAgg.reduce((acc, row) => acc + row.gross_profit, 0);
+        const storeShare = storeAgg.map((row) => ({
+          filial: row.filial,
+          sales_share_percent: pct(row.net_sales, storeTotalSales),
+          profit_share_percent: pct(row.gross_profit, storeTotalProfit),
+          net_sales: row.net_sales,
+          gross_profit: row.gross_profit,
+        })).sort((a, b) => b.net_sales - a.net_sales);
+        renderShareRows("storeShareRows", storeShare, "filial");
+        renderStoreTrend(filteredRows);
+
+        renderTopDepartments(deptShare.slice(0, topN));
+        renderLowMargin(aggregateArticles(lowMarginRows.filter((row) => inSelectedFilters(row)), "net_sales", false).slice(0, topN));
+        renderRiskPills(Array.from(selectedDepartments));
+        renderMoM(filteredRows);
+      }
+
+      function closePanels() {
+        [deptPanel, storePanel, yearPanel, monthPanel].forEach((panel) => {
+          if (panel) panel.classList.remove("open");
+        });
+      }
+
+      function bindToggle(toggle, panel) {
+        if (!toggle || !panel) return;
+        toggle.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const wasOpen = panel.classList.contains("open");
+          closePanels();
+          if (!wasOpen) panel.classList.add("open");
+        });
+      }
+
+      bindToggle(deptToggle, deptPanel);
+      bindToggle(storeToggle, storePanel);
+      bindToggle(yearToggle, yearPanel);
+      bindToggle(monthToggle, monthPanel);
+
+      document.addEventListener("click", (event) => {
+        if (!(event.target instanceof Node)) return;
+        const wrappers = [
+          [deptPanel, deptToggle],
+          [storePanel, storeToggle],
+          [yearPanel, yearToggle],
+          [monthPanel, monthToggle],
+        ];
+        for (const pair of wrappers) {
+          const panel = pair[0];
+          const toggle = pair[1];
+          if (!panel || !toggle) continue;
+          if (!panel.contains(event.target) && !toggle.contains(event.target)) {
+            panel.classList.remove("open");
+          }
+        }
+      });
+
+      function setAll(selectedSet, values) {
+        selectedSet.clear();
+        values.forEach((value) => selectedSet.add(value));
+      }
+
+      function clearAll(selectedSet) {
+        selectedSet.clear();
+      }
+
+      function renderFilterOptions() {
+        const sortedDepartments = getDepartmentFilterOrder();
+        renderCheckOptions(deptOptions, sortedDepartments, selectedDepartments, "dept", (value) => value, (value) => String(value));
+        renderCheckOptions(storeOptions, allStores, selectedStores, "store", (value) => value, (value) => String(value));
+        renderCheckOptions(yearOptions, allYears, selectedYears, "year", (value) => value, (value) => String(value));
+        renderCheckOptions(monthOptions, allMonthNumbers, selectedMonthNumbers, "month", (value) => monthLabel(value), (value) => Number(value));
+      }
+
+      deptAll.addEventListener("click", () => {
+        setAll(selectedDepartments, allDepartments);
+        renderFilterOptions();
+        render();
+      });
+      deptNone.addEventListener("click", () => {
+        clearAll(selectedDepartments);
+        renderFilterOptions();
+        render();
+      });
+      storeAll.addEventListener("click", () => {
+        setAll(selectedStores, allStores);
+        renderFilterOptions();
+        render();
+      });
+      storeNone.addEventListener("click", () => {
+        clearAll(selectedStores);
+        renderFilterOptions();
+        render();
+      });
+      yearAll.addEventListener("click", () => {
+        setAll(selectedYears, allYears);
+        renderFilterOptions();
+        render();
+      });
+      yearNone.addEventListener("click", () => {
+        clearAll(selectedYears);
+        renderFilterOptions();
+        render();
+      });
+      monthAll.addEventListener("click", () => {
+        setAll(selectedMonthNumbers, allMonthNumbers);
+        renderFilterOptions();
+        render();
+      });
+      monthNone.addEventListener("click", () => {
+        clearAll(selectedMonthNumbers);
+        renderFilterOptions();
+        render();
+      });
+
+      renderFilterOptions();
+      render();
+    })();
+  </script>
+</body>
+</html>
