@@ -19,7 +19,13 @@ export default function DashboardPage() {
         </p>
       </header>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
+        <SectionCard
+          href="/apps/analytics"
+          title="Analytics"
+          description="Intern KPI-preview med snabb filtrering per avdelning."
+          status="Klar"
+        />
         <SectionCard
           href="/apps/lonsamhetskollen"
           title="Lonsamhetskollen"
