@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-02-12T11:56:48+00:00",
+  "generated_at_utc": "2026-02-12T13:55:57+00:00",
   "schema_id": "sales_monthly_curated_v1",
   "report_month": "2024-02",
-  "source_curated_file": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\curated\\sales_monthly\\v1\\report_month_2024-02\\sales_monthly_curated_v1.parquet",
+  "source_curated_file": "/home/runner/work/winjoportal/winjoportal/services/analytics/data/curated/sales_monthly/v1/report_month_2024-02/sales_monthly_curated_v1.parquet",
   "previous_month": "2024-01",
   "top_n": 10,
   "available_report_months": [
@@ -194,6 +194,15 @@
     },
     {
       "filial": "EBB_Malmo",
+      "avdelning": "Herr",
+      "net_sales": 332442.86,
+      "gross_profit": 170493.84,
+      "units_sold": 1538.0,
+      "estimated_stock_value": 1320703.75,
+      "gross_margin_percent": 51.29
+    },
+    {
+      "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "net_sales": 361757.6,
       "gross_profit": 168599.46,
@@ -218,15 +227,6 @@
       "units_sold": 556.0,
       "estimated_stock_value": 1591.6,
       "gross_margin_percent": 83.56
-    },
-    {
-      "filial": "EBB_Malmo",
-      "avdelning": "Herr",
-      "net_sales": 332442.86,
-      "gross_profit": 170493.84,
-      "units_sold": 1538.0,
-      "estimated_stock_value": 1320703.75,
-      "gross_margin_percent": 51.29
     },
     {
       "filial": "EBB_Malmo",
@@ -266,15 +266,6 @@
     },
     {
       "filial": "EBB_Helsingborg",
-      "avdelning": "Påsar & Kampanj",
-      "net_sales": 968.91,
-      "gross_profit": 787.55,
-      "units_sold": 369.0,
-      "estimated_stock_value": 6444.31,
-      "gross_margin_percent": 81.28
-    },
-    {
-      "filial": "EBB_Helsingborg",
       "avdelning": "Kem",
       "net_sales": 36525.02,
       "gross_profit": 15677.88,
@@ -293,21 +284,21 @@
     },
     {
       "filial": "EBB_Kristianstad",
-      "avdelning": "Herr",
-      "net_sales": 150326.52,
-      "gross_profit": 71620.44,
-      "units_sold": 820.0,
-      "estimated_stock_value": 683694.47,
-      "gross_margin_percent": 47.64
-    },
-    {
-      "filial": "EBB_Kristianstad",
       "avdelning": "Barn & Barnunderkläder",
       "net_sales": 46051.19,
       "gross_profit": 15986.86,
       "units_sold": 483.0,
       "estimated_stock_value": 297997.26,
       "gross_margin_percent": 34.72
+    },
+    {
+      "filial": "EBB_Kristianstad",
+      "avdelning": "Herr",
+      "net_sales": 150326.52,
+      "gross_profit": 71620.44,
+      "units_sold": 820.0,
+      "estimated_stock_value": 683694.47,
+      "gross_margin_percent": 47.64
     },
     {
       "filial": "EBB_Kristianstad",
@@ -344,6 +335,15 @@
       "units_sold": 1.0,
       "estimated_stock_value": 0.0,
       "gross_margin_percent": 9.94
+    },
+    {
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Påsar & Kampanj",
+      "net_sales": 968.91,
+      "gross_profit": 787.55,
+      "units_sold": 369.0,
+      "estimated_stock_value": 6444.31,
+      "gross_margin_percent": 81.28
     }
   ],
   "time_store_department_breakdown": [
@@ -1977,16 +1977,6 @@
       "return_row_count": 1
     },
     {
-      "filial": "EBB_Kristianstad",
-      "avdelning": "Underkläder",
-      "artnr": "6262600",
-      "varutext": "Dambaddräkt",
-      "units_sold": -1.0,
-      "net_sales": -319.96,
-      "gross_profit": -160.96,
-      "return_row_count": 1
-    },
-    {
       "filial": "EBB_Helsingborg",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "7520220G",
@@ -1994,6 +1984,16 @@
       "units_sold": -1.0,
       "net_sales": -319.96,
       "gross_profit": -171.84,
+      "return_row_count": 1
+    },
+    {
+      "filial": "EBB_Kristianstad",
+      "avdelning": "Underkläder",
+      "artnr": "6262600",
+      "varutext": "Dambaddräkt",
+      "units_sold": -1.0,
+      "net_sales": -319.96,
+      "gross_profit": -160.96,
       "return_row_count": 1
     },
     {
@@ -2100,19 +2100,6 @@
       "report_month": "2024-02",
       "report_year": "2024",
       "report_month_number": 2,
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Barn & Barnunderkläder",
-      "artnr": "7520220G",
-      "varutext": "Thermobyxa softshell 122/128-158/164",
-      "units_sold": -1.0,
-      "net_sales": -319.96,
-      "gross_profit": -171.84,
-      "return_row_count": 1
-    },
-    {
-      "report_month": "2024-02",
-      "report_year": "2024",
-      "report_month_number": 2,
       "filial": "EBB_Kristianstad",
       "avdelning": "Underkläder",
       "artnr": "6262600",
@@ -2120,6 +2107,19 @@
       "units_sold": -1.0,
       "net_sales": -319.96,
       "gross_profit": -160.96,
+      "return_row_count": 1
+    },
+    {
+      "report_month": "2024-02",
+      "report_year": "2024",
+      "report_month_number": 2,
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Barn & Barnunderkläder",
+      "artnr": "7520220G",
+      "varutext": "Thermobyxa softshell 122/128-158/164",
+      "units_sold": -1.0,
+      "net_sales": -319.96,
+      "gross_profit": -171.84,
       "return_row_count": 1
     },
     {
@@ -2269,13 +2269,13 @@
       "report_month": "2024-01",
       "report_year": "2024",
       "report_month_number": 1,
-      "filial": "EBB_Malmo",
-      "avdelning": "Dam",
-      "artnr": "VASTA4",
-      "varutext": "Dambyxa",
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Underkläder",
+      "artnr": "43201",
+      "varutext": "Damrock silk fleece",
       "units_sold": -1.0,
       "net_sales": -399.96,
-      "gross_profit": -238.51,
+      "gross_profit": -200.96,
       "return_row_count": 1
     }
   ],
@@ -2289,5 +2289,5 @@
     "gross_profit_delta_percent": 12.89,
     "units_sold_delta_percent": -3.44
   },
-  "quicklook_html_path": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\reports\\sales_monthly\\v1\\kpi_2024-02_quicklook.html"
+  "quicklook_html_path": "/home/runner/work/winjoportal/winjoportal/services/analytics/data/reports/sales_monthly/v1/kpi_2024-02_quicklook.html"
 }
