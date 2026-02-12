@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-12T21:28:58+00:00",
+  "generated_at_utc": "2026-02-12T21:44:24+00:00",
   "schema_id": "sales_monthly_curated_v1",
   "report_month": "2024-03",
   "source_curated_file": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\curated\\sales_monthly\\v1\\report_month_2024-03\\sales_monthly_curated_v1.parquet",
@@ -2551,19 +2551,6 @@
       "report_month": "2024-03",
       "report_year": "2024",
       "report_month_number": 3,
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Underkläder",
-      "artnr": "42209",
-      "varutext": "Damklänning silk fleece",
-      "units_sold": -1.0,
-      "net_sales": -319.96,
-      "gross_profit": -170.96,
-      "return_row_count": 1
-    },
-    {
-      "report_month": "2024-03",
-      "report_year": "2024",
-      "report_month_number": 3,
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "PCSILLY REVERSIBLE TIE KNIT NOOS",
@@ -2578,12 +2565,12 @@
       "report_year": "2024",
       "report_month_number": 3,
       "filial": "EBB_Helsingborg",
-      "avdelning": "Dam",
-      "artnr": "619142",
-      "varutext": "Damblus",
+      "avdelning": "Underkläder",
+      "artnr": "42209",
+      "varutext": "Damklänning silk fleece",
       "units_sold": -1.0,
-      "net_sales": -319.2,
-      "gross_profit": -180.27,
+      "net_sales": -319.96,
+      "gross_profit": -170.96,
       "return_row_count": 1
     },
     {
@@ -2597,6 +2584,19 @@
       "units_sold": -1.0,
       "net_sales": -319.2,
       "gross_profit": -194.53,
+      "return_row_count": 1
+    },
+    {
+      "report_month": "2024-03",
+      "report_year": "2024",
+      "report_month_number": 3,
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Dam",
+      "artnr": "619142",
+      "varutext": "Damblus",
+      "units_sold": -1.0,
+      "net_sales": -319.2,
+      "gross_profit": -180.27,
       "return_row_count": 1
     },
     {

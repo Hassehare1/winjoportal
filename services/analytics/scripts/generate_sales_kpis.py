@@ -146,6 +146,16 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
     .trend-legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
     .trend-dot { width: 8px; height: 8px; border-radius: 999px; display: inline-block; }
     .store-trend-empty { color: var(--muted); font-size: 12px; margin: 6px 0; }
+    .store-stock { margin-top: 10px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fbfdff; }
+    .store-stock h3 { margin: 0 0 2px 0; font-size: 14px; }
+    .store-stock .meta { margin: 0 0 6px 0; font-size: 12px; }
+    .store-stock-empty { color: var(--muted); font-size: 12px; margin: 6px 0; }
+    .stock-bars { display: grid; gap: 8px; }
+    .stock-bar-row { display: grid; grid-template-columns: 140px 1fr 90px; gap: 8px; align-items: center; font-size: 12px; }
+    .stock-bar-label { color: var(--text); font-weight: 600; }
+    .stock-bar-track { height: 10px; border-radius: 999px; background: #e7eef7; overflow: hidden; }
+    .stock-bar-fill { height: 100%; border-radius: 999px; background: #2563eb; }
+    .stock-bar-value { text-align: right; color: var(--muted); }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { padding: 8px 6px; border-bottom: 1px solid var(--line); text-align: left; }
     .risk-pills { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -162,6 +172,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
     @media (max-width: 980px) {
       .split { grid-template-columns: 1fr; }
       .share-head, .share-row { grid-template-columns: 140px 1fr 58px 1fr 58px; }
+      .stock-bar-row { grid-template-columns: 110px 1fr 80px; }
     }
   </style>
 </head>
@@ -239,6 +250,12 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           <svg id="storeTrendSvg" class="store-trend-chart" viewBox="0 0 760 240" preserveAspectRatio="none" role="img" aria-label="Forsaljning per butik over tid"></svg>
           <div id="storeTrendLegend" class="store-trend-legend"></div>
         </section>
+        <section class="store-stock">
+          <h3>Lager per butik</h3>
+          <p class="meta">Bygger pa senaste valda period (lager ackumuleras inte mellan manader).</p>
+          <p id="storeStockEmpty" class="store-stock-empty">Ingen lagerdata for valt urval.</p>
+          <div id="storeStockBars" class="stock-bars"></div>
+        </section>
       </article>
     </section>
 
@@ -310,6 +327,8 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
       const storeTrendEmpty = document.getElementById("storeTrendEmpty");
       const storeTrendSvg = document.getElementById("storeTrendSvg");
       const storeTrendLegend = document.getElementById("storeTrendLegend");
+      const storeStockEmpty = document.getElementById("storeStockEmpty");
+      const storeStockBars = document.getElementById("storeStockBars");
 
       const fallbackMonth = String(data.report_month || "");
       const fallbackYear = fallbackMonth.slice(0, 4);
@@ -337,6 +356,12 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         const n = Number(monthNumber);
         if (!Number.isFinite(n) || n < 1 || n > 12) return String(monthNumber);
         return String(n).padStart(2, "0") + " " + monthNames[n - 1];
+      }
+
+      function displayStoreName(value) {
+        const raw = String(value || "");
+        const withoutPrefix = raw.replace(/^EBB_/i, "");
+        return withoutPrefix.replaceAll("_", " ").trim() || raw;
       }
 
       function reportMonthLabel(reportMonth) {
@@ -518,6 +543,11 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           .sort();
       }
 
+      function getLatestReportMonth(rows) {
+        const months = getUniqueReportMonths(rows);
+        return months.length === 0 ? null : months[months.length - 1];
+      }
+
       function renderCheckOptions(container, values, selectedSet, dataKey, labelFn, parseValueFn) {
         if (!container) return;
         container.innerHTML = values.map((value) => {
@@ -547,8 +577,10 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         container.innerHTML = rows.map((row) => {
           const salesPct = Math.max(0, Math.min(100, toNumber(row.sales_share_percent)));
           const profitPct = Math.max(0, Math.min(100, toNumber(row.profit_share_percent)));
+          const rawLabel = String(row[labelKey] || "");
+          const label = labelKey === "filial" ? displayStoreName(rawLabel) : rawLabel;
           return '<div class="share-row">'
-            + '<div>' + esc(row[labelKey]) + '</div>'
+            + '<div>' + esc(label) + '</div>'
             + '<div class="bar-wrap"><div class="bar bar-sales" style="width:' + salesPct.toFixed(2) + '%"></div></div>'
             + '<div>' + fmtPct(salesPct, 1) + '</div>'
             + '<div class="bar-wrap"><div class="bar bar-profit" style="width:' + profitPct.toFixed(2) + '%"></div></div>'
@@ -671,7 +703,45 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         storeTrendSvg.innerHTML = parts.join("");
         storeTrendLegend.innerHTML = series.map((row, index) => {
           const color = palette[index % palette.length];
-          return '<span class="trend-legend-item"><span class="trend-dot" style="background:' + color + '"></span>' + esc(row.store) + " (" + esc(fmtMoney(row.total)) + ")</span>";
+          return '<span class="trend-legend-item"><span class="trend-dot" style="background:' + color + '"></span>' + esc(displayStoreName(row.store)) + " (" + esc(fmtMoney(row.total)) + ")</span>";
+        }).join("");
+      }
+
+      function renderStoreStockBars(filteredRows) {
+        if (!storeStockEmpty || !storeStockBars) return;
+        const latestMonth = getLatestReportMonth(filteredRows);
+        if (!latestMonth) {
+          storeStockEmpty.textContent = "Ingen lagerdata for valt urval.";
+          storeStockEmpty.style.display = "block";
+          storeStockBars.innerHTML = "";
+          return;
+        }
+
+        const latestRows = filteredRows.filter((row) => String(row.report_month || "") === latestMonth);
+        const storeStocks = aggregateStoreOrDepartment(latestRows, "filial")
+          .map((row) => ({
+            filial: row.name,
+            estimated_stock_value: Math.max(0, toNumber(row.estimated_stock_value)),
+          }))
+          .sort((a, b) => b.estimated_stock_value - a.estimated_stock_value);
+
+        if (storeStocks.length === 0) {
+          storeStockEmpty.textContent = "Ingen lagerdata i senaste valda period.";
+          storeStockEmpty.style.display = "block";
+          storeStockBars.innerHTML = "";
+          return;
+        }
+
+        const maxStock = Math.max(...storeStocks.map((row) => row.estimated_stock_value), 1);
+        storeStockEmpty.textContent = "Senaste valda period: " + reportMonthLabel(latestMonth);
+        storeStockEmpty.style.display = "block";
+        storeStockBars.innerHTML = storeStocks.map((row) => {
+          const width = Math.max(0, Math.min(100, (row.estimated_stock_value / maxStock) * 100));
+          return '<div class="stock-bar-row">'
+            + '<div class="stock-bar-label">' + esc(displayStoreName(row.filial)) + '</div>'
+            + '<div class="stock-bar-track"><div class="stock-bar-fill" style="width:' + width.toFixed(2) + '%"></div></div>'
+            + '<div class="stock-bar-value">' + esc(fmtMoney(row.estimated_stock_value)) + '</div>'
+            + '</div>';
         }).join("");
       }
 
@@ -905,7 +975,11 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         const totalSales = sumBy(filteredRows, "net_sales");
         const totalProfit = sumBy(filteredRows, "gross_profit");
         const totalUnits = sumBy(filteredRows, "units_sold");
-        const totalStock = sumBy(filteredRows, "estimated_stock_value");
+        const latestMonth = getLatestReportMonth(filteredRows);
+        const stockRows = latestMonth
+          ? filteredRows.filter((row) => String(row.report_month || "") === latestMonth)
+          : [];
+        const totalStock = sumBy(stockRows, "estimated_stock_value");
 
         document.getElementById("kpiSales").textContent = fmtMoney(totalSales);
         document.getElementById("kpiProfit").textContent = fmtMoney(totalProfit);
@@ -942,6 +1016,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         })).sort((a, b) => b.net_sales - a.net_sales);
         renderShareRows("storeShareRows", storeShare, "filial");
         renderStoreTrend(filteredRows);
+        renderStoreStockBars(filteredRows);
 
         renderTopDepartments(deptShare.slice(0, topN));
         renderLowMargin(aggregateArticles(lowMarginRows.filter((row) => inSelectedFilters(row)), "net_sales", false).slice(0, topN));
@@ -1000,7 +1075,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
       function renderFilterOptions() {
         const sortedDepartments = getDepartmentFilterOrder();
         renderCheckOptions(deptOptions, sortedDepartments, selectedDepartments, "dept", (value) => value, (value) => String(value));
-        renderCheckOptions(storeOptions, allStores, selectedStores, "store", (value) => value, (value) => String(value));
+        renderCheckOptions(storeOptions, allStores, selectedStores, "store", (value) => displayStoreName(value), (value) => String(value));
         renderCheckOptions(yearOptions, allYears, selectedYears, "year", (value) => value, (value) => String(value));
         renderCheckOptions(monthOptions, allMonthNumbers, selectedMonthNumbers, "month", (value) => monthLabel(value), (value) => Number(value));
       }
