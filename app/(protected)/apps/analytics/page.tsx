@@ -65,12 +65,6 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
             </button>
           </form>
 
-          {snapshot.usingFallback ? (
-            <article className="rounded-xl border border-sky-200 bg-sky-50 p-4 text-sm text-sky-900">
-              Visar inbyggd fallback-preview ({snapshot.selectedMonth}). Kor analytics-pipelinen och deploya om for live-data.
-            </article>
-          ) : null}
-
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <article className="rounded-xl border border-slate-200 bg-white p-4">
               <p className="text-xs text-slate-500">Nettoforsaljning</p>
@@ -90,15 +84,7 @@ export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps
             </article>
           </div>
 
-          {snapshot.quicklookHtml ? (
-            <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card">
-              <iframe
-                title={`KPI quicklook ${snapshot.selectedMonth}`}
-                srcDoc={snapshot.quicklookHtml}
-                className="h-[1100px] w-full border-0"
-              />
-            </div>
-          ) : snapshot.quicklookPath && snapshot.quicklookPath.startsWith("/analytics/") ? (
+          {snapshot.quicklookPath && snapshot.quicklookPath.startsWith("/analytics/") ? (
             <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-card">
               <iframe
                 title={`KPI quicklook ${snapshot.selectedMonth}`}

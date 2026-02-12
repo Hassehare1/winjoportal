@@ -7,5 +7,4 @@ Krav:
 Flode:
 1) Lagg in ny .xlsx i services/analytics/input/
 2) Tryck "Hamta data" i portalen eller kor GitHub Action manuellt
-3) Workflow bygger KPI och uppdaterar features/analytics/assets/
-
+3) Workflow bygger KPI och uppdaterar public/analytics/

@@ -179,8 +179,26 @@ def main() -> None:
     for file_info in files_to_consider:
         path: Path = file_info["path"]
         key = normalize_state_path_key(path)
-        checksum = file_sha256(path)
         previous = state["files"].get(key, {})
+
+        same_month = previous.get("report_month") == file_info["report_month"]
+        same_size = previous.get("size_bytes") == file_info["size_bytes"]
+        same_mtime = (
+            previous.get("modified_at_epoch") == file_info["modified_at_epoch"]
+            or previous.get("modified_at_utc") == file_info["modified_at_utc"]
+        )
+
+        # Fast-path: unchanged by file metadata, avoid expensive checksum read.
+        if same_month and same_size and same_mtime:
+            unchanged.append(
+                {
+                    "file": str(path),
+                    "report_month": file_info["report_month"],
+                }
+            )
+            continue
+
+        checksum = file_sha256(path)
 
         if previous.get("sha256") == checksum and previous.get("report_month") == file_info["report_month"]:
             unchanged.append(
@@ -217,6 +235,7 @@ def main() -> None:
                 "sha256": checksum,
                 "size_bytes": file_info["size_bytes"],
                 "modified_at_utc": file_info["modified_at_utc"],
+                "modified_at_epoch": file_info["modified_at_epoch"],
                 "ingested_at_utc": utc_now_iso(),
                 "rows_loaded": report["totals"].get("rows_loaded", 0),
                 "parquet_path": str(parquet_path),

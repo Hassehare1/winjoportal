@@ -1,5 +1,50 @@
 {
+  "generated_at_utc": "2026-02-12T21:11:38+00:00",
+  "input_signature": "db7d06d84d4c59ac031a0b001cdf29a642187424e7dd0239983624b94641172a",
   "months": [
+    "2024-01",
     "2024-02"
-  ]
+  ],
+  "reports": {
+    "2024-01": {
+      "report_month": "2024-01",
+      "summary": {
+        "report_month": "2024-01",
+        "net_sales": 3262091.87,
+        "gross_profit": 1443645.88,
+        "gross_margin_percent": 44.26,
+        "units_sold": 26442.0,
+        "estimated_stock_value": 9017737.56,
+        "store_count": 3,
+        "department_count": 7,
+        "sku_count": 2320,
+        "return_row_count": 37,
+        "negative_margin_row_count": 661,
+        "negative_margin_sales": 107547.92,
+        "net_return_sales": -15630.94
+      },
+      "json_path": "/analytics/kpi_2024-01.json",
+      "quicklook_path": "/analytics/kpi_2024-01_quicklook.html"
+    },
+    "2024-02": {
+      "report_month": "2024-02",
+      "summary": {
+        "report_month": "2024-02",
+        "net_sales": 3370489.65,
+        "gross_profit": 1629800.36,
+        "gross_margin_percent": 48.36,
+        "units_sold": 25532.0,
+        "estimated_stock_value": 9475804.81,
+        "store_count": 3,
+        "department_count": 8,
+        "sku_count": 2251,
+        "return_row_count": 20,
+        "negative_margin_row_count": 487,
+        "negative_margin_sales": 70964.7,
+        "net_return_sales": -7829.46
+      },
+      "json_path": "/analytics/kpi_2024-02.json",
+      "quicklook_path": "/analytics/kpi_2024-02_quicklook.html"
+    }
+  }
 }
