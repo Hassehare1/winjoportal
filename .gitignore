@@ -18,8 +18,14 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 dev-server.log
+*.log
 
 # misc
 .DS_Store
+.vscode/
 coverage
 generated/build-meta.json
+services/analytics/.venv/
+services/analytics/data/
+__pycache__/
+*.py[cod]
