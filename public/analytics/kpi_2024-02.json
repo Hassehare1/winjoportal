@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-13T10:14:16+00:00",
+  "generated_at_utc": "2026-02-13T10:23:14+00:00",
   "schema_id": "sales_monthly_curated_v1",
   "report_month": "2024-02",
   "source_curated_file": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\curated\\sales_monthly\\v1\\report_month_2024-02\\sales_monthly_curated_v1.parquet",
@@ -2317,20 +2317,6 @@
       "report_month": "2024-02",
       "report_year": "2024",
       "report_month_number": 2,
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Barn & Barnunderkläder",
-      "artnr": "7520220G",
-      "ean": "8262475",
-      "varutext": "Thermobyxa softshell 122/128-158/164",
-      "units_sold": -1.0,
-      "net_sales": -319.96,
-      "gross_profit": -171.84,
-      "return_row_count": 1
-    },
-    {
-      "report_month": "2024-02",
-      "report_year": "2024",
-      "report_month_number": 2,
       "filial": "EBB_Kristianstad",
       "avdelning": "Underkläder",
       "artnr": "6262600",
@@ -2339,6 +2325,20 @@
       "units_sold": -1.0,
       "net_sales": -319.96,
       "gross_profit": -160.96,
+      "return_row_count": 1
+    },
+    {
+      "report_month": "2024-02",
+      "report_year": "2024",
+      "report_month_number": 2,
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Barn & Barnunderkläder",
+      "artnr": "7520220G",
+      "ean": "8262475",
+      "varutext": "Thermobyxa softshell 122/128-158/164",
+      "units_sold": -1.0,
+      "net_sales": -319.96,
+      "gross_profit": -171.84,
       "return_row_count": 1
     },
     {
@@ -2500,13 +2500,13 @@
       "report_year": "2024",
       "report_month_number": 1,
       "filial": "EBB_Malmo",
-      "avdelning": "Dam",
-      "artnr": "VASTA4",
-      "ean": "8198757",
-      "varutext": "Dambyxa",
+      "avdelning": "Herr",
+      "artnr": "JORSNOWBALL KNIT CREW NECK",
+      "ean": "8498604",
+      "varutext": "Herrtröja stickad x-mas",
       "units_sold": -1.0,
       "net_sales": -399.96,
-      "gross_profit": -238.51,
+      "gross_profit": -241.65,
       "return_row_count": 1
     }
   ],
