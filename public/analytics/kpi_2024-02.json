@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-12T21:44:23+00:00",
+  "generated_at_utc": "2026-02-13T09:35:27+00:00",
   "schema_id": "sales_monthly_curated_v1",
   "report_month": "2024-02",
   "source_curated_file": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\curated\\sales_monthly\\v1\\report_month_2024-02\\sales_monthly_curated_v1.parquet",
@@ -45,7 +45,9 @@
     "gross_profit": 1629800.36,
     "gross_margin_percent": 48.36,
     "units_sold": 25532.0,
+    "stock_units": 144253.0,
     "estimated_stock_value": 9475804.81,
+    "stock_margin_value": 5319887.91,
     "store_count": 3,
     "department_count": 8,
     "sku_count": 2251,
@@ -168,119 +170,13 @@
   "store_department_breakdown": [
     {
       "filial": "EBB_Helsingborg",
-      "avdelning": "Herr",
-      "net_sales": 184486.43,
-      "gross_profit": 91987.21,
-      "units_sold": 923.0,
-      "estimated_stock_value": 734276.26,
-      "gross_margin_percent": 49.86
-    },
-    {
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Underkläder",
-      "net_sales": 277807.31,
-      "gross_profit": 131442.03,
-      "units_sold": 2785.0,
-      "estimated_stock_value": 616002.71,
-      "gross_margin_percent": 47.31
-    },
-    {
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Barn & Barnunderkläder",
-      "net_sales": 57543.04,
-      "gross_profit": 23521.04,
-      "units_sold": 718.0,
-      "estimated_stock_value": 221307.41,
-      "gross_margin_percent": 40.88
-    },
-    {
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Påsar & Kampanj",
-      "net_sales": 968.91,
-      "gross_profit": 787.55,
-      "units_sold": 369.0,
-      "estimated_stock_value": 6444.31,
-      "gross_margin_percent": 81.28
-    },
-    {
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Kem",
-      "net_sales": 36525.02,
-      "gross_profit": 15677.88,
-      "units_sold": 1185.0,
-      "estimated_stock_value": 84124.61,
-      "gross_margin_percent": 42.92
-    },
-    {
-      "filial": "EBB_Kristianstad",
-      "avdelning": "Underkläder",
-      "net_sales": 206169.32,
-      "gross_profit": 99921.3,
-      "units_sold": 2050.0,
-      "estimated_stock_value": 666418.62,
-      "gross_margin_percent": 48.47
-    },
-    {
-      "filial": "EBB_Kristianstad",
-      "avdelning": "Herr",
-      "net_sales": 150326.52,
-      "gross_profit": 71620.44,
-      "units_sold": 820.0,
-      "estimated_stock_value": 683694.47,
-      "gross_margin_percent": 47.64
-    },
-    {
-      "filial": "EBB_Kristianstad",
-      "avdelning": "Barn & Barnunderkläder",
-      "net_sales": 46051.19,
-      "gross_profit": 15986.86,
-      "units_sold": 483.0,
-      "estimated_stock_value": 297997.26,
-      "gross_margin_percent": 34.72
-    },
-    {
-      "filial": "EBB_Kristianstad",
-      "avdelning": "Påsar & Kampanj",
-      "net_sales": 873.77,
-      "gross_profit": 634.15,
-      "units_sold": 325.0,
-      "estimated_stock_value": 9321.95,
-      "gross_margin_percent": 72.58
-    },
-    {
-      "filial": "EBB_Kristianstad",
-      "avdelning": "Kem",
-      "net_sales": 11498.66,
-      "gross_profit": 3401.76,
-      "units_sold": 486.0,
-      "estimated_stock_value": 28435.91,
-      "gross_margin_percent": 29.58
-    },
-    {
-      "filial": "EBB_Malmo",
-      "avdelning": "Dam",
-      "net_sales": 772661.6,
-      "gross_profit": 394328.74,
-      "units_sold": 3466.0,
-      "estimated_stock_value": 1495740.41,
-      "gross_margin_percent": 51.04
-    },
-    {
-      "filial": "EBB_Malmo",
-      "avdelning": "Katalog nummer / Avdelning saknas",
-      "net_sales": 31.98,
-      "gross_profit": 3.18,
-      "units_sold": 1.0,
-      "estimated_stock_value": 0.0,
-      "gross_margin_percent": 9.94
-    },
-    {
-      "filial": "EBB_Helsingborg",
       "avdelning": "Dam",
       "net_sales": 492000.71,
       "gross_profit": 238241.57,
       "units_sold": 2362.0,
+      "stock_units": 12537.0,
       "estimated_stock_value": 1278118.81,
+      "stock_margin_value": 590363.46,
       "gross_margin_percent": 48.42
     },
     {
@@ -289,7 +185,9 @@
       "net_sales": 301435.09,
       "gross_profit": 144276.01,
       "units_sold": 1450.0,
+      "stock_units": 8643.0,
       "estimated_stock_value": 875767.58,
+      "stock_margin_value": 253092.06,
       "gross_margin_percent": 47.86
     },
     {
@@ -298,7 +196,9 @@
       "net_sales": 91681.18,
       "gross_profit": 37005.88,
       "units_sold": 1158.0,
+      "stock_units": 7787.0,
       "estimated_stock_value": 341105.43,
+      "stock_margin_value": 237741.72,
       "gross_margin_percent": 40.36
     },
     {
@@ -307,7 +207,9 @@
       "net_sales": 361757.6,
       "gross_profit": 168599.46,
       "units_sold": 3871.0,
+      "stock_units": 16870.0,
       "estimated_stock_value": 665586.2,
+      "stock_margin_value": 672933.2,
       "gross_margin_percent": 46.61
     },
     {
@@ -316,7 +218,9 @@
       "net_sales": 45007.67,
       "gross_profit": 20880.67,
       "units_sold": 986.0,
+      "stock_units": 5332.0,
       "estimated_stock_value": 149167.52,
+      "stock_margin_value": 197351.48,
       "gross_margin_percent": 46.39
     },
     {
@@ -325,7 +229,9 @@
       "net_sales": 1398.73,
       "gross_profit": 1168.73,
       "units_sold": 556.0,
+      "stock_units": 1332.0,
       "estimated_stock_value": 1591.6,
+      "stock_margin_value": 748.34,
       "gross_margin_percent": 83.56
     },
     {
@@ -334,7 +240,9 @@
       "net_sales": 332442.86,
       "gross_profit": 170493.84,
       "units_sold": 1538.0,
+      "stock_units": 11838.0,
       "estimated_stock_value": 1320703.75,
+      "stock_margin_value": 601484.28,
       "gross_margin_percent": 51.29
     },
     {
@@ -343,8 +251,142 @@
       "net_sales": -177.94,
       "gross_profit": -177.94,
       "units_sold": 0.0,
+      "stock_units": -14.0,
       "estimated_stock_value": 0.0,
+      "stock_margin_value": 0.0,
       "gross_margin_percent": 100.0
+    },
+    {
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Herr",
+      "net_sales": 184486.43,
+      "gross_profit": 91987.21,
+      "units_sold": 923.0,
+      "stock_units": 7027.0,
+      "estimated_stock_value": 734276.26,
+      "stock_margin_value": 240318.3,
+      "gross_margin_percent": 49.86
+    },
+    {
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Underkläder",
+      "net_sales": 277807.31,
+      "gross_profit": 131442.03,
+      "units_sold": 2785.0,
+      "stock_units": 12810.0,
+      "estimated_stock_value": 616002.71,
+      "stock_margin_value": 460612.37,
+      "gross_margin_percent": 47.31
+    },
+    {
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Barn & Barnunderkläder",
+      "net_sales": 57543.04,
+      "gross_profit": 23521.04,
+      "units_sold": 718.0,
+      "stock_units": 5071.0,
+      "estimated_stock_value": 221307.41,
+      "stock_margin_value": 130831.1,
+      "gross_margin_percent": 40.88
+    },
+    {
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Påsar & Kampanj",
+      "net_sales": 968.91,
+      "gross_profit": 787.55,
+      "units_sold": 369.0,
+      "stock_units": 4410.0,
+      "estimated_stock_value": 6444.31,
+      "stock_margin_value": 1294.02,
+      "gross_margin_percent": 81.28
+    },
+    {
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Kem",
+      "net_sales": 36525.02,
+      "gross_profit": 15677.88,
+      "units_sold": 1185.0,
+      "stock_units": 4297.0,
+      "estimated_stock_value": 84124.61,
+      "stock_margin_value": 137737.55,
+      "gross_margin_percent": 42.92
+    },
+    {
+      "filial": "EBB_Kristianstad",
+      "avdelning": "Underkläder",
+      "net_sales": 206169.32,
+      "gross_profit": 99921.3,
+      "units_sold": 2050.0,
+      "stock_units": 13349.0,
+      "estimated_stock_value": 666418.62,
+      "stock_margin_value": 360492.84,
+      "gross_margin_percent": 48.47
+    },
+    {
+      "filial": "EBB_Kristianstad",
+      "avdelning": "Herr",
+      "net_sales": 150326.52,
+      "gross_profit": 71620.44,
+      "units_sold": 820.0,
+      "stock_units": 7143.0,
+      "estimated_stock_value": 683694.47,
+      "stock_margin_value": 308033.77,
+      "gross_margin_percent": 47.64
+    },
+    {
+      "filial": "EBB_Kristianstad",
+      "avdelning": "Barn & Barnunderkläder",
+      "net_sales": 46051.19,
+      "gross_profit": 15986.86,
+      "units_sold": 483.0,
+      "stock_units": 6228.0,
+      "estimated_stock_value": 297997.26,
+      "stock_margin_value": 96244.94,
+      "gross_margin_percent": 34.72
+    },
+    {
+      "filial": "EBB_Kristianstad",
+      "avdelning": "Påsar & Kampanj",
+      "net_sales": 873.77,
+      "gross_profit": 634.15,
+      "units_sold": 325.0,
+      "stock_units": 3674.0,
+      "estimated_stock_value": 9321.95,
+      "stock_margin_value": 6297.83,
+      "gross_margin_percent": 72.58
+    },
+    {
+      "filial": "EBB_Kristianstad",
+      "avdelning": "Kem",
+      "net_sales": 11498.66,
+      "gross_profit": 3401.76,
+      "units_sold": 486.0,
+      "stock_units": 2002.0,
+      "estimated_stock_value": 28435.91,
+      "stock_margin_value": 39644.17,
+      "gross_margin_percent": 29.58
+    },
+    {
+      "filial": "EBB_Malmo",
+      "avdelning": "Dam",
+      "net_sales": 772661.6,
+      "gross_profit": 394328.74,
+      "units_sold": 3466.0,
+      "stock_units": 13917.0,
+      "estimated_stock_value": 1495740.41,
+      "stock_margin_value": 984666.48,
+      "gross_margin_percent": 51.04
+    },
+    {
+      "filial": "EBB_Malmo",
+      "avdelning": "Katalog nummer / Avdelning saknas",
+      "net_sales": 31.98,
+      "gross_profit": 3.18,
+      "units_sold": 1.0,
+      "stock_units": 0.0,
+      "estimated_stock_value": 0.0,
+      "stock_margin_value": 0.0,
+      "gross_margin_percent": 9.94
     }
   ],
   "time_store_department_breakdown": [
@@ -357,7 +399,9 @@
       "net_sales": 57543.04,
       "gross_profit": 23521.04,
       "units_sold": 718.0,
-      "estimated_stock_value": 221307.41
+      "stock_units": 5071.0,
+      "estimated_stock_value": 221307.41,
+      "stock_margin_value": 130831.1
     },
     {
       "report_month": "2024-02",
@@ -368,7 +412,9 @@
       "net_sales": 492000.71,
       "gross_profit": 238241.57,
       "units_sold": 2362.0,
-      "estimated_stock_value": 1278118.81
+      "stock_units": 12537.0,
+      "estimated_stock_value": 1278118.81,
+      "stock_margin_value": 590363.46
     },
     {
       "report_month": "2024-02",
@@ -379,7 +425,9 @@
       "net_sales": 184486.43,
       "gross_profit": 91987.21,
       "units_sold": 923.0,
-      "estimated_stock_value": 734276.26
+      "stock_units": 7027.0,
+      "estimated_stock_value": 734276.26,
+      "stock_margin_value": 240318.3
     },
     {
       "report_month": "2024-02",
@@ -390,7 +438,9 @@
       "net_sales": 36525.02,
       "gross_profit": 15677.88,
       "units_sold": 1185.0,
-      "estimated_stock_value": 84124.61
+      "stock_units": 4297.0,
+      "estimated_stock_value": 84124.61,
+      "stock_margin_value": 137737.55
     },
     {
       "report_month": "2024-02",
@@ -401,7 +451,9 @@
       "net_sales": 968.91,
       "gross_profit": 787.55,
       "units_sold": 369.0,
-      "estimated_stock_value": 6444.31
+      "stock_units": 4410.0,
+      "estimated_stock_value": 6444.31,
+      "stock_margin_value": 1294.02
     },
     {
       "report_month": "2024-02",
@@ -412,7 +464,9 @@
       "net_sales": 277807.31,
       "gross_profit": 131442.03,
       "units_sold": 2785.0,
-      "estimated_stock_value": 616002.71
+      "stock_units": 12810.0,
+      "estimated_stock_value": 616002.71,
+      "stock_margin_value": 460612.37
     },
     {
       "report_month": "2024-02",
@@ -423,7 +477,9 @@
       "net_sales": 46051.19,
       "gross_profit": 15986.86,
       "units_sold": 483.0,
-      "estimated_stock_value": 297997.26
+      "stock_units": 6228.0,
+      "estimated_stock_value": 297997.26,
+      "stock_margin_value": 96244.94
     },
     {
       "report_month": "2024-02",
@@ -434,7 +490,9 @@
       "net_sales": 301435.09,
       "gross_profit": 144276.01,
       "units_sold": 1450.0,
-      "estimated_stock_value": 875767.58
+      "stock_units": 8643.0,
+      "estimated_stock_value": 875767.58,
+      "stock_margin_value": 253092.06
     },
     {
       "report_month": "2024-02",
@@ -445,7 +503,9 @@
       "net_sales": 150326.52,
       "gross_profit": 71620.44,
       "units_sold": 820.0,
-      "estimated_stock_value": 683694.47
+      "stock_units": 7143.0,
+      "estimated_stock_value": 683694.47,
+      "stock_margin_value": 308033.77
     },
     {
       "report_month": "2024-02",
@@ -456,7 +516,9 @@
       "net_sales": 11498.66,
       "gross_profit": 3401.76,
       "units_sold": 486.0,
-      "estimated_stock_value": 28435.91
+      "stock_units": 2002.0,
+      "estimated_stock_value": 28435.91,
+      "stock_margin_value": 39644.17
     },
     {
       "report_month": "2024-02",
@@ -467,7 +529,9 @@
       "net_sales": 873.77,
       "gross_profit": 634.15,
       "units_sold": 325.0,
-      "estimated_stock_value": 9321.95
+      "stock_units": 3674.0,
+      "estimated_stock_value": 9321.95,
+      "stock_margin_value": 6297.83
     },
     {
       "report_month": "2024-02",
@@ -478,7 +542,9 @@
       "net_sales": 206169.32,
       "gross_profit": 99921.3,
       "units_sold": 2050.0,
-      "estimated_stock_value": 666418.62
+      "stock_units": 13349.0,
+      "estimated_stock_value": 666418.62,
+      "stock_margin_value": 360492.84
     },
     {
       "report_month": "2024-02",
@@ -489,7 +555,9 @@
       "net_sales": 91681.18,
       "gross_profit": 37005.88,
       "units_sold": 1158.0,
-      "estimated_stock_value": 341105.43
+      "stock_units": 7787.0,
+      "estimated_stock_value": 341105.43,
+      "stock_margin_value": 237741.72
     },
     {
       "report_month": "2024-02",
@@ -500,7 +568,9 @@
       "net_sales": 772661.6,
       "gross_profit": 394328.74,
       "units_sold": 3466.0,
-      "estimated_stock_value": 1495740.41
+      "stock_units": 13917.0,
+      "estimated_stock_value": 1495740.41,
+      "stock_margin_value": 984666.48
     },
     {
       "report_month": "2024-02",
@@ -511,7 +581,9 @@
       "net_sales": -177.94,
       "gross_profit": -177.94,
       "units_sold": 0.0,
-      "estimated_stock_value": 0.0
+      "stock_units": -14.0,
+      "estimated_stock_value": 0.0,
+      "stock_margin_value": 0.0
     },
     {
       "report_month": "2024-02",
@@ -522,7 +594,9 @@
       "net_sales": 332442.86,
       "gross_profit": 170493.84,
       "units_sold": 1538.0,
-      "estimated_stock_value": 1320703.75
+      "stock_units": 11838.0,
+      "estimated_stock_value": 1320703.75,
+      "stock_margin_value": 601484.28
     },
     {
       "report_month": "2024-02",
@@ -533,7 +607,9 @@
       "net_sales": 31.98,
       "gross_profit": 3.18,
       "units_sold": 1.0,
-      "estimated_stock_value": 0.0
+      "stock_units": 0.0,
+      "estimated_stock_value": 0.0,
+      "stock_margin_value": 0.0
     },
     {
       "report_month": "2024-02",
@@ -544,7 +620,9 @@
       "net_sales": 45007.67,
       "gross_profit": 20880.67,
       "units_sold": 986.0,
-      "estimated_stock_value": 149167.52
+      "stock_units": 5332.0,
+      "estimated_stock_value": 149167.52,
+      "stock_margin_value": 197351.48
     },
     {
       "report_month": "2024-02",
@@ -555,7 +633,9 @@
       "net_sales": 1398.73,
       "gross_profit": 1168.73,
       "units_sold": 556.0,
-      "estimated_stock_value": 1591.6
+      "stock_units": 1332.0,
+      "estimated_stock_value": 1591.6,
+      "stock_margin_value": 748.34
     },
     {
       "report_month": "2024-02",
@@ -566,7 +646,9 @@
       "net_sales": 361757.6,
       "gross_profit": 168599.46,
       "units_sold": 3871.0,
-      "estimated_stock_value": 665586.2
+      "stock_units": 16870.0,
+      "estimated_stock_value": 665586.2,
+      "stock_margin_value": 672933.2
     },
     {
       "report_month": "2024-01",
@@ -577,7 +659,9 @@
       "net_sales": 57760.02,
       "gross_profit": 22119.4,
       "units_sold": 721.0,
-      "estimated_stock_value": 205624.51
+      "stock_units": 4899.0,
+      "estimated_stock_value": 205624.51,
+      "stock_margin_value": 98974.07
     },
     {
       "report_month": "2024-01",
@@ -588,7 +672,9 @@
       "net_sales": 462861.25,
       "gross_profit": 194848.05,
       "units_sold": 2535.0,
-      "estimated_stock_value": 1216104.16
+      "stock_units": 11858.0,
+      "estimated_stock_value": 1216104.16,
+      "stock_margin_value": 508619.08
     },
     {
       "report_month": "2024-01",
@@ -599,7 +685,9 @@
       "net_sales": 215749.18,
       "gross_profit": 96678.67,
       "units_sold": 1161.0,
-      "estimated_stock_value": 720593.42
+      "stock_units": 6868.0,
+      "estimated_stock_value": 720593.42,
+      "stock_margin_value": 346609.3
     },
     {
       "report_month": "2024-01",
@@ -610,7 +698,9 @@
       "net_sales": 32409.96,
       "gross_profit": 13906.99,
       "units_sold": 1138.0,
-      "estimated_stock_value": 85335.05
+      "stock_units": 4276.0,
+      "estimated_stock_value": 85335.05,
+      "stock_margin_value": 122966.41
     },
     {
       "report_month": "2024-01",
@@ -621,7 +711,9 @@
       "net_sales": 955.98,
       "gross_profit": 790.64,
       "units_sold": 381.0,
-      "estimated_stock_value": 6081.1
+      "stock_units": 4353.0,
+      "estimated_stock_value": 6081.1,
+      "stock_margin_value": 1547.61
     },
     {
       "report_month": "2024-01",
@@ -632,7 +724,9 @@
       "net_sales": 309706.83,
       "gross_profit": 135444.81,
       "units_sold": 3145.0,
-      "estimated_stock_value": 602581.73
+      "stock_units": 12713.0,
+      "estimated_stock_value": 602581.73,
+      "stock_margin_value": 536745.0
     },
     {
       "report_month": "2024-01",
@@ -643,7 +737,9 @@
       "net_sales": 44566.78,
       "gross_profit": 16398.62,
       "units_sold": 459.0,
-      "estimated_stock_value": 239835.84
+      "stock_units": 5283.0,
+      "estimated_stock_value": 239835.84,
+      "stock_margin_value": 122666.09
     },
     {
       "report_month": "2024-01",
@@ -654,7 +750,9 @@
       "net_sales": 259583.94,
       "gross_profit": 111937.55,
       "units_sold": 1337.0,
-      "estimated_stock_value": 832383.29
+      "stock_units": 8034.0,
+      "estimated_stock_value": 832383.29,
+      "stock_margin_value": 241678.04
     },
     {
       "report_month": "2024-01",
@@ -665,7 +763,9 @@
       "net_sales": 160860.6,
       "gross_profit": 75387.52,
       "units_sold": 851.0,
-      "estimated_stock_value": 697186.57
+      "stock_units": 7067.0,
+      "estimated_stock_value": 697186.57,
+      "stock_margin_value": 305593.83
     },
     {
       "report_month": "2024-01",
@@ -676,7 +776,9 @@
       "net_sales": 8345.14,
       "gross_profit": 3123.64,
       "units_sold": 372.0,
-      "estimated_stock_value": 26501.49
+      "stock_units": 1972.0,
+      "estimated_stock_value": 26501.49,
+      "stock_margin_value": 38808.37
     },
     {
       "report_month": "2024-01",
@@ -687,7 +789,9 @@
       "net_sales": 703.04,
       "gross_profit": 524.19,
       "units_sold": 275.0,
-      "estimated_stock_value": 9321.95
+      "stock_units": 3674.0,
+      "estimated_stock_value": 9321.95,
+      "stock_margin_value": 2812.59
     },
     {
       "report_month": "2024-01",
@@ -698,7 +802,9 @@
       "net_sales": 226113.89,
       "gross_profit": 99935.77,
       "units_sold": 2261.0,
-      "estimated_stock_value": 638496.37
+      "stock_units": 12927.0,
+      "estimated_stock_value": 638496.37,
+      "stock_margin_value": 546244.09
     },
     {
       "report_month": "2024-01",
@@ -709,7 +815,9 @@
       "net_sales": 81946.26,
       "gross_profit": 36336.07,
       "units_sold": 961.0,
-      "estimated_stock_value": 291580.14
+      "stock_units": 6652.0,
+      "estimated_stock_value": 291580.14,
+      "stock_margin_value": 257111.37
     },
     {
       "report_month": "2024-01",
@@ -720,7 +828,9 @@
       "net_sales": 606631.67,
       "gross_profit": 276344.99,
       "units_sold": 2901.0,
-      "estimated_stock_value": 1345833.28
+      "stock_units": 12784.0,
+      "estimated_stock_value": 1345833.28,
+      "stock_margin_value": 912247.77
     },
     {
       "report_month": "2024-01",
@@ -731,7 +841,9 @@
       "net_sales": 313896.19,
       "gross_profit": 151092.64,
       "units_sold": 1641.0,
-      "estimated_stock_value": 1287674.14
+      "stock_units": 11439.0,
+      "estimated_stock_value": 1287674.14,
+      "stock_margin_value": 656479.21
     },
     {
       "report_month": "2024-01",
@@ -742,7 +854,9 @@
       "net_sales": 71.98,
       "gross_profit": 8.03,
       "units_sold": 1.0,
-      "estimated_stock_value": 0.0
+      "stock_units": 0.0,
+      "estimated_stock_value": 0.0,
+      "stock_margin_value": 0.0
     },
     {
       "report_month": "2024-01",
@@ -753,7 +867,9 @@
       "net_sales": 43959.46,
       "gross_profit": 19870.8,
       "units_sold": 1009.0,
-      "estimated_stock_value": 157721.65
+      "stock_units": 5630.0,
+      "estimated_stock_value": 157721.65,
+      "stock_margin_value": 178180.35
     },
     {
       "report_month": "2024-01",
@@ -764,7 +880,9 @@
       "net_sales": 1416.45,
       "gross_profit": 1246.19,
       "units_sold": 578.0,
-      "estimated_stock_value": 1597.4
+      "stock_units": 1332.0,
+      "estimated_stock_value": 1597.4,
+      "stock_margin_value": 659.46
     },
     {
       "report_month": "2024-01",
@@ -775,7 +893,9 @@
       "net_sales": 434553.25,
       "gross_profit": 187651.31,
       "units_sold": 4715.0,
-      "estimated_stock_value": 653285.47
+      "stock_units": 16526.0,
+      "estimated_stock_value": 653285.47,
+      "stock_margin_value": 894849.65
     }
   ],
   "store_ranking_top_n": [
@@ -867,6 +987,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VMDOFFY O-NECK NOOS",
+      "ean": "8182044",
       "varutext": "Damtröja stickad",
       "net_sales": 34224.44,
       "gross_profit": 18372.45,
@@ -877,6 +998,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VIDALO O-NECK LS KNIT TOP NOOS",
+      "ean": "8198088",
       "varutext": "Damtröja stickad",
       "net_sales": 25018.59,
       "gross_profit": 12409.32,
@@ -887,6 +1009,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "20841612689",
+      "ean": "8199999",
       "varutext": "Damjeans Brandtex",
       "net_sales": 19676.87,
       "gross_profit": 12796.87,
@@ -897,6 +1020,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Dam",
       "artnr": "VMDOFFY O-NECK NOOS",
+      "ean": "8182044",
       "varutext": "Damtröja stickad",
       "net_sales": 16808.16,
       "gross_profit": 9097.1,
@@ -907,6 +1031,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Herr",
       "artnr": "Jack & Jones T-shirt 2",
+      "ean": "8495400",
       "varutext": "Herr t-shirt Jack & Jones",
       "net_sales": 15948.45,
       "gross_profit": 9289.03,
@@ -917,6 +1042,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VMBUMPY LS SHIRT NOOS",
+      "ean": "8194393",
       "varutext": "Damblus",
       "net_sales": 15821.31,
       "gross_profit": 7956.88,
@@ -927,6 +1053,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VMEVA PANT NOOS",
+      "ean": "8182146",
       "varutext": "Dambyxa Eva",
       "net_sales": 15243.17,
       "gross_profit": 8147.67,
@@ -937,6 +1064,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VIRIL CARDIGAN NOOS",
+      "ean": "8182032",
       "varutext": "Damcardigan",
       "net_sales": 14791.69,
       "gross_profit": 5755.3,
@@ -947,6 +1075,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Dam",
       "artnr": "VMEVA PANT NOOS",
+      "ean": "8182146",
       "varutext": "Dambyxa Eva",
       "net_sales": 14746.62,
       "gross_profit": 8059.05,
@@ -957,6 +1086,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Herr",
       "artnr": "Jack & Jones T-shirt 2",
+      "ean": "8495400",
       "varutext": "Herr t-shirt Jack & Jones",
       "net_sales": 13267.9,
       "gross_profit": 7788.12,
@@ -969,6 +1099,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VMDOFFY O-NECK NOOS",
+      "ean": "8182044",
       "varutext": "Damtröja stickad",
       "net_sales": 34224.44,
       "gross_profit": 18372.45,
@@ -979,6 +1110,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "20841612689",
+      "ean": "8199999",
       "varutext": "Damjeans Brandtex",
       "net_sales": 19676.87,
       "gross_profit": 12796.87,
@@ -989,6 +1121,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VIDALO O-NECK LS KNIT TOP NOOS",
+      "ean": "8198088",
       "varutext": "Damtröja stickad",
       "net_sales": 25018.59,
       "gross_profit": 12409.32,
@@ -999,6 +1132,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Herr",
       "artnr": "Jack & Jones T-shirt 2",
+      "ean": "8495400",
       "varutext": "Herr t-shirt Jack & Jones",
       "net_sales": 15948.45,
       "gross_profit": 9289.03,
@@ -1009,6 +1143,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Dam",
       "artnr": "VMDOFFY O-NECK NOOS",
+      "ean": "8182044",
       "varutext": "Damtröja stickad",
       "net_sales": 16808.16,
       "gross_profit": 9097.1,
@@ -1019,6 +1154,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VMEVA PANT NOOS",
+      "ean": "8182146",
       "varutext": "Dambyxa Eva",
       "net_sales": 15243.17,
       "gross_profit": 8147.67,
@@ -1029,6 +1165,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Dam",
       "artnr": "VMEVA PANT NOOS",
+      "ean": "8182146",
       "varutext": "Dambyxa Eva",
       "net_sales": 14746.62,
       "gross_profit": 8059.05,
@@ -1039,6 +1176,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VMBUMPY LS SHIRT NOOS",
+      "ean": "8194393",
       "varutext": "Damblus",
       "net_sales": 15821.31,
       "gross_profit": 7956.88,
@@ -1049,6 +1187,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Herr",
       "artnr": "Jack & Jones T-shirt 2",
+      "ean": "8495400",
       "varutext": "Herr t-shirt Jack & Jones",
       "net_sales": 13267.9,
       "gross_profit": 7788.12,
@@ -1059,6 +1198,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Herr",
       "artnr": "Jack & Jones T-shirt 2",
+      "ean": "8495400",
       "varutext": "Herr t-shirt Jack & Jones",
       "net_sales": 11803.63,
       "gross_profit": 6946.94,
@@ -1071,6 +1211,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "Steve Pyjama Pants",
+      "ean": "8398572",
       "varutext": "Herr pyjamasbyxa Polo Club",
       "net_sales": 6537.05,
       "gross_profit": 2225.05,
@@ -1081,6 +1222,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "Barn t-shirt/topp 2 för 169,95",
+      "ean": "8241500",
       "varutext": "Barn t-shirt/topp med print",
       "net_sales": 5144.54,
       "gross_profit": 1327.09,
@@ -1091,6 +1233,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "Barn t-shirt/topp 49,95",
+      "ean": "8291500",
       "varutext": "Barn t-shirt/topp Name it",
       "net_sales": 3319.94,
       "gross_profit": 605.14,
@@ -1101,6 +1244,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "3p Herrboxer Muchachomalo",
+      "ean": "8398500",
       "varutext": "3P herrboxer Muchachomalo",
       "net_sales": 2951.52,
       "gross_profit": -180.0,
@@ -1111,6 +1255,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Herr",
       "artnr": "2099",
+      "ean": "8462115",
       "varutext": "Herrbyxa med resår",
       "net_sales": 2879.64,
       "gross_profit": 197.64,
@@ -1121,6 +1266,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "800002",
+      "ean": "8398157",
       "varutext": "2p damtrosa O´Neill",
       "net_sales": 2862.27,
       "gross_profit": -435.33,
@@ -1131,6 +1277,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Herr",
       "artnr": "Herrskjorta Morgan/Oscar",
+      "ean": "8482131",
       "varutext": "Herrskjorta",
       "net_sales": 2834.33,
       "gross_profit": 634.33,
@@ -1141,6 +1288,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "VIVIAN NOOS",
+      "ean": "8242427",
       "varutext": "Barnleggings",
       "net_sales": 2733.71,
       "gross_profit": 502.16,
@@ -1151,6 +1299,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "Name it kä t-shirt/topp",
+      "ean": "8241499",
       "varutext": "Name it kä t-shirt/topp med print",
       "net_sales": 2629.85,
       "gross_profit": 862.28,
@@ -1161,6 +1310,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "900002",
+      "ean": "8398159",
       "varutext": "2p herrboxer O´Neill",
       "net_sales": 2552.69,
       "gross_profit": -332.71,
@@ -1176,6 +1326,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "Steve Pyjama Pants",
+      "ean": "8398572",
       "varutext": "Herr pyjamasbyxa Polo Club",
       "net_sales": 6537.05,
       "gross_profit": 2225.05,
@@ -1189,6 +1340,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "Barn t-shirt/topp 2 för 169,95",
+      "ean": "8241500",
       "varutext": "Barn t-shirt/topp med print",
       "net_sales": 5144.54,
       "gross_profit": 1327.09,
@@ -1202,6 +1354,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "Barn t-shirt/topp 49,95",
+      "ean": "8291500",
       "varutext": "Barn t-shirt/topp Name it",
       "net_sales": 3319.94,
       "gross_profit": 605.14,
@@ -1215,6 +1368,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "3p Herrboxer Muchachomalo",
+      "ean": "8398500",
       "varutext": "3P herrboxer Muchachomalo",
       "net_sales": 2951.52,
       "gross_profit": -180.0,
@@ -1228,6 +1382,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Herr",
       "artnr": "2099",
+      "ean": "8462115",
       "varutext": "Herrbyxa med resår",
       "net_sales": 2879.64,
       "gross_profit": 197.64,
@@ -1241,6 +1396,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "800002",
+      "ean": "8398157",
       "varutext": "2p damtrosa O´Neill",
       "net_sales": 2862.27,
       "gross_profit": -435.33,
@@ -1254,6 +1410,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Herr",
       "artnr": "Herrskjorta Morgan/Oscar",
+      "ean": "8482131",
       "varutext": "Herrskjorta",
       "net_sales": 2834.33,
       "gross_profit": 634.33,
@@ -1267,6 +1424,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "VIVIAN NOOS",
+      "ean": "8242427",
       "varutext": "Barnleggings",
       "net_sales": 2733.71,
       "gross_profit": 502.16,
@@ -1280,6 +1438,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "Name it kä t-shirt/topp",
+      "ean": "8241499",
       "varutext": "Name it kä t-shirt/topp med print",
       "net_sales": 2629.85,
       "gross_profit": 862.28,
@@ -1293,6 +1452,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "900002",
+      "ean": "8398159",
       "varutext": "2p herrboxer O´Neill",
       "net_sales": 2552.69,
       "gross_profit": -332.71,
@@ -1306,6 +1466,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VIRIL CARDIGAN NOOS",
+      "ean": "8182032",
       "varutext": "Damcardigan",
       "net_sales": 11910.65,
       "gross_profit": 3200.89,
@@ -1319,6 +1480,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "900002",
+      "ean": "8398159",
       "varutext": "2p herrboxer O´Neill",
       "net_sales": 7408.32,
       "gross_profit": -341.04,
@@ -1332,6 +1494,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Underkläder",
       "artnr": "10255 Irene",
+      "ean": "8300996",
       "varutext": "Irene bygel-bh",
       "net_sales": 4732.24,
       "gross_profit": 1624.24,
@@ -1345,6 +1508,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "32983",
+      "ean": "8395110",
       "varutext": "Mette bh",
       "net_sales": 4333.2,
       "gross_profit": 1373.2,
@@ -1358,6 +1522,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VIRIL LONG CARDIGAN NOOS",
+      "ean": "8194220",
       "varutext": "Damcardigan lång",
       "net_sales": 4028.88,
       "gross_profit": 1182.0,
@@ -1371,6 +1536,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Underkläder",
       "artnr": "19700 Sanna",
+      "ean": "8341184",
       "varutext": "Sanna bygel-bh",
       "net_sales": 3927.95,
       "gross_profit": 1353.95,
@@ -1384,6 +1550,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "Barn t-shirt/topp 2 för 169,95",
+      "ean": "8241500",
       "varutext": "Barn t-shirt/topp med print",
       "net_sales": 3831.43,
       "gross_profit": 852.98,
@@ -1397,6 +1564,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "3p Herrboxer Muchachomalo",
+      "ean": "8398500",
       "varutext": "3P herrboxer Muchachomalo",
       "net_sales": 3774.78,
       "gross_profit": -726.78,
@@ -1410,6 +1578,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Herr",
       "artnr": "Monza stretch twill Black",
+      "ean": "8496166",
       "varutext": "Herrbyxa 5-ficka Black",
       "net_sales": 3676.34,
       "gross_profit": 1267.34,
@@ -1423,6 +1592,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Herr",
       "artnr": "Herrskjorta Morgan/Oscar",
+      "ean": "8482131",
       "varutext": "Herrskjorta",
       "net_sales": 3250.6,
       "gross_profit": 610.6,
@@ -1507,6 +1677,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "OBJBLAZA LE JACKET NOOS",
+      "ean": "8198529",
       "varutext": "Damjacka",
       "net_sales": -539.99,
       "gross_profit": -539.99,
@@ -1518,6 +1689,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "800002",
+      "ean": "8398157",
       "varutext": "2p damtrosa O´Neill",
       "net_sales": 2862.27,
       "gross_profit": -435.33,
@@ -1529,6 +1701,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "13209383",
+      "ean": "8297058",
       "varutext": "Barnjacka Mosanna reflex",
       "net_sales": 493.49,
       "gross_profit": -391.47,
@@ -1540,6 +1713,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Herr",
       "artnr": "JJSUPER PARKA",
+      "ean": "8495068",
       "varutext": "Herrparka Jack & Jones",
       "net_sales": -639.96,
       "gross_profit": -377.5,
@@ -1551,6 +1725,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Dam",
       "artnr": "616749 Linnea",
+      "ean": "8196345",
       "varutext": "Damjeans Linnea",
       "net_sales": 519.2,
       "gross_profit": -350.3,
@@ -1562,6 +1737,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "617735",
+      "ean": "8197272",
       "varutext": "Damtunika",
       "net_sales": 207.84,
       "gross_profit": -344.16,
@@ -1573,6 +1749,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "900002",
+      "ean": "8398159",
       "varutext": "2p herrboxer O´Neill",
       "net_sales": 2552.69,
       "gross_profit": -332.71,
@@ -1584,6 +1761,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Dam",
       "artnr": "14111G",
+      "ean": "8171106",
       "varutext": "Damjacka quiltad",
       "net_sales": 12.44,
       "gross_profit": -317.51,
@@ -1595,6 +1773,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Herr",
       "artnr": "112126006",
+      "ean": "8497120",
       "varutext": "Wrangler straight stone wash",
       "net_sales": -559.2,
       "gross_profit": -309.2,
@@ -1606,6 +1785,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "13202229 NOOS",
+      "ean": "8297064",
       "varutext": "Barnoverall Snow",
       "net_sales": 63.85,
       "gross_profit": -292.68,
@@ -1622,6 +1802,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "OBJBLAZA LE JACKET NOOS",
+      "ean": "8198529",
       "varutext": "Damjacka",
       "net_sales": -539.99,
       "gross_profit": -539.99,
@@ -1637,6 +1818,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "800002",
+      "ean": "8398157",
       "varutext": "2p damtrosa O´Neill",
       "net_sales": 2862.27,
       "gross_profit": -435.33,
@@ -1652,6 +1834,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "13209383",
+      "ean": "8297058",
       "varutext": "Barnjacka Mosanna reflex",
       "net_sales": 493.49,
       "gross_profit": -391.47,
@@ -1667,6 +1850,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Herr",
       "artnr": "JJSUPER PARKA",
+      "ean": "8495068",
       "varutext": "Herrparka Jack & Jones",
       "net_sales": -639.96,
       "gross_profit": -377.5,
@@ -1682,6 +1866,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Dam",
       "artnr": "616749 Linnea",
+      "ean": "8196345",
       "varutext": "Damjeans Linnea",
       "net_sales": 519.2,
       "gross_profit": -350.3,
@@ -1697,6 +1882,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "617735",
+      "ean": "8197272",
       "varutext": "Damtunika",
       "net_sales": 207.84,
       "gross_profit": -344.16,
@@ -1712,6 +1898,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "900002",
+      "ean": "8398159",
       "varutext": "2p herrboxer O´Neill",
       "net_sales": 2552.69,
       "gross_profit": -332.71,
@@ -1727,6 +1914,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Dam",
       "artnr": "14111G",
+      "ean": "8171106",
       "varutext": "Damjacka quiltad",
       "net_sales": 12.44,
       "gross_profit": -317.51,
@@ -1742,6 +1930,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Herr",
       "artnr": "112126006",
+      "ean": "8497120",
       "varutext": "Wrangler straight stone wash",
       "net_sales": -559.2,
       "gross_profit": -309.2,
@@ -1757,6 +1946,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "13202229 NOOS",
+      "ean": "8297064",
       "varutext": "Barnoverall Snow",
       "net_sales": 63.85,
       "gross_profit": -292.68,
@@ -1772,6 +1962,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "617735",
+      "ean": "8197272",
       "varutext": "Damtunika",
       "net_sales": 1950.51,
       "gross_profit": -2097.49,
@@ -1787,6 +1978,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "Asta2",
+      "ean": "8192015",
       "varutext": "Damkappa ull",
       "net_sales": -1918.4,
       "gross_profit": -1158.5,
@@ -1802,6 +1994,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Herr",
       "artnr": "641041234 NOOS",
+      "ean": "8451215",
       "varutext": "Herrjeans blue",
       "net_sales": 620.08,
       "gross_profit": -990.92,
@@ -1817,6 +2010,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "3p Herrboxer Muchachomalo",
+      "ean": "8398500",
       "varutext": "3P herrboxer Muchachomalo",
       "net_sales": 3774.78,
       "gross_profit": -726.78,
@@ -1832,6 +2026,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Herr",
       "artnr": "610270",
+      "ean": "8498527",
       "varutext": "Herrjacka Mel Richman",
       "net_sales": -1039.2,
       "gross_profit": -604.2,
@@ -1847,6 +2042,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Herr",
       "artnr": "2009020",
+      "ean": "8442028",
       "varutext": "Herrbyxa bomullsstretch m benficka",
       "net_sales": 349.52,
       "gross_profit": -595.48,
@@ -1862,6 +2058,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "VISHINY V-NECK LS TOP",
+      "ean": "8198722",
       "varutext": "Damtopp",
       "net_sales": -879.89,
       "gross_profit": -467.96,
@@ -1877,6 +2074,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "artnr": "800002",
+      "ean": "8398157",
       "varutext": "2p damtrosa O´Neill",
       "net_sales": 2133.2,
       "gross_profit": -422.44,
@@ -1892,6 +2090,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Herr",
       "artnr": "JCOLEAD KNIT HALFZIP",
+      "ean": "8498599",
       "varutext": "Herrtröja med halfzip",
       "net_sales": 602.68,
       "gross_profit": -418.07,
@@ -1907,6 +2106,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Herr",
       "artnr": "2008019",
+      "ean": "8442029",
       "varutext": "Herrbyxa bomullsstretch",
       "net_sales": 303.84,
       "gross_profit": -412.16,
@@ -1921,6 +2121,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Herr",
       "artnr": "JJSUPER PARKA",
+      "ean": "8495068",
       "varutext": "Herrparka Jack & Jones",
       "units_sold": -1.0,
       "net_sales": -639.96,
@@ -1931,6 +2132,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Herr",
       "artnr": "112126006",
+      "ean": "8497120",
       "varutext": "Wrangler straight stone wash",
       "units_sold": -1.0,
       "net_sales": -559.2,
@@ -1941,6 +2143,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "OBJNEBI LS TOP 131",
+      "ean": "8199075",
       "varutext": "Damtopp",
       "units_sold": -1.0,
       "net_sales": -399.96,
@@ -1951,6 +2154,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "Manny2",
+      "ean": "8198548",
       "varutext": "Damblus",
       "units_sold": -1.0,
       "net_sales": -399.95,
@@ -1961,6 +2165,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "Takari3",
+      "ean": "8198650",
       "varutext": "Damklänning",
       "units_sold": -1.0,
       "net_sales": -391.97,
@@ -1971,6 +2176,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "VIAN1",
+      "ean": "8198758",
       "varutext": "Damblus",
       "units_sold": -1.0,
       "net_sales": -383.97,
@@ -1981,6 +2187,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "7520220G",
+      "ean": "8262475",
       "varutext": "Thermobyxa softshell 122/128-158/164",
       "units_sold": -1.0,
       "net_sales": -319.96,
@@ -1991,6 +2198,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Underkläder",
       "artnr": "6262600",
+      "ean": "8398053",
       "varutext": "Dambaddräkt",
       "units_sold": -1.0,
       "net_sales": -319.96,
@@ -2001,6 +2209,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "VMFLASH MR STRAIGHT JEANS LI3102 NOOS",
+      "ean": "8199028",
       "varutext": "Damjeans",
       "units_sold": -1.0,
       "net_sales": -315.44,
@@ -2011,6 +2220,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "7911233DAM",
+      "ean": "8197345",
       "varutext": "Damjacka microfleece melerad",
       "units_sold": -1.0,
       "net_sales": -294.18,
@@ -2026,6 +2236,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Herr",
       "artnr": "JJSUPER PARKA",
+      "ean": "8495068",
       "varutext": "Herrparka Jack & Jones",
       "units_sold": -1.0,
       "net_sales": -639.96,
@@ -2039,6 +2250,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Herr",
       "artnr": "112126006",
+      "ean": "8497120",
       "varutext": "Wrangler straight stone wash",
       "units_sold": -1.0,
       "net_sales": -559.2,
@@ -2052,6 +2264,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "OBJNEBI LS TOP 131",
+      "ean": "8199075",
       "varutext": "Damtopp",
       "units_sold": -1.0,
       "net_sales": -399.96,
@@ -2065,6 +2278,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "Manny2",
+      "ean": "8198548",
       "varutext": "Damblus",
       "units_sold": -1.0,
       "net_sales": -399.95,
@@ -2078,6 +2292,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "Takari3",
+      "ean": "8198650",
       "varutext": "Damklänning",
       "units_sold": -1.0,
       "net_sales": -391.97,
@@ -2091,6 +2306,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "VIAN1",
+      "ean": "8198758",
       "varutext": "Damblus",
       "units_sold": -1.0,
       "net_sales": -383.97,
@@ -2101,22 +2317,10 @@
       "report_month": "2024-02",
       "report_year": "2024",
       "report_month_number": 2,
-      "filial": "EBB_Kristianstad",
-      "avdelning": "Underkläder",
-      "artnr": "6262600",
-      "varutext": "Dambaddräkt",
-      "units_sold": -1.0,
-      "net_sales": -319.96,
-      "gross_profit": -160.96,
-      "return_row_count": 1
-    },
-    {
-      "report_month": "2024-02",
-      "report_year": "2024",
-      "report_month_number": 2,
       "filial": "EBB_Helsingborg",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "7520220G",
+      "ean": "8262475",
       "varutext": "Thermobyxa softshell 122/128-158/164",
       "units_sold": -1.0,
       "net_sales": -319.96,
@@ -2128,8 +2332,23 @@
       "report_year": "2024",
       "report_month_number": 2,
       "filial": "EBB_Kristianstad",
+      "avdelning": "Underkläder",
+      "artnr": "6262600",
+      "ean": "8398053",
+      "varutext": "Dambaddräkt",
+      "units_sold": -1.0,
+      "net_sales": -319.96,
+      "gross_profit": -160.96,
+      "return_row_count": 1
+    },
+    {
+      "report_month": "2024-02",
+      "report_year": "2024",
+      "report_month_number": 2,
+      "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "VMFLASH MR STRAIGHT JEANS LI3102 NOOS",
+      "ean": "8199028",
       "varutext": "Damjeans",
       "units_sold": -1.0,
       "net_sales": -315.44,
@@ -2143,6 +2362,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "7911233DAM",
+      "ean": "8197345",
       "varutext": "Damjacka microfleece melerad",
       "units_sold": -1.0,
       "net_sales": -294.18,
@@ -2156,6 +2376,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "VISHINY V-NECK LS TOP",
+      "ean": "8198722",
       "varutext": "Damtopp",
       "units_sold": -3.0,
       "net_sales": -879.89,
@@ -2169,6 +2390,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "Asta2",
+      "ean": "8192015",
       "varutext": "Damkappa ull",
       "units_sold": -2.0,
       "net_sales": -1918.4,
@@ -2182,6 +2404,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "VMRIKKI WIDE PLISSE LS TOP JRS",
+      "ean": "8198743",
       "varutext": "Damtopp plisserad",
       "units_sold": -2.0,
       "net_sales": -599.92,
@@ -2195,6 +2418,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VMTINSEL LS O-NECK BLOUSE XMAS CURVE",
+      "ean": "8197116",
       "varutext": "Damtröja stickad Christmas",
       "units_sold": -2.0,
       "net_sales": -398.94,
@@ -2208,6 +2432,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Underkläder",
       "artnr": "81268BH",
+      "ean": "8394588",
       "varutext": "Dambikini",
       "units_sold": -2.0,
       "net_sales": -319.92,
@@ -2221,6 +2446,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Herr",
       "artnr": "610270",
+      "ean": "8498527",
       "varutext": "Herrjacka Mel Richman",
       "units_sold": -1.0,
       "net_sales": -1039.2,
@@ -2234,6 +2460,7 @@
       "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "21582515148",
+      "ean": "8198635",
       "varutext": "Damparka Coastline",
       "units_sold": -1.0,
       "net_sales": -779.4,
@@ -2247,6 +2474,7 @@
       "filial": "EBB_Helsingborg",
       "avdelning": "Dam",
       "artnr": "612372",
+      "ean": "8198315",
       "varutext": "Damklänning Silvia",
       "units_sold": -1.0,
       "net_sales": -479.2,
@@ -2260,6 +2488,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VMBELLA LS BOATNECK TOP",
+      "ean": "8198712",
       "varutext": "Damblus paljetter",
       "units_sold": -1.0,
       "net_sales": -439.96,
@@ -2273,6 +2502,7 @@
       "filial": "EBB_Malmo",
       "avdelning": "Dam",
       "artnr": "VASTA4",
+      "ean": "8198757",
       "varutext": "Dambyxa",
       "units_sold": -1.0,
       "net_sales": -399.96,

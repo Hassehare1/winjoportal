@@ -1,12 +1,6 @@
 import { getAnalyticsSnapshot } from "@/features/analytics/server/reports";
 import { AnalyticsRefreshButton } from "@/features/analytics/components/analytics-refresh-button";
 
-type AnalyticsPageProps = {
-  searchParams: Promise<{
-    month?: string | string[];
-  }>;
-};
-
 function formatNumber(value: number | undefined) {
   if (typeof value !== "number" || Number.isNaN(value)) {
     return "-";
@@ -21,49 +15,33 @@ function formatPercent(value: number | undefined) {
   return `${value.toFixed(2)}%`;
 }
 
-export default async function AnalyticsPage({ searchParams }: AnalyticsPageProps) {
-  const params = await searchParams;
-  const month = Array.isArray(params.month) ? params.month[0] : params.month;
-  const snapshot = getAnalyticsSnapshot(month);
+export default async function AnalyticsPage() {
+  const snapshot = getAnalyticsSnapshot(undefined);
   const summary = snapshot.report?.summary;
 
   return (
     <section className="space-y-6">
-      <header>
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-sky-700">Analytics</p>
-        <h1 className="mt-2 font-heading text-3xl font-bold text-slate-900">Intern KPI-preview</h1>
-        <p className="mt-3 max-w-3xl text-slate-600">
-          Enkel intern sida for att visa senaste KPI-quicklook med avdelningsfilter.
-        </p>
-      </header>
-
-      <AnalyticsRefreshButton />
+      <div className="grid gap-3 lg:grid-cols-[1fr_auto] lg:items-start">
+        <header>
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-sky-700">Analytics</p>
+          <h1 className="mt-2 font-heading text-3xl font-bold text-slate-900">Intern KPI-preview</h1>
+          <p className="mt-3 max-w-3xl text-slate-600">
+            Enkel intern sida for att visa senaste KPI-quicklook med avdelningsfilter.
+          </p>
+        </header>
+        <div className="lg:min-w-[300px]">
+          <AnalyticsRefreshButton compact />
+        </div>
+      </div>
 
       {snapshot.selectedMonth ? (
         <>
-          <form method="get" className="flex flex-wrap items-end gap-3 rounded-xl border border-slate-200 bg-white p-4">
-            <label htmlFor="month" className="space-y-2">
-              <span className="block text-sm font-semibold text-slate-800">Manad</span>
-              <select
-                id="month"
-                name="month"
-                defaultValue={snapshot.selectedMonth}
-                className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"
-              >
-                {snapshot.months.map((item) => (
-                  <option key={item} value={item}>
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <button
-              type="submit"
-              className="inline-flex items-center justify-center rounded-lg bg-sky-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-800"
-            >
-              Visa
-            </button>
-          </form>
+          <article className="rounded-xl border border-slate-200 bg-white px-4 py-3">
+            <p className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-500">Total senaste inlasta period</p>
+            <p className="mt-1 text-sm text-slate-700">
+              Period: <span className="font-semibold text-slate-900">{snapshot.selectedMonth}</span>
+            </p>
+          </article>
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <article className="rounded-xl border border-slate-200 bg-white p-4">

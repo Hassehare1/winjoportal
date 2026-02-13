@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
   const workflowFile = process.env.GITHUB_ANALYTICS_WORKFLOW_FILE?.trim() || "analytics-refresh.yml";
   const ref = process.env.GITHUB_ANALYTICS_WORKFLOW_REF?.trim() || "main";
   const dispatchUrl = `https://api.github.com/repos/${repo.owner}/${repo.repo}/actions/workflows/${workflowFile}/dispatches`;
+  const actionsUrl = `https://github.com/${repo.owner}/${repo.repo}/actions/workflows/${workflowFile}`;
 
   const dispatchResponse = await fetch(dispatchUrl, {
     method: "POST",
@@ -77,7 +78,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: "Kunde inte starta GitHub workflow for datahamtning.",
-        detail
+        detail,
+        actionsUrl
       },
       { status: 502 }
     );
@@ -86,9 +88,9 @@ export async function POST(request: NextRequest) {
   return NextResponse.json(
     {
       ok: true,
-      message: "Datahamtning startad. Uppdatera sidan efter att workflow-korning ar klar."
+      message: "Datahamtning startad. Uppdatera sidan efter att workflow-korning ar klar.",
+      actionsUrl
     },
     { status: 202 }
   );
 }
-

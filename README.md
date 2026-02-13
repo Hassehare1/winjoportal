@@ -103,6 +103,12 @@ npm run dev
 npm run test
 ```
 
+### 6) Synka analytics assets lokalt
+```bash
+npm run analytics:sync
+```
+Kopierar KPI JSON/HTML fran `services/analytics/data/reports/sales_monthly/v1` till `public/analytics` och uppdaterar `public/analytics/index.json`.
+
 ## Lokal setup steg-för-steg
 1. Installera Node 20+ (`node -v`).
 2. `npm install`

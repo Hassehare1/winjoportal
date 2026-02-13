@@ -11,6 +11,7 @@
     "prebuild": "node scripts/write-build-meta.mjs",
     "build": "next build",
     "start": "next start",
+    "analytics:sync": "node scripts/sync-analytics-assets.mjs",
     "lint": "eslint . --max-warnings=0",
     "test": "vitest run",
     "test:watch": "vitest"

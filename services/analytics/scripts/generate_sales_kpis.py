@@ -120,6 +120,16 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
     .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
     h1, h2 { margin: 0 0 10px 0; }
     .meta { color: var(--muted); font-size: 13px; }
+    .toolbar-sticky {
+      position: sticky;
+      top: 0;
+      z-index: 45;
+      margin: 0 -14px 10px;
+      padding: 8px 14px 10px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.92));
+      backdrop-filter: blur(2px);
+    }
     .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .btn { border: 1px solid var(--line); background: #fff; color: var(--text); border-radius: 10px; padding: 7px 10px; font-size: 13px; cursor: pointer; }
     .dropdown { position: relative; display: inline-block; }
@@ -127,6 +137,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
     .dropdown-panel.open { display: block; }
     .check-row { display: flex; gap: 8px; align-items: center; font-size: 13px; padding: 5px 4px; }
     .kpi-grid { margin-top: 10px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; }
+    .kpi-grid-secondary { margin-top: 8px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
     .kpi { border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fbfdff; }
     .kpi span { display: block; color: var(--muted); font-size: 12px; margin-bottom: 3px; }
     .kpi strong { font-size: 20px; }
@@ -138,28 +149,61 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
     .bar { height: 100%; border-radius: 999px; }
     .bar-sales { background: var(--sales); }
     .bar-profit { background: var(--profit); }
-    .store-trend { margin-top: 12px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fbfdff; }
-    .store-trend h3 { margin: 0 0 2px 0; font-size: 14px; }
-    .store-trend .meta { margin: 0 0 6px 0; font-size: 12px; }
-    .store-trend-chart { width: 100%; height: 240px; display: block; }
-    .store-trend-legend { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 8px 12px; }
-    .trend-legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+    .viz-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 12px; }
+    .viz-panel {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.07);
+    }
+    .viz-kicker {
+      display: inline-block;
+      margin: 0 0 6px 0;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #1d4ed8;
+    }
+    .viz-panel h3 { margin: 0 0 4px 0; font-size: 16px; line-height: 1.3; }
+    .viz-panel .meta { margin: 0 0 10px 0; font-size: 12px; line-height: 1.4; }
+    .chart-frame {
+      border: 1px solid #dbe7f5;
+      border-radius: 10px;
+      background: radial-gradient(circle at 20% 0%, #f5fbff, #ffffff 58%);
+      padding: 10px;
+    }
+    .store-trend { margin-top: 0; }
+    .store-trend-chart { width: 100%; height: 280px; display: block; }
+    .store-trend-legend { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 8px 10px; }
+    .trend-legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      border: 1px solid #e5edf8;
+      background: #f8fbff;
+      border-radius: 999px;
+      padding: 3px 8px;
+    }
     .trend-dot { width: 8px; height: 8px; border-radius: 999px; display: inline-block; }
     .store-trend-empty { color: var(--muted); font-size: 12px; margin: 6px 0; }
-    .store-stock { margin-top: 10px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fbfdff; }
-    .store-stock h3 { margin: 0 0 2px 0; font-size: 14px; }
-    .store-stock .meta { margin: 0 0 6px 0; font-size: 12px; }
+    .store-stock { margin-top: 0; }
     .store-stock-empty { color: var(--muted); font-size: 12px; margin: 6px 0; }
-    .stock-bars { display: grid; gap: 8px; }
-    .stock-bar-row { display: grid; grid-template-columns: 140px 1fr 90px; gap: 8px; align-items: center; font-size: 12px; }
+    .stock-bars { display: grid; gap: 10px; }
+    .stock-bar-row { display: grid; grid-template-columns: 132px 1fr 102px; gap: 8px; align-items: center; font-size: 12px; }
     .stock-bar-label { color: var(--text); font-weight: 600; }
-    .stock-bar-track { height: 10px; border-radius: 999px; background: #e7eef7; overflow: hidden; }
+    .stock-bar-track { height: 12px; border-radius: 999px; background: #e7eef7; overflow: hidden; }
     .stock-bar-fill { height: 100%; border-radius: 999px; background: #2563eb; }
-    .stock-bar-value { text-align: right; color: var(--muted); }
+    .stock-bar-value { text-align: right; color: #334155; font-weight: 600; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { padding: 8px 6px; border-bottom: 1px solid var(--line); text-align: left; }
+    .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .col-ean { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; letter-spacing: 0.02em; white-space: nowrap; }
     .risk-pills { display: flex; flex-wrap: wrap; gap: 6px; }
-    .warn-pill-btn { display: inline-flex; align-items: center; border: 1px solid #fed7aa; background: #fff7ed; color: #9a3412; border-radius: 999px; padding: 4px 9px; font-size: 12px; cursor: pointer; }
+    .warn-pill-btn { display: inline-flex; align-items: center; border: 1px solid #fed7aa; background: #fff7ed; color: #9a3412; border-radius: 999px; padding: 5px 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
     .warn-pill-btn.active { background: #9a3412; color: #ffffff; border-color: #9a3412; }
     .risk-analysis { margin-top: 10px; border: 1px solid var(--line); border-radius: 10px; padding: 10px; background: #fbfdff; }
     .risk-analysis h3 { margin: 0 0 6px 0; font-size: 14px; }
@@ -167,12 +211,22 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
     .risk-kpi { border: 1px solid var(--line); border-radius: 8px; padding: 8px; background: #fff; }
     .risk-kpi span { display: block; color: var(--muted); font-size: 12px; margin-bottom: 3px; }
     .risk-kpi strong { font-size: 16px; }
-    .risk-list { margin: 8px 0 0 0; padding-left: 18px; font-size: 13px; }
-    .risk-list li { margin-bottom: 4px; }
+    .risk-table-grid { margin-top: 10px; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 10px; }
+    .risk-table-wrap { border: 1px solid var(--line); border-radius: 10px; background: #ffffff; padding: 8px; overflow-x: auto; }
+    .risk-section-title { margin: 0 0 6px 0; font-size: 12px; font-weight: 700; color: #334155; text-transform: uppercase; letter-spacing: 0.04em; }
+    .risk-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 520px; }
+    .risk-table th, .risk-table td { padding: 6px 7px; border-bottom: 1px solid #e6edf7; text-align: left; vertical-align: top; }
+    .risk-table th { color: #475569; font-weight: 700; background: #f8fbff; white-space: nowrap; }
+    .risk-table tbody tr:last-child td { border-bottom: none; }
+    .risk-empty { color: var(--muted); font-size: 12px; }
     @media (max-width: 980px) {
       .split { grid-template-columns: 1fr; }
+      .viz-grid { grid-template-columns: 1fr; }
       .share-head, .share-row { grid-template-columns: 140px 1fr 58px 1fr 58px; }
-      .stock-bar-row { grid-template-columns: 110px 1fr 80px; }
+      .stock-bar-row { grid-template-columns: 110px 1fr 90px; }
+      .toolbar-sticky { margin: 0 -14px 8px; padding: 8px 14px; }
+      .risk-table-grid { grid-template-columns: 1fr; }
+      .risk-table { min-width: 460px; }
     }
   </style>
 </head>
@@ -181,55 +235,64 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
     <section class="card">
       <h1>KPI Quicklook - __REPORT_MONTH__</h1>
       <p class="meta">Retail klader. Uppdaterad: __GENERATED_AT__</p>
-      <div class="toolbar">
-        <div class="dropdown">
-          <button class="btn" id="deptToggle" type="button">Avdelningar</button>
-          <div class="dropdown-panel" id="deptPanel">
-            <div style="display:flex; gap:6px; margin-bottom:6px;">
-              <button class="btn" id="deptAll" type="button">Markera alla</button>
-              <button class="btn" id="deptNone" type="button">Rensa</button>
+      <div class="toolbar-sticky">
+        <div class="toolbar">
+          <div class="dropdown">
+            <button class="btn" id="deptToggle" type="button">Avdelningar</button>
+            <div class="dropdown-panel" id="deptPanel">
+              <div style="display:flex; gap:6px; margin-bottom:6px;">
+                <button class="btn" id="deptAll" type="button">Markera alla</button>
+                <button class="btn" id="deptNone" type="button">Rensa</button>
+              </div>
+              <div id="deptOptions"></div>
             </div>
-            <div id="deptOptions"></div>
           </div>
-        </div>
-        <div class="dropdown">
-          <button class="btn" id="storeToggle" type="button">Butiker</button>
-          <div class="dropdown-panel" id="storePanel">
-            <div style="display:flex; gap:6px; margin-bottom:6px;">
-              <button class="btn" id="storeAll" type="button">Markera alla</button>
-              <button class="btn" id="storeNone" type="button">Rensa</button>
+          <div class="dropdown">
+            <button class="btn" id="storeToggle" type="button">Butiker</button>
+            <div class="dropdown-panel" id="storePanel">
+              <div style="display:flex; gap:6px; margin-bottom:6px;">
+                <button class="btn" id="storeAll" type="button">Markera alla</button>
+                <button class="btn" id="storeNone" type="button">Rensa</button>
+              </div>
+              <div id="storeOptions"></div>
             </div>
-            <div id="storeOptions"></div>
           </div>
-        </div>
-        <div class="dropdown">
-          <button class="btn" id="yearToggle" type="button">Ar</button>
-          <div class="dropdown-panel" id="yearPanel">
-            <div style="display:flex; gap:6px; margin-bottom:6px;">
-              <button class="btn" id="yearAll" type="button">Markera alla</button>
-              <button class="btn" id="yearNone" type="button">Rensa</button>
+          <div class="dropdown">
+            <button class="btn" id="yearToggle" type="button">Ar</button>
+            <div class="dropdown-panel" id="yearPanel">
+              <div style="display:flex; gap:6px; margin-bottom:6px;">
+                <button class="btn" id="yearAll" type="button">Markera alla</button>
+                <button class="btn" id="yearNone" type="button">Rensa</button>
+              </div>
+              <div id="yearOptions"></div>
             </div>
-            <div id="yearOptions"></div>
           </div>
-        </div>
-        <div class="dropdown">
-          <button class="btn" id="monthToggle" type="button">Manader</button>
-          <div class="dropdown-panel" id="monthPanel">
-            <div style="display:flex; gap:6px; margin-bottom:6px;">
-              <button class="btn" id="monthAll" type="button">Markera alla</button>
-              <button class="btn" id="monthNone" type="button">Rensa</button>
+          <div class="dropdown">
+            <button class="btn" id="monthToggle" type="button">Manader</button>
+            <div class="dropdown-panel" id="monthPanel">
+              <div style="display:flex; gap:6px; margin-bottom:6px;">
+                <button class="btn" id="monthAll" type="button">Markera alla</button>
+                <button class="btn" id="monthNone" type="button">Rensa</button>
+              </div>
+              <div id="monthOptions"></div>
             </div>
-            <div id="monthOptions"></div>
           </div>
+          <span class="meta" id="selectedInfo"></span>
         </div>
-        <span class="meta" id="selectedInfo"></span>
       </div>
       <div class="kpi-grid">
-        <article class="kpi"><span>Nettoforsaljning</span><strong id="kpiSales">-</strong></article>
-        <article class="kpi"><span>TB (bruttovinst)</span><strong id="kpiProfit">-</strong></article>
-        <article class="kpi"><span>TB %</span><strong id="kpiMargin">-</strong></article>
-        <article class="kpi"><span>Salda enheter</span><strong id="kpiUnits">-</strong></article>
-        <article class="kpi"><span>Lagerestimat</span><strong id="kpiStock">-</strong></article>
+        <article class="kpi"><span>Nettoforsaljning</span><strong id="kpiSales" title="Summa nettoforsaljning for valt urval och vald period." aria-label="Summa nettoforsaljning for valt urval och vald period.">-</strong></article>
+        <article class="kpi"><span>TB (bruttovinst)</span><strong id="kpiProfit" title="Summa TB (bruttovinst) for valt urval och vald period." aria-label="Summa TB (bruttovinst) for valt urval och vald period.">-</strong></article>
+        <article class="kpi"><span>TB %</span><strong id="kpiMargin" title="TB dividerat med nettoforsaljning multiplicerat med 100." aria-label="TB dividerat med nettoforsaljning multiplicerat med 100.">-</strong></article>
+        <article class="kpi"><span>Salda enheter</span><strong id="kpiUnits" title="Summa salda enheter for valt urval och vald period." aria-label="Summa salda enheter for valt urval och vald period.">-</strong></article>
+        <article class="kpi"><span>Lagerestimat</span><strong id="kpiStock" title="Uppskattat lagervarde till kostnad: summa (snitt_inpris x lagerantal) i senaste valda period." aria-label="Uppskattat lagervarde till kostnad: summa (snitt_inpris x lagerantal) i senaste valda period.">-</strong></article>
+      </div>
+      <div class="kpi-grid kpi-grid-secondary">
+        <article class="kpi"><span>Snitt lagervarde per enhet</span><strong id="kpiAvgStockUnitValue" title="Lagerestimat dividerat med antal pa lager i senaste valda period." aria-label="Lagerestimat dividerat med antal pa lager i senaste valda period.">-</strong></article>
+        <article class="kpi"><span>Snittpris salda enheter</span><strong id="kpiAvgSellingPrice" title="Nettoforsaljning dividerat med salda enheter for valt urval." aria-label="Nettoforsaljning dividerat med salda enheter for valt urval.">-</strong></article>
+        <article class="kpi"><span>Marginal pa lager</span><strong id="kpiStockMargin" title="Potentiell lagerbruttovinst: summa (max(ord_pris - snitt_inpris, 0) x lagerantal) i senaste valda period." aria-label="Potentiell lagerbruttovinst: summa (max(ord_pris - snitt_inpris, 0) x lagerantal) i senaste valda period.">-</strong></article>
+        <article class="kpi"><span>Marginal % pa lager</span><strong id="kpiStockMarginPct" title="Marginal pa lager dividerat med (lagerestimat + marginal pa lager), multiplicerat med 100." aria-label="Marginal pa lager dividerat med (lagerestimat + marginal pa lager), multiplicerat med 100.">-</strong></article>
+        <article class="kpi"><span>Lagertackning (man)</span><strong id="kpiStockCoverageMonths" title="Lagerestimat dividerat med COGS i senaste valda period, dar COGS = nettoforsaljning - TB." aria-label="Lagerestimat dividerat med COGS i senaste valda period, dar COGS = nettoforsaljning - TB.">-</strong></article>
       </div>
     </section>
 
@@ -243,20 +306,32 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         <h2>Butik andel forsaljning/vinst</h2>
         <div class="share-head"><div>Butik</div><div>Forsaljning</div><div></div><div>Vinst</div><div></div></div>
         <div id="storeShareRows"></div>
-        <section class="store-trend">
+      </article>
+    </section>
+
+    <section class="card">
+      <h2>Grafyta</h2>
+      <div class="viz-grid">
+        <article class="viz-panel store-trend">
+          <span class="viz-kicker">Trend</span>
           <h3>Forsaljning per butik over tid</h3>
           <p class="meta">Visas nar minst tva perioder ar valda.</p>
-          <p id="storeTrendEmpty" class="store-trend-empty">Valj minst tva perioder for att visa grafen.</p>
-          <svg id="storeTrendSvg" class="store-trend-chart" viewBox="0 0 760 240" preserveAspectRatio="none" role="img" aria-label="Forsaljning per butik over tid"></svg>
+          <div class="chart-frame">
+            <p id="storeTrendEmpty" class="store-trend-empty">Valj minst tva perioder for att visa grafen.</p>
+            <svg id="storeTrendSvg" class="store-trend-chart" viewBox="0 0 760 260" preserveAspectRatio="none" role="img" aria-label="Forsaljning per butik over tid"></svg>
+          </div>
           <div id="storeTrendLegend" class="store-trend-legend"></div>
-        </section>
-        <section class="store-stock">
+        </article>
+        <article class="viz-panel store-stock">
+          <span class="viz-kicker">Lager</span>
           <h3>Lager per butik</h3>
           <p class="meta">Bygger pa senaste valda period (lager ackumuleras inte mellan manader).</p>
-          <p id="storeStockEmpty" class="store-stock-empty">Ingen lagerdata for valt urval.</p>
-          <div id="storeStockBars" class="stock-bars"></div>
-        </section>
-      </article>
+          <div class="chart-frame">
+            <p id="storeStockEmpty" class="store-stock-empty">Ingen lagerdata for valt urval.</p>
+            <div id="storeStockBars" class="stock-bars"></div>
+          </div>
+        </article>
+      </div>
     </section>
 
     <section class="card" id="momCard" style="display:none;">
@@ -281,7 +356,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
       <article>
         <h2>Lag marginal + hog forsaljning</h2>
         <table>
-          <thead><tr><th>Avdelning</th><th>Artikel</th><th>Netto</th><th>TB %</th></tr></thead>
+          <thead><tr><th>Avdelning</th><th>Artikel</th><th>EAN</th><th class="num">Antal</th><th class="num">Netto</th><th class="num">TB %</th></tr></thead>
           <tbody id="lowMarginBody"></tbody>
         </table>
       </article>
@@ -301,6 +376,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
       const topN = Number(data.top_n || 10);
       const formatMoney = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 });
       const formatQty = new Intl.NumberFormat("sv-SE", { maximumFractionDigits: 0 });
+      const formatDecimal = new Intl.NumberFormat("sv-SE", { minimumFractionDigits: 0, maximumFractionDigits: 2 });
       const monthNames = ["Jan", "Feb", "Mar", "Apr", "Maj", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"];
 
       const deptToggle = document.getElementById("deptToggle");
@@ -434,8 +510,13 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
 
       function fmtMoney(value) { return formatMoney.format(toNumber(value)); }
       function fmtQty(value) { return formatQty.format(toNumber(value)); }
+      function fmtDecimal(value) { return formatDecimal.format(toNumber(value)); }
       function fmtPct(value, decimals = 1) { return toNumber(value).toFixed(decimals) + "%"; }
       function sumBy(rows, key) { return rows.reduce((acc, row) => acc + toNumber(row[key]), 0); }
+      function formatEan(value) {
+        const text = String(value ?? "").trim();
+        return text.length > 0 ? text : "-";
+      }
 
       function aggregateBy(rows, key, valueKey) {
         const totals = new Map();
@@ -456,11 +537,15 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
             gross_profit: 0,
             units_sold: 0,
             estimated_stock_value: 0,
+            stock_units: 0,
+            stock_margin_value: 0,
           };
           current.net_sales += toNumber(row.net_sales);
           current.gross_profit += toNumber(row.gross_profit);
           current.units_sold += toNumber(row.units_sold);
           current.estimated_stock_value += toNumber(row.estimated_stock_value);
+          current.stock_units += toNumber(row.stock_units);
+          current.stock_margin_value += toNumber(row.stock_margin_value);
           byKey.set(name, current);
         }
         return Array.from(byKey.values());
@@ -471,11 +556,13 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         for (const row of rows) {
           const avdelning = String(row.avdelning || "Okand");
           const artnr = String(row.artnr || "");
+          const ean = String(row.ean || "");
           const varutext = String(row.varutext || "");
-          const key = avdelning + "||" + artnr + "||" + varutext;
+          const key = avdelning + "||" + artnr + "||" + ean + "||" + varutext;
           const current = grouped.get(key) || {
             avdelning: avdelning,
             artnr: artnr,
+            ean: ean,
             varutext: varutext,
             net_sales: 0,
             gross_profit: 0,
@@ -641,7 +728,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         }
 
         const width = 760;
-        const height = 240;
+        const height = 260;
         const left = 44;
         const right = 10;
         const top = 12;
@@ -688,6 +775,15 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
             x: xAt(valueIndex),
             y: yAt(value),
           }));
+          if (points.length > 1) {
+            const areaPath = points
+              .map((point, pointIndex) => (pointIndex === 0 ? "M" : "L") + point.x.toFixed(2) + "," + point.y.toFixed(2))
+              .join(" ")
+              + " L" + points[points.length - 1].x.toFixed(2) + "," + (top + plotHeight).toFixed(2)
+              + " L" + points[0].x.toFixed(2) + "," + (top + plotHeight).toFixed(2)
+              + " Z";
+            parts.push('<path d="' + areaPath + '" fill="' + color + '" opacity="0.06" />');
+          }
           const path = points.map((point, pointIndex) =>
             (pointIndex === 0 ? "M" : "L") + point.x.toFixed(2) + "," + point.y.toFixed(2)
           ).join(" ");
@@ -761,12 +857,29 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         const tbody = document.getElementById("lowMarginBody");
         if (!tbody) return;
         if (rows.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="4">Ingen data</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="6">Ingen data</td></tr>';
           return;
         }
         tbody.innerHTML = rows.map((row) =>
-          '<tr><td>' + esc(row.avdelning) + '</td><td>' + esc(row.varutext || row.artnr) + '</td><td>' + fmtMoney(row.net_sales) + '</td><td>' + fmtPct(row.gross_margin_percent, 2) + '</td></tr>'
+          '<tr>'
+            + '<td>' + esc(row.avdelning) + '</td>'
+            + '<td>' + esc(row.varutext || row.artnr) + '</td>'
+            + '<td class="col-ean">' + esc(formatEan(row.ean)) + '</td>'
+            + '<td class="num">' + fmtQty(row.units_sold) + '</td>'
+            + '<td class="num">' + fmtMoney(row.net_sales) + '</td>'
+            + '<td class="num">' + fmtPct(row.gross_margin_percent, 2) + '</td>'
+          + '</tr>'
         ).join("");
+      }
+
+      function buildRiskTable(title, headerHtml, rowHtml, emptyColspan, emptyText) {
+        const bodyHtml = rowHtml && rowHtml.length > 0
+          ? rowHtml
+          : '<tr><td colspan="' + String(emptyColspan) + '" class="risk-empty">' + esc(emptyText) + "</td></tr>";
+        return '<section class="risk-table-wrap">'
+          + '<h4 class="risk-section-title">' + esc(title) + "</h4>"
+          + '<table class="risk-table"><thead><tr>' + headerHtml + "</tr></thead><tbody>" + bodyHtml + "</tbody></table>"
+          + "</section>";
       }
 
       function renderRiskAnalysis(metrics, filteredDepartments) {
@@ -780,12 +893,10 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         if (riskState.activeKey === "departments") {
           const topSalesDepartments = [...metrics.departmentRows]
             .sort((a, b) => toNumber(b.net_sales) - toNumber(a.net_sales))
-            .slice(0, 3);
-          const topList = topSalesDepartments.length === 0
-            ? '<li>Ingen data for valt urval.</li>'
-            : topSalesDepartments
-              .map((row) => '<li>' + esc(row.avdelning) + ' - Netto ' + fmtMoney(row.net_sales) + '</li>')
-              .join("");
+            .slice(0, 8);
+          const topRows = topSalesDepartments.map((row, index) =>
+            '<tr><td class="num">' + String(index + 1) + "</td><td>" + esc(row.avdelning) + '</td><td class="num">' + fmtMoney(row.net_sales) + '</td><td class="num">' + fmtPct(row.gross_margin_percent, 2) + "</td></tr>"
+          ).join("");
           container.innerHTML =
             '<h3>Snabbanalys: valda avdelningar</h3>'
             + '<div class="risk-kpi-grid">'
@@ -793,7 +904,15 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
             + '<div class="risk-kpi"><span>Netto for urval</span><strong>' + fmtMoney(metrics.totalSales) + '</strong></div>'
             + '<div class="risk-kpi"><span>TB for urval</span><strong>' + fmtMoney(metrics.totalProfit) + '</strong></div>'
             + '</div>'
-            + '<ul class="risk-list">' + topList + '</ul>';
+            + '<div class="risk-table-grid">'
+            + buildRiskTable(
+              "Storst avdelningar (netto)",
+              '<th class="num">#</th><th>Avdelning</th><th class="num">Netto</th><th class="num">TB %</th>',
+              topRows,
+              4,
+              "Ingen data for valt urval."
+            )
+            + '</div>';
           return;
         }
 
@@ -803,22 +922,22 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           const riskProfit = sumBy(rows, "gross_profit");
           const worstDepartments = aggregateBy(rows, "avdelning", "gross_profit")
             .sort((a, b) => a.total - b.total)
-            .slice(0, 3);
+            .slice(0, 8);
           const articleRows = aggregateArticles(rows, "gross_profit", true).slice(0, topN);
-          const deptList = worstDepartments.length === 0
-            ? '<li>Ingen negativ marginal i topp-listan for valt urval.</li>'
-            : worstDepartments
-              .map((item) => '<li>' + esc(item.name) + ' - TB ' + fmtMoney(item.total) + '</li>')
-              .join("");
-          const articleList = articleRows.length === 0
-            ? '<li>Inga riskartiklar for valt urval.</li>'
-            : articleRows
-              .map((item) =>
-                '<li>' + esc(item.avdelning) + ' - ' + esc(item.varutext || item.artnr)
-                + ' (Netto ' + fmtMoney(item.net_sales)
-                + ', TB ' + fmtMoney(item.gross_profit) + ')</li>'
-              )
-              .join("");
+          const deptTableRows = worstDepartments.map((item, index) =>
+            '<tr><td class="num">' + String(index + 1) + "</td><td>" + esc(item.name) + '</td><td class="num">' + fmtMoney(item.total) + "</td></tr>"
+          ).join("");
+          const articleTableRows = articleRows.map((item) =>
+            "<tr>"
+              + "<td>" + esc(item.avdelning) + "</td>"
+              + "<td>" + esc(item.varutext || item.artnr) + "</td>"
+              + '<td class="col-ean">' + esc(formatEan(item.ean)) + "</td>"
+              + '<td class="num">' + fmtQty(item.units_sold) + "</td>"
+              + '<td class="num">' + fmtMoney(item.net_sales) + "</td>"
+              + '<td class="num">' + fmtMoney(item.gross_profit) + "</td>"
+              + '<td class="num">' + fmtPct(item.gross_margin_percent, 2) + "</td>"
+            + "</tr>"
+          ).join("");
           container.innerHTML =
             '<h3>Snabbanalys: negativ marginal</h3>'
             + '<div class="meta">Baserad pa riskartiklar i topp-listan, filtrerad pa valda avdelningar.</div>'
@@ -827,8 +946,22 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
             + '<div class="risk-kpi"><span>Netto i risklista</span><strong>' + fmtMoney(riskSales) + '</strong></div>'
             + '<div class="risk-kpi"><span>TB i risklista</span><strong>' + fmtMoney(riskProfit) + '</strong></div>'
             + '</div>'
-            + '<ul class="risk-list">' + deptList + '</ul>'
-            + '<ul class="risk-list">' + articleList + '</ul>';
+            + '<div class="risk-table-grid">'
+            + buildRiskTable(
+              "Avdelningar med storst negativ TB",
+              '<th class="num">#</th><th>Avdelning</th><th class="num">TB</th>',
+              deptTableRows,
+              3,
+              "Ingen negativ marginal i topp-listan for valt urval."
+            )
+            + buildRiskTable(
+              "Riskartiklar",
+              '<th>Avdelning</th><th>Artikel</th><th>EAN</th><th class="num">Antal</th><th class="num">Netto</th><th class="num">TB</th><th class="num">TB %</th>',
+              articleTableRows,
+              7,
+              "Inga riskartiklar for valt urval."
+            )
+            + '</div>';
           return;
         }
 
@@ -838,22 +971,21 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           const returnUnits = sumBy(rows, "units_sold");
           const worstDepartments = aggregateBy(rows, "avdelning", "net_sales")
             .sort((a, b) => a.total - b.total)
-            .slice(0, 3);
+            .slice(0, 8);
           const articleRows = aggregateArticles(rows, "net_sales", true).slice(0, topN);
-          const deptList = worstDepartments.length === 0
-            ? '<li>Ingen nettoretur i topp-listan for valt urval.</li>'
-            : worstDepartments
-              .map((item) => '<li>' + esc(item.name) + ' - Netto ' + fmtMoney(item.total) + '</li>')
-              .join("");
-          const articleList = articleRows.length === 0
-            ? '<li>Inga returartiklar for valt urval.</li>'
-            : articleRows
-              .map((item) =>
-                '<li>' + esc(item.avdelning) + ' - ' + esc(item.varutext || item.artnr)
-                + ' (Netto ' + fmtMoney(item.net_sales)
-                + ', Enheter ' + fmtQty(item.units_sold) + ')</li>'
-              )
-              .join("");
+          const deptTableRows = worstDepartments.map((item, index) =>
+            '<tr><td class="num">' + String(index + 1) + "</td><td>" + esc(item.name) + '</td><td class="num">' + fmtMoney(item.total) + "</td></tr>"
+          ).join("");
+          const articleTableRows = articleRows.map((item) =>
+            "<tr>"
+              + "<td>" + esc(item.avdelning) + "</td>"
+              + "<td>" + esc(item.varutext || item.artnr) + "</td>"
+              + '<td class="col-ean">' + esc(formatEan(item.ean)) + "</td>"
+              + '<td class="num">' + fmtQty(item.units_sold) + "</td>"
+              + '<td class="num">' + fmtMoney(item.net_sales) + "</td>"
+              + '<td class="num">' + fmtMoney(item.gross_profit) + "</td>"
+            + "</tr>"
+          ).join("");
           container.innerHTML =
             '<h3>Snabbanalys: nettoreturer</h3>'
             + '<div class="meta">Baserad pa retur-riskartiklar i topp-listan, filtrerad pa valda avdelningar.</div>'
@@ -862,13 +994,33 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
             + '<div class="risk-kpi"><span>Nettoeffekt</span><strong>' + fmtMoney(returnSales) + '</strong></div>'
             + '<div class="risk-kpi"><span>Enheter i retur</span><strong>' + fmtQty(returnUnits) + '</strong></div>'
             + '</div>'
-            + '<ul class="risk-list">' + deptList + '</ul>'
-            + '<ul class="risk-list">' + articleList + '</ul>';
+            + '<div class="risk-table-grid">'
+            + buildRiskTable(
+              "Avdelningar med storst nettoretur",
+              '<th class="num">#</th><th>Avdelning</th><th class="num">Netto</th>',
+              deptTableRows,
+              3,
+              "Ingen nettoretur i topp-listan for valt urval."
+            )
+            + buildRiskTable(
+              "Returartiklar",
+              '<th>Avdelning</th><th>Artikel</th><th>EAN</th><th class="num">Antal</th><th class="num">Netto</th><th class="num">TB</th>',
+              articleTableRows,
+              6,
+              "Inga returartiklar for valt urval."
+            )
+            + '</div>';
           return;
         }
 
         const ratio = metrics.tbRatio;
         const status = ratio < 35 ? "Hog risk" : ratio < 45 ? "Bevaka" : "Stabil";
+        const lowMarginDepartments = [...metrics.departmentRows]
+          .sort((a, b) => toNumber(a.gross_margin_percent) - toNumber(b.gross_margin_percent))
+          .slice(0, 8);
+        const lowMarginRows = lowMarginDepartments.map((row, index) =>
+          '<tr><td class="num">' + String(index + 1) + "</td><td>" + esc(row.avdelning) + '</td><td class="num">' + fmtPct(row.gross_margin_percent, 2) + '</td><td class="num">' + fmtMoney(row.net_sales) + "</td></tr>"
+        ).join("");
         container.innerHTML =
           '<h3>Snabbanalys: TB/netto-forhallande</h3>'
           + '<div class="risk-kpi-grid">'
@@ -876,6 +1028,15 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           + '<div class="risk-kpi"><span>Status</span><strong>' + esc(status) + '</strong></div>'
           + '<div class="risk-kpi"><span>Netto for urval</span><strong>' + fmtMoney(metrics.totalSales) + '</strong></div>'
           + '<div class="risk-kpi"><span>TB for urval</span><strong>' + fmtMoney(metrics.totalProfit) + '</strong></div>'
+          + '</div>'
+          + '<div class="risk-table-grid">'
+          + buildRiskTable(
+            "Avdelningar med lagst TB %",
+            '<th class="num">#</th><th>Avdelning</th><th class="num">TB %</th><th class="num">Netto</th>',
+            lowMarginRows,
+            4,
+            "Ingen data for valt urval."
+          )
           + '</div>';
       }
 
@@ -887,6 +1048,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           avdelning: row.name,
           net_sales: row.net_sales,
           gross_profit: row.gross_profit,
+          gross_margin_percent: pct(row.gross_profit, row.net_sales),
           units_sold: row.units_sold,
           estimated_stock_value: row.estimated_stock_value,
         }));
@@ -967,25 +1129,43 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
       function render() {
         const filteredRows = getFilteredRows();
         const filteredMonths = getUniqueReportMonths(filteredRows);
-        selectedInfo.textContent =
-          selectedDepartments.size + "/" + allDepartments.length + " avd, "
-          + selectedStores.size + "/" + allStores.length + " butiker, "
-          + filteredMonths.length + " perioder";
+        if (selectedInfo) {
+          selectedInfo.textContent =
+            selectedDepartments.size + "/" + allDepartments.length + " avd, "
+            + selectedStores.size + "/" + allStores.length + " butiker, "
+            + selectedMonthNumbers.size + "/" + allMonthNumbers.length + " manader, "
+            + filteredMonths.length + " perioder";
+        }
 
         const totalSales = sumBy(filteredRows, "net_sales");
         const totalProfit = sumBy(filteredRows, "gross_profit");
         const totalUnits = sumBy(filteredRows, "units_sold");
+        const avgSellingPrice = totalUnits > 0 ? totalSales / totalUnits : null;
         const latestMonth = getLatestReportMonth(filteredRows);
         const stockRows = latestMonth
           ? filteredRows.filter((row) => String(row.report_month || "") === latestMonth)
           : [];
         const totalStock = sumBy(stockRows, "estimated_stock_value");
+        const totalStockUnits = sumBy(stockRows, "stock_units");
+        const totalStockMargin = sumBy(stockRows, "stock_margin_value");
+        const stockSellingValue = totalStock + totalStockMargin;
+        const stockMarginPct = stockSellingValue > 0 ? (totalStockMargin / stockSellingValue) * 100 : null;
+        const latestMonthSales = sumBy(stockRows, "net_sales");
+        const latestMonthProfit = sumBy(stockRows, "gross_profit");
+        const latestMonthCogs = latestMonthSales - latestMonthProfit;
+        const stockCoverageMonths = latestMonthCogs > 0 ? totalStock / latestMonthCogs : null;
+        const avgStockUnitValue = totalStockUnits > 0 ? totalStock / totalStockUnits : null;
 
         document.getElementById("kpiSales").textContent = fmtMoney(totalSales);
         document.getElementById("kpiProfit").textContent = fmtMoney(totalProfit);
         document.getElementById("kpiMargin").textContent = fmtPct(pct(totalProfit, totalSales), 2);
         document.getElementById("kpiUnits").textContent = fmtQty(totalUnits);
         document.getElementById("kpiStock").textContent = fmtMoney(totalStock);
+        document.getElementById("kpiAvgStockUnitValue").textContent = avgStockUnitValue === null ? "-" : fmtMoney(avgStockUnitValue);
+        document.getElementById("kpiAvgSellingPrice").textContent = avgSellingPrice === null ? "-" : fmtMoney(avgSellingPrice);
+        document.getElementById("kpiStockMargin").textContent = fmtMoney(totalStockMargin);
+        document.getElementById("kpiStockMarginPct").textContent = stockMarginPct === null ? "-" : fmtPct(stockMarginPct, 2);
+        document.getElementById("kpiStockCoverageMonths").textContent = stockCoverageMonths === null ? "-" : (fmtDecimal(stockCoverageMonths) + " man");
 
         const deptAgg = aggregateStoreOrDepartment(filteredRows, "avdelning");
         const deptShare = deptAgg.map((row) => ({
@@ -997,6 +1177,8 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           gross_margin_percent: pct(toNumber(row.gross_profit), toNumber(row.net_sales)),
           units_sold: toNumber(row.units_sold),
           estimated_stock_value: toNumber(row.estimated_stock_value),
+          stock_units: toNumber(row.stock_units),
+          stock_margin_value: toNumber(row.stock_margin_value),
         })).sort((a, b) => b.net_sales - a.net_sales);
         renderShareRows("deptShareRows", deptShare, "avdelning");
 
@@ -1072,6 +1254,11 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         selectedSet.clear();
       }
 
+      function bindClick(node, handler) {
+        if (!node) return;
+        node.addEventListener("click", handler);
+      }
+
       function renderFilterOptions() {
         const sortedDepartments = getDepartmentFilterOrder();
         renderCheckOptions(deptOptions, sortedDepartments, selectedDepartments, "dept", (value) => value, (value) => String(value));
@@ -1080,42 +1267,42 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         renderCheckOptions(monthOptions, allMonthNumbers, selectedMonthNumbers, "month", (value) => monthLabel(value), (value) => Number(value));
       }
 
-      deptAll.addEventListener("click", () => {
+      bindClick(deptAll, () => {
         setAll(selectedDepartments, allDepartments);
         renderFilterOptions();
         render();
       });
-      deptNone.addEventListener("click", () => {
+      bindClick(deptNone, () => {
         clearAll(selectedDepartments);
         renderFilterOptions();
         render();
       });
-      storeAll.addEventListener("click", () => {
+      bindClick(storeAll, () => {
         setAll(selectedStores, allStores);
         renderFilterOptions();
         render();
       });
-      storeNone.addEventListener("click", () => {
+      bindClick(storeNone, () => {
         clearAll(selectedStores);
         renderFilterOptions();
         render();
       });
-      yearAll.addEventListener("click", () => {
+      bindClick(yearAll, () => {
         setAll(selectedYears, allYears);
         renderFilterOptions();
         render();
       });
-      yearNone.addEventListener("click", () => {
+      bindClick(yearNone, () => {
         clearAll(selectedYears);
         renderFilterOptions();
         render();
       });
-      monthAll.addEventListener("click", () => {
+      bindClick(monthAll, () => {
         setAll(selectedMonthNumbers, allMonthNumbers);
         renderFilterOptions();
         render();
       });
-      monthNone.addEventListener("click", () => {
+      bindClick(monthNone, () => {
         clearAll(selectedMonthNumbers);
         renderFilterOptions();
         render();
@@ -1203,7 +1390,18 @@ def generate_kpi_report(
           ROUND(CASE WHEN SUM(fors_sum_sum) = 0 THEN NULL ELSE (SUM(tb_sum) / SUM(fors_sum_sum)) * 100 END, 2)
             AS gross_margin_percent,
           ROUND(SUM(antal_salda_sum), 2) AS units_sold,
+          ROUND(SUM(COALESCE(lager_antal_max, 0)), 2) AS stock_units,
           ROUND(SUM(COALESCE(estimated_stock_value, 0)), 2) AS estimated_stock_value,
+          ROUND(
+            SUM(
+              CASE
+                WHEN COALESCE(lager_antal_max, 0) > 0
+                  THEN GREATEST(COALESCE(ord_pris_avg, 0) - COALESCE(snitt_inpris_avg, 0), 0) * COALESCE(lager_antal_max, 0)
+                ELSE 0
+              END
+            ),
+            2
+          ) AS stock_margin_value,
           COUNT(DISTINCT filial) AS store_count,
           COUNT(DISTINCT avdelning) AS department_count,
           COUNT(DISTINCT artnr) AS sku_count,
@@ -1276,7 +1474,18 @@ def generate_kpi_report(
           ROUND(SUM(fors_sum_sum), 2) AS net_sales,
           ROUND(SUM(tb_sum), 2) AS gross_profit,
           ROUND(SUM(antal_salda_sum), 2) AS units_sold,
+          ROUND(SUM(COALESCE(lager_antal_max, 0)), 2) AS stock_units,
           ROUND(SUM(COALESCE(estimated_stock_value, 0)), 2) AS estimated_stock_value,
+          ROUND(
+            SUM(
+              CASE
+                WHEN COALESCE(lager_antal_max, 0) > 0
+                  THEN GREATEST(COALESCE(ord_pris_avg, 0) - COALESCE(snitt_inpris_avg, 0), 0) * COALESCE(lager_antal_max, 0)
+                ELSE 0
+              END
+            ),
+            2
+          ) AS stock_margin_value,
           ROUND(CASE WHEN SUM(fors_sum_sum) = 0 THEN NULL ELSE (SUM(tb_sum) / SUM(fors_sum_sum)) * 100 END, 2)
             AS gross_margin_percent
         FROM curated_month
@@ -1328,6 +1537,7 @@ def generate_kpi_report(
           filial,
           avdelning,
           artnr,
+          ean,
           varutext,
           ROUND(fors_sum_sum, 2) AS net_sales,
           ROUND(tb_sum, 2) AS gross_profit,
@@ -1349,6 +1559,7 @@ def generate_kpi_report(
           filial,
           avdelning,
           artnr,
+          ean,
           varutext,
           ROUND(antal_salda_sum, 2) AS units_sold,
           ROUND(fors_sum_sum, 2) AS net_sales,
@@ -1369,6 +1580,7 @@ def generate_kpi_report(
           filial,
           avdelning,
           artnr,
+          ean,
           varutext,
           ROUND(fors_sum_sum, 2) AS net_sales,
           ROUND(tb_sum, 2) AS gross_profit,
@@ -1388,6 +1600,7 @@ def generate_kpi_report(
           filial,
           avdelning,
           artnr,
+          ean,
           varutext,
           ROUND(fors_sum_sum, 2) AS net_sales,
           ROUND(tb_sum, 2) AS gross_profit,
@@ -1407,6 +1620,7 @@ def generate_kpi_report(
           filial,
           avdelning,
           artnr,
+          ean,
           varutext,
           ROUND(fors_sum_sum, 2) AS net_sales,
           ROUND(tb_sum, 2) AS gross_profit,
@@ -1471,7 +1685,18 @@ def generate_kpi_report(
           ROUND(SUM(fors_sum_sum), 2) AS net_sales,
           ROUND(SUM(tb_sum), 2) AS gross_profit,
           ROUND(SUM(antal_salda_sum), 2) AS units_sold,
-          ROUND(SUM(COALESCE(estimated_stock_value, 0)), 2) AS estimated_stock_value
+          ROUND(SUM(COALESCE(lager_antal_max, 0)), 2) AS stock_units,
+          ROUND(SUM(COALESCE(estimated_stock_value, 0)), 2) AS estimated_stock_value,
+          ROUND(
+            SUM(
+              CASE
+                WHEN COALESCE(lager_antal_max, 0) > 0
+                  THEN GREATEST(COALESCE(ord_pris_avg, 0) - COALESCE(snitt_inpris_avg, 0), 0) * COALESCE(lager_antal_max, 0)
+                ELSE 0
+              END
+            ),
+            2
+          ) AS stock_margin_value
         FROM curated_all
         GROUP BY report_month, filial, avdelning
         ORDER BY report_month DESC, filial, avdelning
@@ -1489,6 +1714,7 @@ def generate_kpi_report(
             filial,
             avdelning,
             artnr,
+            ean,
             varutext,
             ROUND(SUM(fors_sum_sum), 2) AS net_sales,
             ROUND(SUM(tb_sum), 2) AS gross_profit,
@@ -1500,7 +1726,7 @@ def generate_kpi_report(
             ROW_NUMBER() OVER (PARTITION BY report_month ORDER BY SUM(tb_sum) ASC) AS rn
           FROM curated_all
           WHERE has_negative_margin
-          GROUP BY report_month, filial, avdelning, artnr, varutext
+          GROUP BY report_month, filial, avdelning, artnr, ean, varutext
         )
         SELECT
           report_month,
@@ -1509,6 +1735,7 @@ def generate_kpi_report(
           filial,
           avdelning,
           artnr,
+          ean,
           varutext,
           net_sales,
           gross_profit,
@@ -1534,6 +1761,7 @@ def generate_kpi_report(
             filial,
             avdelning,
             artnr,
+            ean,
             varutext,
             ROUND(SUM(antal_salda_sum), 2) AS units_sold,
             ROUND(SUM(fors_sum_sum), 2) AS net_sales,
@@ -1542,7 +1770,7 @@ def generate_kpi_report(
             ROW_NUMBER() OVER (PARTITION BY report_month ORDER BY SUM(antal_salda_sum) ASC, SUM(fors_sum_sum) ASC) AS rn
           FROM curated_all
           WHERE has_net_return
-          GROUP BY report_month, filial, avdelning, artnr, varutext
+          GROUP BY report_month, filial, avdelning, artnr, ean, varutext
         )
         SELECT
           report_month,
@@ -1551,6 +1779,7 @@ def generate_kpi_report(
           filial,
           avdelning,
           artnr,
+          ean,
           varutext,
           units_sold,
           net_sales,
@@ -1574,6 +1803,7 @@ def generate_kpi_report(
             filial,
             avdelning,
             artnr,
+            ean,
             varutext,
             ROUND(SUM(fors_sum_sum), 2) AS net_sales,
             ROUND(SUM(tb_sum), 2) AS gross_profit,
@@ -1585,7 +1815,7 @@ def generate_kpi_report(
           WHERE fors_sum_sum > 0
             AND gross_margin_percent_calc IS NOT NULL
             AND gross_margin_percent_calc < 35
-          GROUP BY report_month, filial, avdelning, artnr, varutext
+          GROUP BY report_month, filial, avdelning, artnr, ean, varutext
         )
         SELECT
           report_month,
@@ -1594,6 +1824,7 @@ def generate_kpi_report(
           filial,
           avdelning,
           artnr,
+          ean,
           varutext,
           net_sales,
           gross_profit,
