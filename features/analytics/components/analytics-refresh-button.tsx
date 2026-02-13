@@ -46,17 +46,17 @@ export function AnalyticsRefreshButton({ compact = false }: AnalyticsRefreshButt
 
       const payload = (await response.json().catch(() => ({}))) as RefreshApiResponse;
       if (!response.ok) {
-        setStatusError(payload.error ?? "Kunde inte starta datahamtning.");
+        setStatusError(payload.error ?? "Kunde inte starta datahämtning.");
         setStatusDetail(payload.detail ?? null);
         setActionsUrl(payload.actionsUrl ?? null);
         return;
       }
 
-      setStatusMessage(payload.message ?? "Datahamtning startad. Det kan ta nagon minut innan nya filer syns.");
+      setStatusMessage(payload.message ?? "Datahämtning startad. Det kan ta någon minut innan nya filer syns.");
       setActionsUrl(payload.actionsUrl ?? null);
       setAdminKey("");
     } catch {
-      setStatusError("Natverksfel. Forsok igen.");
+      setStatusError("Nätverksfel. Försök igen.");
     } finally {
       setIsSubmitting(false);
     }
@@ -99,7 +99,7 @@ export function AnalyticsRefreshButton({ compact = false }: AnalyticsRefreshButt
               disabled={isSubmitting}
               className="inline-flex items-center justify-center rounded-lg bg-sky-700 px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-sky-800 disabled:cursor-not-allowed disabled:bg-slate-400"
             >
-              {isSubmitting ? "Startar..." : "Hamta data"}
+              {isSubmitting ? "Startar..." : "Hämta data"}
             </button>
           </form>
         </details>
@@ -115,7 +115,7 @@ export function AnalyticsRefreshButton({ compact = false }: AnalyticsRefreshButt
         <p className="mt-2 text-xs text-slate-600">
           Actions:{" "}
           <a href={actionsUrl} target="_blank" rel="noreferrer" className="font-semibold text-sky-700 underline">
-            oppna workflow
+            öppna workflow
           </a>
         </p>
       ) : null}

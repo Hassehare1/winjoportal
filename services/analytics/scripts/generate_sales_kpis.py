@@ -290,29 +290,29 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         </div>
       </div>
       <div class="kpi-grid">
-        <article class="kpi"><span>Nettoforsaljning</span><strong id="kpiSales" title="Summa nettoforsaljning for valt urval och vald period." aria-label="Summa nettoforsaljning for valt urval och vald period.">-</strong></article>
-        <article class="kpi"><span>TB (bruttovinst)</span><strong id="kpiProfit" title="Summa TB (bruttovinst) for valt urval och vald period." aria-label="Summa TB (bruttovinst) for valt urval och vald period.">-</strong></article>
-        <article class="kpi"><span>TB %</span><strong id="kpiMargin" title="TB dividerat med nettoforsaljning multiplicerat med 100." aria-label="TB dividerat med nettoforsaljning multiplicerat med 100.">-</strong></article>
-        <article class="kpi"><span>Salda enheter</span><strong id="kpiUnits" title="Summa salda enheter for valt urval och vald period." aria-label="Summa salda enheter for valt urval och vald period.">-</strong></article>
-        <article class="kpi"><span>Lagerestimat</span><strong id="kpiStock" title="Uppskattat lagervarde till kostnad: summa (snitt_inpris x lagerantal) i senaste valda period." aria-label="Uppskattat lagervarde till kostnad: summa (snitt_inpris x lagerantal) i senaste valda period.">-</strong></article>
+        <article class="kpi"><span>Nettoförsäljning</span><strong id="kpiSales" title="Summa nettoförsäljning för valt urval och vald period." aria-label="Summa nettoförsäljning för valt urval och vald period.">-</strong></article>
+        <article class="kpi"><span>TB (bruttovinst)</span><strong id="kpiProfit" title="Summa TB (bruttovinst) för valt urval och vald period." aria-label="Summa TB (bruttovinst) för valt urval och vald period.">-</strong></article>
+        <article class="kpi"><span>TB %</span><strong id="kpiMargin" title="TB dividerat med nettoförsäljning multiplicerat med 100." aria-label="TB dividerat med nettoförsäljning multiplicerat med 100.">-</strong></article>
+        <article class="kpi"><span>Sålda enheter</span><strong id="kpiUnits" title="Summa sålda enheter för valt urval och vald period." aria-label="Summa sålda enheter för valt urval och vald period.">-</strong></article>
+        <article class="kpi"><span>Lagerestimat</span><strong id="kpiStock" title="Uppskattat lagervärde till kostnad: summa (snitt_inpris x lagerantal) i senaste valda period." aria-label="Uppskattat lagervärde till kostnad: summa (snitt_inpris x lagerantal) i senaste valda period.">-</strong></article>
       </div>
       <div class="kpi-grid kpi-grid-secondary">
-        <article class="kpi"><span>Snitt lagervarde per enhet</span><strong id="kpiAvgStockUnitValue" title="Lagerestimat dividerat med antal pa lager i senaste valda period." aria-label="Lagerestimat dividerat med antal pa lager i senaste valda period.">-</strong></article>
-        <article class="kpi"><span>Snittpris salda enheter</span><strong id="kpiAvgSellingPrice" title="Nettoforsaljning dividerat med salda enheter for valt urval." aria-label="Nettoforsaljning dividerat med salda enheter for valt urval.">-</strong></article>
-        <article class="kpi"><span>Marginal pa lager</span><strong id="kpiStockMargin" title="Potentiell lagerbruttovinst: summa (max(ord_pris - snitt_inpris, 0) x lagerantal) i senaste valda period." aria-label="Potentiell lagerbruttovinst: summa (max(ord_pris - snitt_inpris, 0) x lagerantal) i senaste valda period.">-</strong></article>
-        <article class="kpi"><span>Marginal % pa lager</span><strong id="kpiStockMarginPct" title="Marginal pa lager dividerat med (lagerestimat + marginal pa lager), multiplicerat med 100." aria-label="Marginal pa lager dividerat med (lagerestimat + marginal pa lager), multiplicerat med 100.">-</strong></article>
-        <article class="kpi"><span>Lagertackning (man)</span><strong id="kpiStockCoverageMonths" title="Lagerestimat dividerat med COGS i senaste valda period, dar COGS = nettoforsaljning - TB." aria-label="Lagerestimat dividerat med COGS i senaste valda period, dar COGS = nettoforsaljning - TB.">-</strong></article>
+        <article class="kpi"><span>Snitt lagervärde per enhet</span><strong id="kpiAvgStockUnitValue" title="Lagerestimat dividerat med antal på lager i senaste valda period." aria-label="Lagerestimat dividerat med antal på lager i senaste valda period.">-</strong></article>
+        <article class="kpi"><span>Snittpris sålda enheter</span><strong id="kpiAvgSellingPrice" title="Nettoförsäljning dividerat med sålda enheter för valt urval." aria-label="Nettoförsäljning dividerat med sålda enheter för valt urval.">-</strong></article>
+        <article class="kpi"><span>Marginal på lager</span><strong id="kpiStockMargin" title="Potentiell lagerbruttovinst: summa (max(ord_pris - snitt_inpris, 0) x lagerantal) i senaste valda period." aria-label="Potentiell lagerbruttovinst: summa (max(ord_pris - snitt_inpris, 0) x lagerantal) i senaste valda period.">-</strong></article>
+        <article class="kpi"><span>Marginal % på lager</span><strong id="kpiStockMarginPct" title="Marginal på lager dividerat med (lagerestimat + marginal på lager), multiplicerat med 100." aria-label="Marginal på lager dividerat med (lagerestimat + marginal på lager), multiplicerat med 100.">-</strong></article>
+        <article class="kpi"><span>Lagertäckning (mån)</span><strong id="kpiStockCoverageMonths" title="Lagerestimat dividerat med COGS i senaste valda period, där COGS = nettoförsäljning - TB." aria-label="Lagerestimat dividerat med COGS i senaste valda period, där COGS = nettoförsäljning - TB.">-</strong></article>
       </div>
     </section>
 
     <section class="card split">
       <article>
-        <h2>Avdelning andel forsaljning/vinst</h2>
+        <h2>Avdelning andel försäljning/vinst</h2>
         <div class="share-head"><div>Avdelning</div><div>Forsaljning</div><div></div><div>Vinst</div><div></div></div>
         <div id="deptShareRows"></div>
       </article>
       <article>
-        <h2>Butik andel forsaljning/vinst</h2>
+        <h2>Butik andel försäljning/vinst</h2>
         <div class="share-head"><div>Butik</div><div>Forsaljning</div><div></div><div>Vinst</div><div></div></div>
         <div id="storeShareRows"></div>
       </article>
@@ -326,7 +326,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           <h3>Forsaljning per butik over tid</h3>
           <p class="meta">Visas nar minst tva perioder ar valda.</p>
           <div class="chart-frame">
-            <p id="storeTrendEmpty" class="store-trend-empty">Valj minst tva perioder for att visa grafen.</p>
+            <p id="storeTrendEmpty" class="store-trend-empty">Välj minst två perioder för att visa grafen.</p>
             <svg id="storeTrendSvg" class="store-trend-chart" viewBox="0 0 760 260" preserveAspectRatio="none" role="img" aria-label="Forsaljning per butik over tid"></svg>
           </div>
           <div id="storeTrendLegend" class="store-trend-legend"></div>
@@ -334,14 +334,14 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         <article class="viz-panel store-stock">
           <span class="viz-kicker">Lager</span>
           <h3>Lager per butik</h3>
-          <p class="meta">Bygger pa senaste valda period (lager ackumuleras inte mellan manader).</p>
+          <p class="meta">Bygger på senaste valda period (lager ackumuleras inte mellan månader).</p>
           <div class="chart-frame">
-            <p id="storeStockEmpty" class="store-stock-empty">Ingen lagerdata for valt urval.</p>
+            <p id="storeStockEmpty" class="store-stock-empty">Ingen lagerdata för valt urval.</p>
             <div id="storeStockBars" class="stock-bars"></div>
           </div>
           <div class="chart-frame stock-ratio">
             <p class="stock-ratio-head">Estimerade dagar i lager per butik, senaste valda period.</p>
-            <p id="storeStockRatioEmpty" class="stock-ratio-empty">Ingen data for dagberakning.</p>
+            <p id="storeStockRatioEmpty" class="stock-ratio-empty">Ingen data för dagberäkning.</p>
             <div id="storeStockRatioBars" class="stock-ratio-bars"></div>
           </div>
         </article>
@@ -349,7 +349,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
     </section>
 
     <section class="card" id="momCard" style="display:none;">
-      <h2>Manad mot manad</h2>
+      <h2>Månad mot månad</h2>
       <p class="meta" id="momRange"></p>
       <div class="kpi-grid">
         <article class="kpi"><span>Forsaljning delta</span><strong id="momSalesDelta">-</strong></article>
@@ -368,7 +368,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         </table>
       </article>
       <article>
-        <h2>Lag marginal + hog forsaljning</h2>
+        <h2>Låg marginal + hög försäljning</h2>
         <table>
           <thead><tr><th>Avdelning</th><th>Artikel</th><th>EAN</th><th class="num">Antal</th><th class="num">Netto</th><th class="num">TB %</th></tr></thead>
           <tbody id="lowMarginBody"></tbody>
@@ -683,7 +683,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         const container = document.getElementById(containerId);
         if (!container) return;
         if (rows.length === 0) {
-          container.innerHTML = '<p class="meta">Ingen data for valt urval.</p>';
+          container.innerHTML = '<p class="meta">Ingen data för valt urval.</p>';
           return;
         }
         container.innerHTML = rows.map((row) => {
@@ -705,7 +705,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         if (!storeTrendEmpty || !storeTrendSvg || !storeTrendLegend) return;
         const months = getUniqueReportMonths(filteredRows);
         if (months.length < 2) {
-          storeTrendEmpty.textContent = "Valj minst tva perioder for att visa grafen.";
+          storeTrendEmpty.textContent = "Välj minst två perioder för att visa grafen.";
           storeTrendEmpty.style.display = "block";
           storeTrendSvg.style.display = "none";
           storeTrendSvg.innerHTML = "";
@@ -726,7 +726,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
 
         const stores = Array.from(storeSet);
         if (stores.length === 0) {
-          storeTrendEmpty.textContent = "Ingen butiksdata for valt urval.";
+          storeTrendEmpty.textContent = "Ingen butiksdata för valt urval.";
           storeTrendEmpty.style.display = "block";
           storeTrendSvg.style.display = "none";
           storeTrendSvg.innerHTML = "";
@@ -832,10 +832,10 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         if (!storeStockEmpty || !storeStockBars || !storeStockRatioEmpty || !storeStockRatioBars) return;
         const latestMonth = getLatestReportMonth(filteredRows);
         if (!latestMonth) {
-          storeStockEmpty.textContent = "Ingen lagerdata for valt urval.";
+          storeStockEmpty.textContent = "Ingen lagerdata för valt urval.";
           storeStockEmpty.style.display = "block";
           storeStockBars.innerHTML = "";
-          storeStockRatioEmpty.textContent = "Ingen data for dagberakning.";
+          storeStockRatioEmpty.textContent = "Ingen data för dagberäkning.";
           storeStockRatioEmpty.style.display = "block";
           storeStockRatioBars.innerHTML = "";
           return;
@@ -854,7 +854,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           storeStockEmpty.textContent = "Ingen lagerdata i senaste valda period.";
           storeStockEmpty.style.display = "block";
           storeStockBars.innerHTML = "";
-          storeStockRatioEmpty.textContent = "Ingen data for dagberakning.";
+          storeStockRatioEmpty.textContent = "Ingen data för dagberäkning.";
           storeStockRatioEmpty.style.display = "block";
           storeStockRatioBars.innerHTML = "";
           return;
@@ -894,13 +894,13 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         const maxRatio = validRatios.length > 0 ? Math.max(...validRatios) : 1;
 
         if (ratioRows.length === 0) {
-          storeStockRatioEmpty.textContent = "Ingen data for dagberakning.";
+          storeStockRatioEmpty.textContent = "Ingen data för dagberäkning.";
           storeStockRatioEmpty.style.display = "block";
           storeStockRatioBars.innerHTML = "";
           return;
         }
 
-        storeStockRatioEmpty.textContent = "Formel: (Lagerestimat / Nettoforsaljning) x " + String(daysInMonth) + " dagar.";
+        storeStockRatioEmpty.textContent = "Formel: (Lagerestimat / Nettoförsäljning) x " + String(daysInMonth) + " dagar.";
         storeStockRatioEmpty.style.display = "block";
         storeStockRatioBars.innerHTML = ratioRows.map((row) => {
           const ratioText = row.stock_days === null ? "-" : (fmtDecimal(row.stock_days) + " dagar");
@@ -958,7 +958,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
         const container = document.getElementById("riskAnalysis");
         if (!container) return;
         if (filteredDepartments.length === 0) {
-          container.innerHTML = '<h3>Snabbanalys</h3><p class="meta">Valj minst en avdelning for att se riskanalys.</p>';
+          container.innerHTML = '<h3>Snabbanalys</h3><p class="meta">Välj minst en avdelning för att se riskanalys.</p>';
           return;
         }
 
@@ -973,8 +973,8 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
             '<h3>Snabbanalys: valda avdelningar</h3>'
             + '<div class="risk-kpi-grid">'
             + '<div class="risk-kpi"><span>Valda avdelningar</span><strong>' + fmtQty(filteredDepartments.length) + '</strong></div>'
-            + '<div class="risk-kpi"><span>Netto for urval</span><strong>' + fmtMoney(metrics.totalSales) + '</strong></div>'
-            + '<div class="risk-kpi"><span>TB for urval</span><strong>' + fmtMoney(metrics.totalProfit) + '</strong></div>'
+            + '<div class="risk-kpi"><span>Netto för urval</span><strong>' + fmtMoney(metrics.totalSales) + '</strong></div>'
+            + '<div class="risk-kpi"><span>TB för urval</span><strong>' + fmtMoney(metrics.totalProfit) + '</strong></div>'
             + '</div>'
             + '<div class="risk-table-grid">'
             + buildRiskTable(
@@ -982,7 +982,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
               '<th class="num">#</th><th>Avdelning</th><th class="num">Netto</th><th class="num">TB %</th>',
               topRows,
               4,
-              "Ingen data for valt urval."
+              "Ingen data för valt urval."
             )
             + '</div>';
           return;
@@ -1012,7 +1012,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           ).join("");
           container.innerHTML =
             '<h3>Snabbanalys: negativ marginal</h3>'
-            + '<div class="meta">Baserad pa riskartiklar i topp-listan, filtrerad pa valda avdelningar.</div>'
+            + '<div class="meta">Baserad på riskartiklar i topp-listan, filtrerad på valda avdelningar.</div>'
             + '<div class="risk-kpi-grid">'
             + '<div class="risk-kpi"><span>Riskartiklar (topp)</span><strong>' + fmtQty(rows.length) + '</strong></div>'
             + '<div class="risk-kpi"><span>Netto i risklista</span><strong>' + fmtMoney(riskSales) + '</strong></div>'
@@ -1024,14 +1024,14 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
               '<th class="num">#</th><th>Avdelning</th><th class="num">TB</th>',
               deptTableRows,
               3,
-              "Ingen negativ marginal i topp-listan for valt urval."
+              "Ingen negativ marginal i topp-listan för valt urval."
             )
             + buildRiskTable(
               "Riskartiklar",
               '<th>Avdelning</th><th>Artikel</th><th>EAN</th><th class="num">Antal</th><th class="num">Netto</th><th class="num">TB</th><th class="num">TB %</th>',
               articleTableRows,
               7,
-              "Inga riskartiklar for valt urval."
+              "Inga riskartiklar för valt urval."
             )
             + '</div>';
           return;
@@ -1060,7 +1060,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           ).join("");
           container.innerHTML =
             '<h3>Snabbanalys: nettoreturer</h3>'
-            + '<div class="meta">Baserad pa retur-riskartiklar i topp-listan, filtrerad pa valda avdelningar.</div>'
+            + '<div class="meta">Baserad på retur-riskartiklar i topp-listan, filtrerad på valda avdelningar.</div>'
             + '<div class="risk-kpi-grid">'
             + '<div class="risk-kpi"><span>Returartiklar (topp)</span><strong>' + fmtQty(rows.length) + '</strong></div>'
             + '<div class="risk-kpi"><span>Nettoeffekt</span><strong>' + fmtMoney(returnSales) + '</strong></div>'
@@ -1072,14 +1072,14 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
               '<th class="num">#</th><th>Avdelning</th><th class="num">Netto</th>',
               deptTableRows,
               3,
-              "Ingen nettoretur i topp-listan for valt urval."
+              "Ingen nettoretur i topp-listan för valt urval."
             )
             + buildRiskTable(
               "Returartiklar",
               '<th>Avdelning</th><th>Artikel</th><th>EAN</th><th class="num">Antal</th><th class="num">Netto</th><th class="num">TB</th>',
               articleTableRows,
               6,
-              "Inga returartiklar for valt urval."
+              "Inga returartiklar för valt urval."
             )
             + '</div>';
           return;
@@ -1098,8 +1098,8 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           + '<div class="risk-kpi-grid">'
           + '<div class="risk-kpi"><span>TB/netto</span><strong>' + fmtPct(ratio, 2) + '</strong></div>'
           + '<div class="risk-kpi"><span>Status</span><strong>' + esc(status) + '</strong></div>'
-          + '<div class="risk-kpi"><span>Netto for urval</span><strong>' + fmtMoney(metrics.totalSales) + '</strong></div>'
-          + '<div class="risk-kpi"><span>TB for urval</span><strong>' + fmtMoney(metrics.totalProfit) + '</strong></div>'
+          + '<div class="risk-kpi"><span>Netto för urval</span><strong>' + fmtMoney(metrics.totalSales) + '</strong></div>'
+          + '<div class="risk-kpi"><span>TB för urval</span><strong>' + fmtMoney(metrics.totalProfit) + '</strong></div>'
           + '</div>'
           + '<div class="risk-table-grid">'
           + buildRiskTable(
@@ -1107,7 +1107,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
             '<th class="num">#</th><th>Avdelning</th><th class="num">TB %</th><th class="num">Netto</th>',
             lowMarginRows,
             4,
-            "Ingen data for valt urval."
+            "Ingen data för valt urval."
           )
           + '</div>';
       }
@@ -1205,7 +1205,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           selectedInfo.textContent =
             selectedDepartments.size + "/" + allDepartments.length + " avd, "
             + selectedStores.size + "/" + allStores.length + " butiker, "
-            + selectedMonthNumbers.size + "/" + allMonthNumbers.length + " manader, "
+            + selectedMonthNumbers.size + "/" + allMonthNumbers.length + " månader, "
             + filteredMonths.length + " perioder";
         }
 
@@ -2078,4 +2078,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
 

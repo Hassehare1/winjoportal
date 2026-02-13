@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
   if (!rateLimit.allowed) {
     return NextResponse.json(
       {
-        error: "For manga anrop. Forsok igen om en stund."
+        error: "För många anrop. Försök igen om en stund."
       },
       {
         status: 429,
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
   if (!context.selectedMonth || !context.data) {
     return NextResponse.json(
       {
-        error: "Kunde inte lasa KPI-underlaget."
+        error: "Kunde inte läsa KPI-underlaget."
       },
       {
         status: 404

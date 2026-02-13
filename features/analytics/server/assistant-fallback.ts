@@ -30,6 +30,10 @@ function text(value: unknown, fallback = "-"): string {
   return raw.length > 0 ? raw : fallback;
 }
 
+function tableCell(value: string): string {
+  return value.replace(/\|/g, "/");
+}
+
 export function buildAnalyticsFallbackAnswer(
   question: string,
   month: string,
@@ -52,36 +56,44 @@ export function buildAnalyticsFallbackAnswer(
   const units = toNumber(summary.units_sold);
 
   const parts: string[] = [];
-  parts.push(`Fallback-svar (regelbaserat) for ${month}.`);
-  parts.push(`Fraga: ${question}`);
-  parts.push("");
+  parts.push("## Svar");
   parts.push(
-    `Basbild: Netto ${fmtMoney(netSales)}, TB ${fmtMoney(tb)}, TB% ${fmtPct(tbPct)}, salda enheter ${fmtMoney(units)}.`
+    `Regelbaserat svar för ${month}. OpenAI var inte tillgängligt, så analysen bygger direkt på KPI-underlaget för frågan: "${question}".`
   );
-
+  parts.push("Det här ger en snabb nulägesbild utan externa antaganden.");
+  parts.push("");
+  parts.push("## Nyckeltal");
+  parts.push("| Nyckeltal | Värde | Kommentar |");
+  parts.push("|---|---:|---|");
+  parts.push(`| Nettoförsäljning | ${fmtMoney(netSales)} | Summerad i vald period |`);
+  parts.push(`| TB (bruttovinst) | ${fmtMoney(tb)} | Summerad i vald period |`);
+  parts.push(`| TB % | ${fmtPct(tbPct)} | TB / nettoförsäljning |`);
+  parts.push(`| Sålda enheter | ${fmtMoney(units)} | Summerat antal |`);
   if (topStore) {
     parts.push(
-      `Storsta butik pa forsaljning: ${text(topStore.filial)} (${fmtMoney(toNumber(topStore.net_sales))} i netto).`
+      `| Största butik (netto) | ${fmtMoney(toNumber(topStore.net_sales))} | ${tableCell(text(topStore.filial))} |`
     );
   }
   if (topDepartment) {
     parts.push(
-      `Storsta avdelning pa forsaljning: ${text(topDepartment.avdelning)} (${fmtMoney(toNumber(topDepartment.net_sales))} i netto, TB% ${fmtPct(toNumber(topDepartment.gross_margin_percent))}).`
+      `| Största avdelning (netto) | ${fmtMoney(toNumber(topDepartment.net_sales))} | ${tableCell(text(topDepartment.avdelning))} |`
     );
   }
   if (topRisk) {
     parts.push(
-      `Riskartikel i toppen: ${text(topRisk.varutext, text(topRisk.artnr))} (${text(topRisk.avdelning)}), netto ${fmtMoney(toNumber(topRisk.net_sales))}, TB ${fmtMoney(toNumber(topRisk.gross_profit))}, TB% ${fmtPct(toNumber(topRisk.gross_margin_percent))}.`
+      `| Riskartikel (TB %) | ${fmtPct(toNumber(topRisk.gross_margin_percent))} | ${tableCell(text(topRisk.varutext, text(topRisk.artnr)))} |`
     );
   }
   if (topHotspot) {
     const ratio = toNumber(topHotspot.stock_to_sales_ratio);
     parts.push(
-      `Lagerhotspot: ${text(topHotspot.filial)} / ${text(topHotspot.avdelning)} med lagerestimat ${fmtMoney(toNumber(topHotspot.estimated_stock_value))} och lager/forsaljning ${ratio.toFixed(2)}x.`
+      `| Lager/försäljning (högst) | ${ratio.toFixed(2)}x | ${tableCell(text(topHotspot.filial))} / ${tableCell(text(topHotspot.avdelning))} |`
     );
   }
-
   parts.push("");
-  parts.push("OpenAI var inte tillgangligt, sa svaret ar framtaget direkt ur KPI-underlaget.");
+  parts.push("## Rekommendation");
+  parts.push("- Verifiera toppriskerna i tabellen mot artikelnivå innan beslut.");
+  parts.push("- Prioritera åtgärder där både låg TB % och hög kapitalbindning sammanfaller.");
+  parts.push("- Kör frågan igen när nytt månadsunderlag är uppdaterat för trendkontroll.");
   return parts.join("\n");
 }

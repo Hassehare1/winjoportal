@@ -22,14 +22,14 @@ export default async function AnalyticsPage() {
 
   return (
     <section className="space-y-6">
-      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-start">
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_420px] 2xl:grid-cols-[minmax(0,1fr)_460px] xl:items-start">
         <div className="space-y-6">
           <div className="grid gap-3 lg:grid-cols-[1fr_auto] lg:items-start">
             <header>
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-sky-700">Analytics</p>
               <h1 className="mt-2 font-heading text-3xl font-bold text-slate-900">Intern KPI-preview</h1>
               <p className="mt-3 max-w-3xl text-slate-600">
-                Enkel intern sida for att visa senaste KPI-quicklook med avdelningsfilter.
+                Enkel intern sida för att visa senaste KPI-quicklook med avdelningsfilter.
               </p>
             </header>
             <div className="lg:min-w-[300px]">
@@ -40,7 +40,7 @@ export default async function AnalyticsPage() {
           {snapshot.selectedMonth ? (
             <>
               <article className="rounded-xl border border-slate-200 bg-white px-4 py-3">
-                <p className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-500">Total senaste inlasta period</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-500">Total senaste inlästa period</p>
                 <p className="mt-1 text-sm text-slate-700">
                   Period: <span className="font-semibold text-slate-900">{snapshot.selectedMonth}</span>
                 </p>
@@ -48,7 +48,7 @@ export default async function AnalyticsPage() {
 
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 <article className="rounded-xl border border-slate-200 bg-white p-4">
-                  <p className="text-xs text-slate-500">Nettoforsaljning</p>
+                  <p className="text-xs text-slate-500">Nettoförsäljning</p>
                   <p className="mt-1 text-lg font-semibold text-slate-900">{formatNumber(summary?.net_sales)}</p>
                 </article>
                 <article className="rounded-xl border border-slate-200 bg-white p-4">
@@ -60,7 +60,7 @@ export default async function AnalyticsPage() {
                   <p className="mt-1 text-lg font-semibold text-slate-900">{formatPercent(summary?.gross_margin_percent)}</p>
                 </article>
                 <article className="rounded-xl border border-slate-200 bg-white p-4">
-                  <p className="text-xs text-slate-500">Salda enheter</p>
+                  <p className="text-xs text-slate-500">Sålda enheter</p>
                   <p className="mt-1 text-lg font-semibold text-slate-900">{formatNumber(summary?.units_sold)}</p>
                 </article>
               </div>
@@ -75,13 +75,13 @@ export default async function AnalyticsPage() {
                 </div>
               ) : (
                 <article className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-                  Quicklook-HTML hittades inte for vald manad. Kor KPI-generatorn igen.
+                  Quicklook-HTML hittades inte för vald månad. Kör KPI-generatorn igen.
                 </article>
               )}
             </>
           ) : (
             <article className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-              Inga KPI-rapporter hittades. Kor analytics-pipelinen forst:
+              Inga KPI-rapporter hittades. Kör analytics-pipelinen först:
               <br />
               <code>
                 python services\analytics\scripts\ingest_all_months.py --input-dir
@@ -91,7 +91,7 @@ export default async function AnalyticsPage() {
           )}
 
           {snapshot.quicklookPath ? (
-            <p className="text-xs text-slate-500">Kalla: {snapshot.quicklookPath}</p>
+            <p className="text-xs text-slate-500">Källa: {snapshot.quicklookPath}</p>
           ) : null}
         </div>
         <div className="xl:sticky xl:top-20">

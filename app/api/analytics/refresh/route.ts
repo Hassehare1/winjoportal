@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   }
 
   if (!providedAdminKey || providedAdminKey !== expectedAdminKey) {
-    return NextResponse.json({ error: "Endast admin far trigga datahamtning." }, { status: 403 });
+    return NextResponse.json({ error: "Endast admin f\u00E5r trigga datah\u00E4mtning." }, { status: 403 });
   }
 
   const triggerToken = process.env.GITHUB_ACTIONS_TRIGGER_TOKEN?.trim();
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
     const detail = (await dispatchResponse.text().catch(() => "")).slice(0, 600);
     return NextResponse.json(
       {
-        error: "Kunde inte starta GitHub workflow for datahamtning.",
+        error: "Kunde inte starta GitHub-workflow f\u00F6r datah\u00E4mtning.",
         detail,
         actionsUrl
       },
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json(
     {
       ok: true,
-      message: "Datahamtning startad. Uppdatera sidan efter att workflow-korning ar klar.",
+      message: "Datah\u00E4mtning startad. Uppdatera sidan efter att workflow-k\u00F6rning \u00E4r klar.",
       actionsUrl
     },
     { status: 202 }

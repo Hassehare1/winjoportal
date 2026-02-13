@@ -30,21 +30,21 @@ export function parseAnalyticsAssistantRequest(raw: unknown): ParseResult {
   if (question.length < 3) {
     return {
       ok: false,
-      error: "Fragan ar for kort."
+      error: "Frågan är för kort."
     };
   }
 
   if (question.length > 500) {
     return {
       ok: false,
-      error: "Fragan ar for lang (max 500 tecken)."
+      error: "Frågan är för lång (max 500 tecken)."
     };
   }
 
   if (monthRaw && !MONTH_REGEX.test(monthRaw)) {
     return {
       ok: false,
-      error: "Ogiltig manad. Anvand format YYYY-MM."
+      error: "Ogiltig månad. Använd format YYYY-MM."
     };
   }
 
