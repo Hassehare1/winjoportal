@@ -198,6 +198,14 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
     .stock-bar-track { height: 12px; border-radius: 999px; background: #e7eef7; overflow: hidden; }
     .stock-bar-fill { height: 100%; border-radius: 999px; background: #2563eb; }
     .stock-bar-value { text-align: right; color: #334155; font-weight: 600; }
+    .stock-ratio { margin-top: 10px; }
+    .stock-ratio-head { margin: 0 0 4px 0; font-size: 12px; color: var(--muted); }
+    .stock-ratio-empty { color: var(--muted); font-size: 12px; margin: 4px 0; }
+    .stock-ratio-bars { display: grid; gap: 8px; }
+    .stock-ratio-row { display: grid; grid-template-columns: 132px 1fr 132px; gap: 8px; align-items: center; font-size: 12px; }
+    .stock-ratio-track { height: 12px; border-radius: 999px; background: #e8edf4; overflow: hidden; }
+    .stock-ratio-fill { height: 100%; border-radius: 999px; background: #0ea5e9; }
+    .stock-ratio-value { text-align: right; color: #1f2937; font-weight: 600; font-variant-numeric: tabular-nums; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th, td { padding: 8px 6px; border-bottom: 1px solid var(--line); text-align: left; }
     .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
@@ -224,6 +232,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
       .viz-grid { grid-template-columns: 1fr; }
       .share-head, .share-row { grid-template-columns: 140px 1fr 58px 1fr 58px; }
       .stock-bar-row { grid-template-columns: 110px 1fr 90px; }
+      .stock-ratio-row { grid-template-columns: 110px 1fr 110px; }
       .toolbar-sticky { margin: 0 -14px 8px; padding: 8px 14px; }
       .risk-table-grid { grid-template-columns: 1fr; }
       .risk-table { min-width: 460px; }
@@ -330,6 +339,11 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
             <p id="storeStockEmpty" class="store-stock-empty">Ingen lagerdata for valt urval.</p>
             <div id="storeStockBars" class="stock-bars"></div>
           </div>
+          <div class="chart-frame stock-ratio">
+            <p class="stock-ratio-head">Lager i forhallande till forsaljning (%) per butik, senaste valda period.</p>
+            <p id="storeStockRatioEmpty" class="stock-ratio-empty">Ingen data for kvotberakning.</p>
+            <div id="storeStockRatioBars" class="stock-ratio-bars"></div>
+          </div>
         </article>
       </div>
     </section>
@@ -405,6 +419,8 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
       const storeTrendLegend = document.getElementById("storeTrendLegend");
       const storeStockEmpty = document.getElementById("storeStockEmpty");
       const storeStockBars = document.getElementById("storeStockBars");
+      const storeStockRatioEmpty = document.getElementById("storeStockRatioEmpty");
+      const storeStockRatioBars = document.getElementById("storeStockRatioBars");
 
       const fallbackMonth = String(data.report_month || "");
       const fallbackYear = fallbackMonth.slice(0, 4);
@@ -804,12 +820,15 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
       }
 
       function renderStoreStockBars(filteredRows) {
-        if (!storeStockEmpty || !storeStockBars) return;
+        if (!storeStockEmpty || !storeStockBars || !storeStockRatioEmpty || !storeStockRatioBars) return;
         const latestMonth = getLatestReportMonth(filteredRows);
         if (!latestMonth) {
           storeStockEmpty.textContent = "Ingen lagerdata for valt urval.";
           storeStockEmpty.style.display = "block";
           storeStockBars.innerHTML = "";
+          storeStockRatioEmpty.textContent = "Ingen data for kvotberakning.";
+          storeStockRatioEmpty.style.display = "block";
+          storeStockRatioBars.innerHTML = "";
           return;
         }
 
@@ -818,6 +837,7 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           .map((row) => ({
             filial: row.name,
             estimated_stock_value: Math.max(0, toNumber(row.estimated_stock_value)),
+            net_sales: toNumber(row.net_sales),
           }))
           .sort((a, b) => b.estimated_stock_value - a.estimated_stock_value);
 
@@ -825,6 +845,9 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
           storeStockEmpty.textContent = "Ingen lagerdata i senaste valda period.";
           storeStockEmpty.style.display = "block";
           storeStockBars.innerHTML = "";
+          storeStockRatioEmpty.textContent = "Ingen data for kvotberakning.";
+          storeStockRatioEmpty.style.display = "block";
+          storeStockRatioBars.innerHTML = "";
           return;
         }
 
@@ -837,6 +860,45 @@ def build_quicklook_html(payload: dict[str, Any]) -> str:
             + '<div class="stock-bar-label">' + esc(displayStoreName(row.filial)) + '</div>'
             + '<div class="stock-bar-track"><div class="stock-bar-fill" style="width:' + width.toFixed(2) + '%"></div></div>'
             + '<div class="stock-bar-value">' + esc(fmtMoney(row.estimated_stock_value)) + '</div>'
+            + '</div>';
+        }).join("");
+
+        const ratioRows = storeStocks.map((row) => {
+          const ratioPct = row.net_sales > 0 ? (row.estimated_stock_value / row.net_sales) * 100 : null;
+          return {
+            filial: row.filial,
+            ratio_pct: ratioPct,
+            estimated_stock_value: row.estimated_stock_value,
+            net_sales: row.net_sales,
+          };
+        }).sort((a, b) => {
+          if (a.ratio_pct === null && b.ratio_pct === null) return 0;
+          if (a.ratio_pct === null) return 1;
+          if (b.ratio_pct === null) return -1;
+          return b.ratio_pct - a.ratio_pct;
+        });
+
+        const validRatios = ratioRows
+          .map((row) => toNumber(row.ratio_pct))
+          .filter((value) => Number.isFinite(value) && value > 0);
+        const maxRatio = validRatios.length > 0 ? Math.max(...validRatios) : 1;
+
+        if (ratioRows.length === 0) {
+          storeStockRatioEmpty.textContent = "Ingen data for kvotberakning.";
+          storeStockRatioEmpty.style.display = "block";
+          storeStockRatioBars.innerHTML = "";
+          return;
+        }
+
+        storeStockRatioEmpty.textContent = "Formel: Lagerestimat / Nettoforsaljning x 100.";
+        storeStockRatioEmpty.style.display = "block";
+        storeStockRatioBars.innerHTML = ratioRows.map((row) => {
+          const ratioText = row.ratio_pct === null ? "-" : fmtPct(row.ratio_pct, 1);
+          const width = row.ratio_pct === null ? 0 : Math.max(0, Math.min(100, (toNumber(row.ratio_pct) / maxRatio) * 100));
+          return '<div class="stock-ratio-row">'
+            + '<div class="stock-bar-label">' + esc(displayStoreName(row.filial)) + '</div>'
+            + '<div class="stock-ratio-track"><div class="stock-ratio-fill" style="width:' + width.toFixed(2) + '%"></div></div>'
+            + '<div class="stock-ratio-value" title="Lagerestimat: ' + esc(fmtMoney(row.estimated_stock_value)) + ', Netto: ' + esc(fmtMoney(row.net_sales)) + '">' + esc(ratioText) + '</div>'
             + '</div>';
         }).join("");
       }
