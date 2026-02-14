@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-02-13T10:23:12+00:00",
+  "generated_at_utc": "2026-02-14T04:51:29+00:00",
   "schema_id": "sales_monthly_curated_v1",
   "report_month": "2024-01",
-  "source_curated_file": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\curated\\sales_monthly\\v1\\report_month_2024-01\\sales_monthly_curated_v1.parquet",
+  "source_curated_file": "/home/runner/work/winjoportal/winjoportal/services/analytics/data/curated/sales_monthly/v1/report_month_2024-01/sales_monthly_curated_v1.parquet",
   "previous_month": null,
   "top_n": 10,
   "available_report_months": [
@@ -179,28 +179,6 @@
     },
     {
       "filial": "EBB_Malmo",
-      "avdelning": "Herr",
-      "net_sales": 313896.19,
-      "gross_profit": 151092.64,
-      "units_sold": 1641.0,
-      "stock_units": 11439.0,
-      "estimated_stock_value": 1287674.14,
-      "stock_margin_value": 656479.21,
-      "gross_margin_percent": 48.13
-    },
-    {
-      "filial": "EBB_Malmo",
-      "avdelning": "Barn & Barnunderkläder",
-      "net_sales": 81946.26,
-      "gross_profit": 36336.07,
-      "units_sold": 961.0,
-      "stock_units": 6652.0,
-      "estimated_stock_value": 291580.14,
-      "stock_margin_value": 257111.37,
-      "gross_margin_percent": 44.34
-    },
-    {
-      "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "net_sales": 434553.25,
       "gross_profit": 187651.31,
@@ -220,6 +198,28 @@
       "estimated_stock_value": 157721.65,
       "stock_margin_value": 178180.35,
       "gross_margin_percent": 45.2
+    },
+    {
+      "filial": "EBB_Malmo",
+      "avdelning": "Herr",
+      "net_sales": 313896.19,
+      "gross_profit": 151092.64,
+      "units_sold": 1641.0,
+      "stock_units": 11439.0,
+      "estimated_stock_value": 1287674.14,
+      "stock_margin_value": 656479.21,
+      "gross_margin_percent": 48.13
+    },
+    {
+      "filial": "EBB_Malmo",
+      "avdelning": "Barn & Barnunderkläder",
+      "net_sales": 81946.26,
+      "gross_profit": 36336.07,
+      "units_sold": 961.0,
+      "stock_units": 6652.0,
+      "estimated_stock_value": 291580.14,
+      "stock_margin_value": 257111.37,
+      "gross_margin_percent": 44.34
     },
     {
       "filial": "EBB_Malmo",
@@ -245,6 +245,17 @@
     },
     {
       "filial": "EBB_Kristianstad",
+      "avdelning": "Barn & Barnunderkläder",
+      "net_sales": 44566.78,
+      "gross_profit": 16398.62,
+      "units_sold": 459.0,
+      "stock_units": 5283.0,
+      "estimated_stock_value": 239835.84,
+      "stock_margin_value": 122666.09,
+      "gross_margin_percent": 36.8
+    },
+    {
+      "filial": "EBB_Kristianstad",
       "avdelning": "Kem",
       "net_sales": 8345.14,
       "gross_profit": 3123.64,
@@ -264,17 +275,6 @@
       "estimated_stock_value": 697186.57,
       "stock_margin_value": 305593.83,
       "gross_margin_percent": 46.87
-    },
-    {
-      "filial": "EBB_Kristianstad",
-      "avdelning": "Barn & Barnunderkläder",
-      "net_sales": 44566.78,
-      "gross_profit": 16398.62,
-      "units_sold": 459.0,
-      "stock_units": 5283.0,
-      "estimated_stock_value": 239835.84,
-      "stock_margin_value": 122666.09,
-      "gross_margin_percent": 36.8
     },
     {
       "filial": "EBB_Kristianstad",
@@ -311,17 +311,6 @@
     },
     {
       "filial": "EBB_Helsingborg",
-      "avdelning": "Kem",
-      "net_sales": 32409.96,
-      "gross_profit": 13906.99,
-      "units_sold": 1138.0,
-      "stock_units": 4276.0,
-      "estimated_stock_value": 85335.05,
-      "stock_margin_value": 122966.41,
-      "gross_margin_percent": 42.91
-    },
-    {
-      "filial": "EBB_Helsingborg",
       "avdelning": "Herr",
       "net_sales": 215749.18,
       "gross_profit": 96678.67,
@@ -333,14 +322,14 @@
     },
     {
       "filial": "EBB_Helsingborg",
-      "avdelning": "Påsar & Kampanj",
-      "net_sales": 955.98,
-      "gross_profit": 790.64,
-      "units_sold": 381.0,
-      "stock_units": 4353.0,
-      "estimated_stock_value": 6081.1,
-      "stock_margin_value": 1547.61,
-      "gross_margin_percent": 82.7
+      "avdelning": "Kem",
+      "net_sales": 32409.96,
+      "gross_profit": 13906.99,
+      "units_sold": 1138.0,
+      "stock_units": 4276.0,
+      "estimated_stock_value": 85335.05,
+      "stock_margin_value": 122966.41,
+      "gross_margin_percent": 42.91
     },
     {
       "filial": "EBB_Malmo",
@@ -352,6 +341,17 @@
       "estimated_stock_value": 1345833.28,
       "stock_margin_value": 912247.77,
       "gross_margin_percent": 45.55
+    },
+    {
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Påsar & Kampanj",
+      "net_sales": 955.98,
+      "gross_profit": 790.64,
+      "units_sold": 381.0,
+      "stock_units": 4353.0,
+      "estimated_stock_value": 6081.1,
+      "stock_margin_value": 1547.61,
+      "gross_margin_percent": 82.7
     },
     {
       "filial": "EBB_Malmo",
@@ -1627,13 +1627,13 @@
     },
     {
       "filial": "EBB_Malmo",
-      "avdelning": "Herr",
-      "artnr": "JORSNOWBALL KNIT CREW NECK",
-      "ean": "8498604",
-      "varutext": "Herrtröja stickad x-mas",
+      "avdelning": "Dam",
+      "artnr": "VASTA4",
+      "ean": "8198757",
+      "varutext": "Dambyxa",
       "units_sold": -1.0,
       "net_sales": -399.96,
-      "gross_profit": -241.65,
+      "gross_profit": -238.51,
       "return_row_count": 1
     }
   ],
@@ -1768,17 +1768,17 @@
       "report_month": "2024-01",
       "report_year": "2024",
       "report_month_number": 1,
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Underkläder",
-      "artnr": "43201",
-      "ean": "8398558",
-      "varutext": "Damrock silk fleece",
+      "filial": "EBB_Malmo",
+      "avdelning": "Dam",
+      "artnr": "VASTA4",
+      "ean": "8198757",
+      "varutext": "Dambyxa",
       "units_sold": -1.0,
       "net_sales": -399.96,
-      "gross_profit": -200.96,
+      "gross_profit": -238.51,
       "return_row_count": 1
     }
   ],
   "month_over_month": null,
-  "quicklook_html_path": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\reports\\sales_monthly\\v1\\kpi_2024-01_quicklook.html"
+  "quicklook_html_path": "/home/runner/work/winjoportal/winjoportal/services/analytics/data/reports/sales_monthly/v1/kpi_2024-01_quicklook.html"
 }

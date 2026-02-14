@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-02-13T10:23:15+00:00",
+  "generated_at_utc": "2026-02-14T04:51:30+00:00",
   "schema_id": "sales_monthly_curated_v1",
   "report_month": "2024-03",
-  "source_curated_file": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\curated\\sales_monthly\\v1\\report_month_2024-03\\sales_monthly_curated_v1.parquet",
+  "source_curated_file": "/home/runner/work/winjoportal/winjoportal/services/analytics/data/curated/sales_monthly/v1/report_month_2024-03/sales_monthly_curated_v1.parquet",
   "previous_month": "2024-02",
   "top_n": 10,
   "available_report_months": [
@@ -205,6 +205,17 @@
     },
     {
       "filial": "EBB_Malmo",
+      "avdelning": "Herr",
+      "net_sales": 513164.97,
+      "gross_profit": 249517.44,
+      "units_sold": 2283.0,
+      "stock_units": 13974.0,
+      "estimated_stock_value": 1520801.82,
+      "stock_margin_value": 898296.47,
+      "gross_margin_percent": 48.62
+    },
+    {
+      "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "net_sales": 406117.46,
       "gross_profit": 189709.99,
@@ -224,17 +235,6 @@
       "estimated_stock_value": 159382.95,
       "stock_margin_value": 219737.54,
       "gross_margin_percent": 47.26
-    },
-    {
-      "filial": "EBB_Malmo",
-      "avdelning": "Herr",
-      "net_sales": 513164.97,
-      "gross_profit": 249517.44,
-      "units_sold": 2283.0,
-      "stock_units": 13974.0,
-      "estimated_stock_value": 1520801.82,
-      "stock_margin_value": 898296.47,
-      "gross_margin_percent": 48.62
     },
     {
       "filial": "EBB_Malmo",
@@ -260,6 +260,17 @@
     },
     {
       "filial": "EBB_Kristianstad",
+      "avdelning": "Barn & Barnunderkläder",
+      "net_sales": 59485.07,
+      "gross_profit": 27260.41,
+      "units_sold": 549.0,
+      "stock_units": 5982.0,
+      "estimated_stock_value": 279372.57,
+      "stock_margin_value": 131156.4,
+      "gross_margin_percent": 45.83
+    },
+    {
+      "filial": "EBB_Kristianstad",
       "avdelning": "Herr",
       "net_sales": 256000.46,
       "gross_profit": 131981.11,
@@ -279,17 +290,6 @@
       "estimated_stock_value": 685855.16,
       "stock_margin_value": 390625.87,
       "gross_margin_percent": 48.44
-    },
-    {
-      "filial": "EBB_Kristianstad",
-      "avdelning": "Barn & Barnunderkläder",
-      "net_sales": 59485.07,
-      "gross_profit": 27260.41,
-      "units_sold": 549.0,
-      "stock_units": 5982.0,
-      "estimated_stock_value": 279372.57,
-      "stock_margin_value": 131156.4,
-      "gross_margin_percent": 45.83
     },
     {
       "filial": "EBB_Kristianstad",
@@ -315,17 +315,6 @@
     },
     {
       "filial": "EBB_Helsingborg",
-      "avdelning": "Barn & Barnunderkläder",
-      "net_sales": 74606.71,
-      "gross_profit": 33640.3,
-      "units_sold": 819.0,
-      "stock_units": 5194.0,
-      "estimated_stock_value": 225140.69,
-      "stock_margin_value": 140773.77,
-      "gross_margin_percent": 45.09
-    },
-    {
-      "filial": "EBB_Helsingborg",
       "avdelning": "Underkläder",
       "net_sales": 294162.13,
       "gross_profit": 140841.62,
@@ -334,6 +323,17 @@
       "estimated_stock_value": 619218.88,
       "stock_margin_value": 426313.68,
       "gross_margin_percent": 47.88
+    },
+    {
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Barn & Barnunderkläder",
+      "net_sales": 74606.71,
+      "gross_profit": 33640.3,
+      "units_sold": 819.0,
+      "stock_units": 5194.0,
+      "estimated_stock_value": 225140.69,
+      "stock_margin_value": 140773.77,
+      "gross_margin_percent": 45.09
     },
     {
       "filial": "EBB_Helsingborg",
@@ -2724,17 +2724,6 @@
       "return_row_count": 1
     },
     {
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Dam",
-      "artnr": "619142",
-      "ean": "8198309",
-      "varutext": "Damblus",
-      "units_sold": -1.0,
-      "net_sales": -319.2,
-      "gross_profit": -180.27,
-      "return_row_count": 1
-    },
-    {
       "filial": "EBB_Kristianstad",
       "avdelning": "Dam",
       "artnr": "21198110056",
@@ -2743,6 +2732,17 @@
       "units_sold": -1.0,
       "net_sales": -319.2,
       "gross_profit": -194.53,
+      "return_row_count": 1
+    },
+    {
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Dam",
+      "artnr": "619142",
+      "ean": "8198309",
+      "varutext": "Damblus",
+      "units_sold": -1.0,
+      "net_sales": -319.2,
+      "gross_profit": -180.27,
       "return_row_count": 1
     },
     {
@@ -3019,20 +3019,6 @@
       "report_month": "2024-02",
       "report_year": "2024",
       "report_month_number": 2,
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Barn & Barnunderkläder",
-      "artnr": "7520220G",
-      "ean": "8262475",
-      "varutext": "Thermobyxa softshell 122/128-158/164",
-      "units_sold": -1.0,
-      "net_sales": -319.96,
-      "gross_profit": -171.84,
-      "return_row_count": 1
-    },
-    {
-      "report_month": "2024-02",
-      "report_year": "2024",
-      "report_month_number": 2,
       "filial": "EBB_Kristianstad",
       "avdelning": "Underkläder",
       "artnr": "6262600",
@@ -3041,6 +3027,20 @@
       "units_sold": -1.0,
       "net_sales": -319.96,
       "gross_profit": -160.96,
+      "return_row_count": 1
+    },
+    {
+      "report_month": "2024-02",
+      "report_year": "2024",
+      "report_month_number": 2,
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Barn & Barnunderkläder",
+      "artnr": "7520220G",
+      "ean": "8262475",
+      "varutext": "Thermobyxa softshell 122/128-158/164",
+      "units_sold": -1.0,
+      "net_sales": -319.96,
+      "gross_profit": -171.84,
       "return_row_count": 1
     },
     {
@@ -3222,5 +3222,5 @@
     "gross_profit_delta_percent": 46.44,
     "units_sold_delta_percent": 30.19
   },
-  "quicklook_html_path": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\reports\\sales_monthly\\v1\\kpi_2024-03_quicklook.html"
+  "quicklook_html_path": "/home/runner/work/winjoportal/winjoportal/services/analytics/data/reports/sales_monthly/v1/kpi_2024-03_quicklook.html"
 }

@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-02-13T10:23:14+00:00",
+  "generated_at_utc": "2026-02-14T04:51:30+00:00",
   "schema_id": "sales_monthly_curated_v1",
   "report_month": "2024-02",
-  "source_curated_file": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\curated\\sales_monthly\\v1\\report_month_2024-02\\sales_monthly_curated_v1.parquet",
+  "source_curated_file": "/home/runner/work/winjoportal/winjoportal/services/analytics/data/curated/sales_monthly/v1/report_month_2024-02/sales_monthly_curated_v1.parquet",
   "previous_month": "2024-01",
   "top_n": 10,
   "available_report_months": [
@@ -203,6 +203,17 @@
     },
     {
       "filial": "EBB_Malmo",
+      "avdelning": "Herr",
+      "net_sales": 332442.86,
+      "gross_profit": 170493.84,
+      "units_sold": 1538.0,
+      "stock_units": 11838.0,
+      "estimated_stock_value": 1320703.75,
+      "stock_margin_value": 601484.28,
+      "gross_margin_percent": 51.29
+    },
+    {
+      "filial": "EBB_Malmo",
       "avdelning": "Underkläder",
       "net_sales": 361757.6,
       "gross_profit": 168599.46,
@@ -236,17 +247,6 @@
     },
     {
       "filial": "EBB_Malmo",
-      "avdelning": "Herr",
-      "net_sales": 332442.86,
-      "gross_profit": 170493.84,
-      "units_sold": 1538.0,
-      "stock_units": 11838.0,
-      "estimated_stock_value": 1320703.75,
-      "stock_margin_value": 601484.28,
-      "gross_margin_percent": 51.29
-    },
-    {
-      "filial": "EBB_Malmo",
       "avdelning": "Diverse",
       "net_sales": -177.94,
       "gross_profit": -177.94,
@@ -255,17 +255,6 @@
       "estimated_stock_value": 0.0,
       "stock_margin_value": 0.0,
       "gross_margin_percent": 100.0
-    },
-    {
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Herr",
-      "net_sales": 184486.43,
-      "gross_profit": 91987.21,
-      "units_sold": 923.0,
-      "stock_units": 7027.0,
-      "estimated_stock_value": 734276.26,
-      "stock_margin_value": 240318.3,
-      "gross_margin_percent": 49.86
     },
     {
       "filial": "EBB_Helsingborg",
@@ -280,6 +269,17 @@
     },
     {
       "filial": "EBB_Helsingborg",
+      "avdelning": "Kem",
+      "net_sales": 36525.02,
+      "gross_profit": 15677.88,
+      "units_sold": 1185.0,
+      "stock_units": 4297.0,
+      "estimated_stock_value": 84124.61,
+      "stock_margin_value": 137737.55,
+      "gross_margin_percent": 42.92
+    },
+    {
+      "filial": "EBB_Helsingborg",
       "avdelning": "Barn & Barnunderkläder",
       "net_sales": 57543.04,
       "gross_profit": 23521.04,
@@ -291,25 +291,14 @@
     },
     {
       "filial": "EBB_Helsingborg",
-      "avdelning": "Påsar & Kampanj",
-      "net_sales": 968.91,
-      "gross_profit": 787.55,
-      "units_sold": 369.0,
-      "stock_units": 4410.0,
-      "estimated_stock_value": 6444.31,
-      "stock_margin_value": 1294.02,
-      "gross_margin_percent": 81.28
-    },
-    {
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Kem",
-      "net_sales": 36525.02,
-      "gross_profit": 15677.88,
-      "units_sold": 1185.0,
-      "stock_units": 4297.0,
-      "estimated_stock_value": 84124.61,
-      "stock_margin_value": 137737.55,
-      "gross_margin_percent": 42.92
+      "avdelning": "Herr",
+      "net_sales": 184486.43,
+      "gross_profit": 91987.21,
+      "units_sold": 923.0,
+      "stock_units": 7027.0,
+      "estimated_stock_value": 734276.26,
+      "stock_margin_value": 240318.3,
+      "gross_margin_percent": 49.86
     },
     {
       "filial": "EBB_Kristianstad",
@@ -346,17 +335,6 @@
     },
     {
       "filial": "EBB_Kristianstad",
-      "avdelning": "Påsar & Kampanj",
-      "net_sales": 873.77,
-      "gross_profit": 634.15,
-      "units_sold": 325.0,
-      "stock_units": 3674.0,
-      "estimated_stock_value": 9321.95,
-      "stock_margin_value": 6297.83,
-      "gross_margin_percent": 72.58
-    },
-    {
-      "filial": "EBB_Kristianstad",
       "avdelning": "Kem",
       "net_sales": 11498.66,
       "gross_profit": 3401.76,
@@ -365,6 +343,17 @@
       "estimated_stock_value": 28435.91,
       "stock_margin_value": 39644.17,
       "gross_margin_percent": 29.58
+    },
+    {
+      "filial": "EBB_Kristianstad",
+      "avdelning": "Påsar & Kampanj",
+      "net_sales": 873.77,
+      "gross_profit": 634.15,
+      "units_sold": 325.0,
+      "stock_units": 3674.0,
+      "estimated_stock_value": 9321.95,
+      "stock_margin_value": 6297.83,
+      "gross_margin_percent": 72.58
     },
     {
       "filial": "EBB_Malmo",
@@ -387,6 +376,17 @@
       "estimated_stock_value": 0.0,
       "stock_margin_value": 0.0,
       "gross_margin_percent": 9.94
+    },
+    {
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Påsar & Kampanj",
+      "net_sales": 968.91,
+      "gross_profit": 787.55,
+      "units_sold": 369.0,
+      "stock_units": 4410.0,
+      "estimated_stock_value": 6444.31,
+      "stock_margin_value": 1294.02,
+      "gross_margin_percent": 81.28
     }
   ],
   "time_store_department_breakdown": [
@@ -2184,17 +2184,6 @@
       "return_row_count": 1
     },
     {
-      "filial": "EBB_Helsingborg",
-      "avdelning": "Barn & Barnunderkläder",
-      "artnr": "7520220G",
-      "ean": "8262475",
-      "varutext": "Thermobyxa softshell 122/128-158/164",
-      "units_sold": -1.0,
-      "net_sales": -319.96,
-      "gross_profit": -171.84,
-      "return_row_count": 1
-    },
-    {
       "filial": "EBB_Kristianstad",
       "avdelning": "Underkläder",
       "artnr": "6262600",
@@ -2203,6 +2192,17 @@
       "units_sold": -1.0,
       "net_sales": -319.96,
       "gross_profit": -160.96,
+      "return_row_count": 1
+    },
+    {
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Barn & Barnunderkläder",
+      "artnr": "7520220G",
+      "ean": "8262475",
+      "varutext": "Thermobyxa softshell 122/128-158/164",
+      "units_sold": -1.0,
+      "net_sales": -319.96,
+      "gross_profit": -171.84,
       "return_row_count": 1
     },
     {
@@ -2317,20 +2317,6 @@
       "report_month": "2024-02",
       "report_year": "2024",
       "report_month_number": 2,
-      "filial": "EBB_Kristianstad",
-      "avdelning": "Underkläder",
-      "artnr": "6262600",
-      "ean": "8398053",
-      "varutext": "Dambaddräkt",
-      "units_sold": -1.0,
-      "net_sales": -319.96,
-      "gross_profit": -160.96,
-      "return_row_count": 1
-    },
-    {
-      "report_month": "2024-02",
-      "report_year": "2024",
-      "report_month_number": 2,
       "filial": "EBB_Helsingborg",
       "avdelning": "Barn & Barnunderkläder",
       "artnr": "7520220G",
@@ -2339,6 +2325,20 @@
       "units_sold": -1.0,
       "net_sales": -319.96,
       "gross_profit": -171.84,
+      "return_row_count": 1
+    },
+    {
+      "report_month": "2024-02",
+      "report_year": "2024",
+      "report_month_number": 2,
+      "filial": "EBB_Kristianstad",
+      "avdelning": "Underkläder",
+      "artnr": "6262600",
+      "ean": "8398053",
+      "varutext": "Dambaddräkt",
+      "units_sold": -1.0,
+      "net_sales": -319.96,
+      "gross_profit": -160.96,
       "return_row_count": 1
     },
     {
@@ -2500,13 +2500,13 @@
       "report_year": "2024",
       "report_month_number": 1,
       "filial": "EBB_Malmo",
-      "avdelning": "Herr",
-      "artnr": "JORSNOWBALL KNIT CREW NECK",
-      "ean": "8498604",
-      "varutext": "Herrtröja stickad x-mas",
+      "avdelning": "Dam",
+      "artnr": "VASTA4",
+      "ean": "8198757",
+      "varutext": "Dambyxa",
       "units_sold": -1.0,
       "net_sales": -399.96,
-      "gross_profit": -241.65,
+      "gross_profit": -238.51,
       "return_row_count": 1
     }
   ],
@@ -2520,5 +2520,5 @@
     "gross_profit_delta_percent": 12.89,
     "units_sold_delta_percent": -3.44
   },
-  "quicklook_html_path": "C:\\Users\\winqu\\OneDrive\\9.Projects\\winjoportal\\services\\analytics\\data\\reports\\sales_monthly\\v1\\kpi_2024-02_quicklook.html"
+  "quicklook_html_path": "/home/runner/work/winjoportal/winjoportal/services/analytics/data/reports/sales_monthly/v1/kpi_2024-02_quicklook.html"
 }
