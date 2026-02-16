@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-14T04:51:29+00:00",
+  "generated_at_utc": "2026-02-16T19:10:26+00:00",
   "schema_id": "sales_monthly_curated_v1",
   "report_month": "2024-01",
   "source_curated_file": "/home/runner/work/winjoportal/winjoportal/services/analytics/data/curated/sales_monthly/v1/report_month_2024-01/sales_monthly_curated_v1.parquet",
@@ -1627,13 +1627,13 @@
     },
     {
       "filial": "EBB_Malmo",
-      "avdelning": "Dam",
-      "artnr": "VASTA4",
-      "ean": "8198757",
-      "varutext": "Dambyxa",
+      "avdelning": "Herr",
+      "artnr": "JORSNOWBALL KNIT CREW NECK",
+      "ean": "8498604",
+      "varutext": "Herrtröja stickad x-mas",
       "units_sold": -1.0,
       "net_sales": -399.96,
-      "gross_profit": -238.51,
+      "gross_profit": -241.65,
       "return_row_count": 1
     }
   ],
@@ -1768,14 +1768,14 @@
       "report_month": "2024-01",
       "report_year": "2024",
       "report_month_number": 1,
-      "filial": "EBB_Malmo",
-      "avdelning": "Dam",
-      "artnr": "VASTA4",
-      "ean": "8198757",
-      "varutext": "Dambyxa",
+      "filial": "EBB_Helsingborg",
+      "avdelning": "Underkläder",
+      "artnr": "43201",
+      "ean": "8398558",
+      "varutext": "Damrock silk fleece",
       "units_sold": -1.0,
       "net_sales": -399.96,
-      "gross_profit": -238.51,
+      "gross_profit": -200.96,
       "return_row_count": 1
     }
   ],
