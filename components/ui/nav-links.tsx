@@ -11,7 +11,8 @@ type NavItem = {
 const navItems: NavItem[] = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/apps/analytics", label: "Analytics" },
-  { href: "/apps/lonsamhetskollen", label: "Lonsamhetskollen" },
+  { href: "/apps/riskradar-360", label: "Riskradar 360" },
+  { href: "/apps/lonsamhetskollen", label: "Lönsamhetskollen" },
   { href: "/apps/games", label: "Spel" },
   { href: "/apps/prompt-optimizer", label: "Promptoptimerare" },
   { href: "/fortnox", label: "Fortnox" },
