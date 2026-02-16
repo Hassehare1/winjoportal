@@ -29,6 +29,12 @@ type AnalyticsAssistantContext = {
   data: Record<string, unknown> | null;
 };
 
+type AnalyticsRawContext = {
+  selectedMonth: string | null;
+  months: string[];
+  data: Record<string, unknown> | null;
+};
+
 type AnalyticsIndexReportEntry = {
   report_month?: string;
   summary?: KpiSummary;
@@ -209,6 +215,19 @@ export function getAnalyticsSnapshot(requestedMonth: string | undefined): Analyt
 }
 
 export function getAnalyticsAssistantContext(requestedMonth: string | undefined): AnalyticsAssistantContext {
+  const rawContext = getAnalyticsRawContext(requestedMonth);
+  if (!rawContext.data || !rawContext.selectedMonth) {
+    return rawContext;
+  }
+
+  return {
+    months: rawContext.months,
+    selectedMonth: rawContext.selectedMonth,
+    data: compactReportData(rawContext.data, rawContext.selectedMonth)
+  };
+}
+
+export function getAnalyticsRawContext(requestedMonth: string | undefined): AnalyticsRawContext {
   const indexPayload = publicAnalyticsIndex as AnalyticsIndexPayload;
   const months = listAvailableKpiMonths();
   if (months.length === 0) {
@@ -232,6 +251,6 @@ export function getAnalyticsAssistantContext(requestedMonth: string | undefined)
   return {
     months,
     selectedMonth,
-    data: compactReportData(reportData, selectedMonth)
+    data: reportData
   };
 }
