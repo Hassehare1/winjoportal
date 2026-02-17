@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -12,6 +12,9 @@ const navItems: NavItem[] = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/apps/analytics", label: "Analytics" },
   { href: "/apps/riskradar-360", label: "Riskradar 360" },
+  { href: "/apps/marginal-lab", label: "Marginal-Labbet" },
+  { href: "/apps/cashflow-weather", label: "Cashflow Weather" },
+  { href: "/apps/forhandlingscoachen", label: "Förhandlingscoachen" },
   { href: "/apps/lonsamhetskollen", label: "Lönsamhetskollen" },
   { href: "/apps/games", label: "Spel" },
   { href: "/apps/prompt-optimizer", label: "Promptoptimerare" },
@@ -48,3 +51,4 @@ export function NavLinks() {
     </ul>
   );
 }
+
