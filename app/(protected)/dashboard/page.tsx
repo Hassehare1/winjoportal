@@ -1,4 +1,4 @@
-import { SectionCard } from "@/components/ui/section-card";
+﻿import { SectionCard } from "@/components/ui/section-card";
 import { getBuildUpdatedLabel } from "@/features/meta/server/build-meta";
 
 export default function DashboardPage() {
@@ -58,7 +58,26 @@ export default function DashboardPage() {
           description="Visuell riskkarta för butik x avdelning med prioriterad åtgärdslista."
           status="Ny"
         />
+        <SectionCard
+          href="/apps/marginal-lab"
+          title="Marginal-Labbet"
+          description="Scenariotest för pris, mix och lager med direkt effekt på bruttovinst och kassaflöde."
+          status="Ny"
+        />
+        <SectionCard
+          href="/apps/cashflow-weather"
+          title="Cashflow Weather"
+          description="Kassaväder 30/60/90 dagar baserat på trend, kostnader, lager och kundfordringar."
+          status="Ny"
+        />
+        <SectionCard
+          href="/apps/forhandlingscoachen"
+          title="Förhandlingscoachen"
+          description="Prioriterar artiklar och paket där förhandling ger starkast TB- och kassaeffekt."
+          status="Under utveckling"
+        />
       </div>
     </section>
   );
 }
+
